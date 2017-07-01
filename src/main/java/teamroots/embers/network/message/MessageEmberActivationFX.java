@@ -46,7 +46,7 @@ public class MessageEmberActivationFX implements IMessage {
     	@SideOnly(Side.CLIENT)
         @Override
         public IMessage onMessage(final MessageEmberActivationFX message, final MessageContext ctx) {
-    		World world = Minecraft.getMinecraft().world;
+    		World world = Minecraft.getMinecraft().theWorld;
 			for (int k = 0; k < 80; k ++){
 				ParticleUtil.spawnParticleLineGlow(world, (float)message.posX+0.25f*(random.nextFloat()-0.5f), (float)message.posY, (float)message.posZ+0.25f*(random.nextFloat()-0.5f), (float)message.posX+0.75f*(random.nextFloat()-0.5f), (float)message.posY+2.0f+0.75f*(random.nextFloat()-0.5f), (float)message.posZ+0.75f*(random.nextFloat()-0.5f), 255, 64, 16, 3.0f+random.nextFloat()*1.5f, 20+random.nextInt(20));
 			}

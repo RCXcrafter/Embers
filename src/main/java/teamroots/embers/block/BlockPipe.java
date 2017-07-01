@@ -27,7 +27,7 @@ public class BlockPipe extends BlockTEBase {
 	}
 	
 	@Override
-	public void neighborChanged(IBlockState state, World world, BlockPos pos, Block block, BlockPos fromPos){
+	public void neighborChanged(IBlockState state, World world, BlockPos pos, Block block){
 		TileEntityPipe p = (TileEntityPipe)world.getTileEntity(pos);
 		p.updateNeighbors(world);
 		p.markDirty();

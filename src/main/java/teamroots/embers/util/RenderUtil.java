@@ -29,7 +29,7 @@ public class RenderUtil {
     	double rayY = Math.sin(angleRads);
 		for (int i = 0; i <= 10; i ++){
     		float coeff = (float)i / 10f;
-    		double thickCoeff = Math.min(1.0, 1.4f*MathHelper.sqrt(2.0f*(0.5f-Math.abs((coeff-0.5f)))));
+    		double thickCoeff = Math.min(1.0, 1.4f*MathHelper.sqrt_float(2.0f*(0.5f-Math.abs((coeff-0.5f)))));
     		double tx = x1*(1.0f-coeff) + x2*coeff;
     		double ty = NoiseGenUtil.interpolate((float)y1, (float)y2, coeff);
 			float tick = Minecraft.getMinecraft().getRenderPartialTicks()+EventManager.ticks;
@@ -148,7 +148,7 @@ public class RenderUtil {
 	
 	public static void renderAlchemyCircle(VertexBuffer buf, double x, double y, double z, float r, float g, float b, float a, double radius, double angle){
 		double sign = 1;
-		if (Minecraft.getMinecraft().player.posY+Minecraft.getMinecraft().player.getEyeHeight() < y){
+		if (Minecraft.getMinecraft().thePlayer.posY+Minecraft.getMinecraft().thePlayer.getEyeHeight() < y){
 			sign = -1;
 		}
 		int lightx = 0xF000F0;

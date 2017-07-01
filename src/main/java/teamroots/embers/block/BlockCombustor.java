@@ -50,7 +50,9 @@ public class BlockCombustor extends BlockTEBase {
 	}
 	
 	@Override
-	public void neighborChanged(IBlockState state, World world, BlockPos pos, Block block, BlockPos fromPos){
+	public void neighborChanged(IBlockState state, World world, BlockPos pos, Block block){
+		BlockPos fromPos = pos;
+		//haha how could I possibly expect this to work
 		if (state.getValue(type) == 1){
 			if (world.getBlockState(fromPos).getBlock() == RegistryManager.reactor){
 				if (fromPos.compareTo(pos.offset(EnumFacing.NORTH)) == 0){
@@ -117,7 +119,7 @@ public class BlockCombustor extends BlockTEBase {
 	}
 	
 	@Override
-	public IBlockState getStateForPlacement(World world, BlockPos pos, EnumFacing face, float hitX, float hitY, float hitZ, int meta, EntityLivingBase placer){
+	public IBlockState getStateForPlacement(World world, BlockPos pos, EnumFacing face, float hitX, float hitY, float hitZ, int meta, EntityLivingBase placer, ItemStack stack){
 		return getDefaultState().withProperty(type, 0);
 	}
 	
@@ -174,7 +176,7 @@ public class BlockCombustor extends BlockTEBase {
 	public void onBlockHarvested(World world, BlockPos pos, IBlockState state, EntityPlayer player){
 		if (state.getValue(type) != 0 && world.getBlockState(pos.down()).getBlock() == this || state.getValue(type) == 0 && world.getBlockState(pos.up()).getBlock() == this){
 			if (!world.isRemote && !player.capabilities.isCreativeMode){
-				world.spawnEntity(new EntityItem(world,pos.getX()+0.5,pos.getY()+0.5,pos.getZ()+0.5,new ItemStack(this,1,0)));
+				world.spawnEntityInWorld(new EntityItem(world,pos.getX()+0.5,pos.getY()+0.5,pos.getZ()+0.5,new ItemStack(this,1,0)));
 			}
 		}
 		if (this.getMetaFromState(state) == 0){
@@ -189,7 +191,7 @@ public class BlockCombustor extends BlockTEBase {
 	@Override
 	public void onBlockExploded(World world, BlockPos pos, Explosion explosion){
 		if (!world.isRemote){
-			world.spawnEntity(new EntityItem(world,pos.getX()+0.5,pos.getY()+0.5,pos.getZ()+0.5,new ItemStack(this,1,0)));
+			world.spawnEntityInWorld(new EntityItem(world,pos.getX()+0.5,pos.getY()+0.5,pos.getZ()+0.5,new ItemStack(this,1,0)));
 		}
 		IBlockState state = world.getBlockState(pos);
 		if (this.getMetaFromState(state) == 0){
@@ -220,7 +222,7 @@ public class BlockCombustor extends BlockTEBase {
 	}
 	
 	@Override
-	public boolean onBlockActivated(World world, BlockPos pos, IBlockState state, EntityPlayer player, EnumHand hand, EnumFacing side, float hitX, float hitY, float hitZ){
+	public boolean onBlockActivated(World world, BlockPos pos, IBlockState state, EntityPlayer player, EnumHand hand, @Nullable ItemStack heldItem, EnumFacing side, float hitX, float hitY, float hitZ){
 		if (state.getValue(type) == 0){
 			return ((ITileEntityBase)world.getTileEntity(pos)).activate(world,pos,state,player,hand,side,hitX,hitY,hitZ);
 		}

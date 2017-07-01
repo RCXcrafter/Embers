@@ -130,8 +130,8 @@ public class TileEntityInfernoForgeOpening extends TileEntity implements ITileEn
 			openAmount = 0.5f*openAmount;
 			if (openAmount < 0.01f){
 				openAmount = 0.0f;
-				if (world.getTileEntity(pos.down()) instanceof TileEntityInfernoForge){
-					((TileEntityInfernoForge)world.getTileEntity(pos.down())).updateProgress();
+				if (worldObj.getTileEntity(pos.down()) instanceof TileEntityInfernoForge){
+					((TileEntityInfernoForge)worldObj.getTileEntity(pos.down())).updateProgress();
 				}
 				prevState = isOpen;
 				markDirty();

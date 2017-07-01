@@ -41,8 +41,8 @@ public class TileEntityItemTransfer extends TileEntity implements ITileEntityBas
         
         @Override
         public ItemStack insertItem(int slot, ItemStack stack, boolean simulate){
-        	if (!filterItem.isEmpty()){
-        		if (!stack.isEmpty()){
+        	if (filterItem != null){
+        		if (stack != null){
         			if (filterItem.getItem() == stack.getItem() && filterItem.getItemDamage() == stack.getItemDamage()){
             			return super.insertItem(slot, stack, simulate);	
         			}
@@ -52,7 +52,7 @@ public class TileEntityItemTransfer extends TileEntity implements ITileEntityBas
         	return super.insertItem(slot, stack, simulate);
         }
 	};
-	public ItemStack filterItem = ItemStack.EMPTY;
+	public ItemStack filterItem = null;
 	public BlockPos lastReceived = new BlockPos(0,0,0);
 	public int pressure = 0;
 	Random random = new Random();
@@ -65,7 +65,7 @@ public class TileEntityItemTransfer extends TileEntity implements ITileEntityBas
 	public NBTTagCompound writeToNBT(NBTTagCompound tag){
 		super.writeToNBT(tag);
 		tag.setTag("inventory", inventory.serializeNBT());
-		if (!filterItem.isEmpty()){
+		if (filterItem != null){
 			tag.setTag("filter", filterItem.writeToNBT(new NBTTagCompound()));
 		}
 		tag.setInteger("lastX", this.lastReceived.getX());
@@ -79,7 +79,7 @@ public class TileEntityItemTransfer extends TileEntity implements ITileEntityBas
 	public void readFromNBT(NBTTagCompound tag){
 		super.readFromNBT(tag);
 		if (tag.hasKey("filter")){
-			filterItem = new ItemStack(tag.getCompoundTag("filter"));
+			filterItem = new ItemStack(null, 1, 0, tag.getCompoundTag("filter"));
 		}
 		lastReceived = new BlockPos(tag.getInteger("lastX"),tag.getInteger("lastY"),tag.getInteger("lastZ"));
 		pressure = tag.getInteger("pressure");
@@ -130,7 +130,7 @@ public class TileEntityItemTransfer extends TileEntity implements ITileEntityBas
 	public boolean activate(World world, BlockPos pos, IBlockState state, EntityPlayer player, EnumHand hand,
 			EnumFacing side, float hitX, float hitY, float hitZ) {
 		ItemStack heldItem = player.getHeldItem(hand);
-		if (heldItem != ItemStack.EMPTY){
+		if (heldItem != null){
 			this.filterItem = heldItem.copy();
 			markDirty();
 			world.setBlockState(pos, state.withProperty(BlockItemTransfer.filter, true), 8);
@@ -138,7 +138,7 @@ public class TileEntityItemTransfer extends TileEntity implements ITileEntityBas
 			return true;
 		}
 		else {
-			this.filterItem = ItemStack.EMPTY;
+			this.filterItem = null;
 			markDirty();
 			world.setBlockState(pos, state.withProperty(BlockItemTransfer.filter, false), 8);
 			world.notifyBlockUpdate(pos, state, state.withProperty(BlockItemTransfer.filter, false), 8);
@@ -162,7 +162,7 @@ public class TileEntityItemTransfer extends TileEntity implements ITileEntityBas
 		connections.add(state.getValue(BlockItemTransfer.facing));
 		if (connections.size() > 0){
 			for (int i = 0; i < 1; i ++){
-				if (!inventory.getStackInSlot(0).isEmpty()){
+				if (inventory.getStackInSlot(0) != null){
 					EnumFacing face = connections.get(random.nextInt(connections.size()));
 					TileEntity tile = getWorld().getTileEntity(getPos().offset(face));
 					if (tile != null){
@@ -174,20 +174,20 @@ public class TileEntityItemTransfer extends TileEntity implements ITileEntityBas
 							}
 							int slot = -1;
 							for (int j = 0; j < handler.getSlots() && slot == -1; j ++){
-								if (handler.getStackInSlot(j).isEmpty()){
+								if (handler.getStackInSlot(j) == null){
 									slot = j;
 								}
 								else {
-									if (handler.getStackInSlot(j).getCount() < handler.getSlotLimit(j) && ItemStack.areItemsEqual(handler.getStackInSlot(j), inventory.getStackInSlot(0)) && ItemStack.areItemStackTagsEqual(handler.getStackInSlot(j), inventory.getStackInSlot(0))){
+									if (handler.getStackInSlot(j).stackSize < handler.getStackInSlot(j).getMaxStackSize() && ItemStack.areItemsEqual(handler.getStackInSlot(j), inventory.getStackInSlot(0)) && ItemStack.areItemStackTagsEqual(handler.getStackInSlot(j), inventory.getStackInSlot(0))){
 										slot = j;
 									}
 								}
 							}
 							if (slot != -1){
 								ItemStack added = handler.insertItem(slot, passStack, false);
-								if (added.isEmpty()){
+								if (added == null){
 									ItemStack extracted = this.inventory.extractItem(0, 1, false);
-									if (!extracted.isEmpty()){
+									if (extracted != null){
 										if (tile instanceof TileEntityItemPipe){
 											((TileEntityItemPipe)tile).lastReceived = getPos();
 										}

@@ -70,7 +70,7 @@ public class BlockArchaicLight extends BlockBase {
 				EntityAncientGolem golem = new EntityAncientGolem(world);
 				golem.onInitialSpawn(world.getDifficultyForLocation(pos), null);
 				golem.setPosition(pos.getX()+0.5, pos.getY()-1.0, pos.getZ()+0.5);
-				world.spawnEntity(golem);
+				world.spawnEntityInWorld(golem);
 			}
 			world.destroyBlock(pos, false);
 			world.destroyBlock(pos.down(), false);

@@ -4,7 +4,7 @@ import net.minecraft.item.ItemStack;
 import net.minecraftforge.fluids.FluidStack;
 
 public class ItemMeltingRecipe {
-	private ItemStack stack = ItemStack.EMPTY;
+	private ItemStack stack = null;
 	private FluidStack fluid = null;
 	boolean matchMetadata = false;
 	boolean matchNBT = false;

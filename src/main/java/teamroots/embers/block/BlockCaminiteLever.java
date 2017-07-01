@@ -14,6 +14,7 @@ import net.minecraft.block.state.IBlockState;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.SoundEvents;
+import net.minecraft.item.ItemStack;
 import net.minecraft.util.EnumFacing;
 import net.minecraft.util.EnumHand;
 import net.minecraft.util.IStringSerializable;
@@ -49,7 +50,7 @@ public class BlockCaminiteLever extends BlockBase {
 
 	@Override
 	@Nullable
-	public AxisAlignedBB getCollisionBoundingBox(IBlockState blockState, IBlockAccess worldIn, BlockPos pos) {
+	public AxisAlignedBB getCollisionBoundingBox(IBlockState blockState, World worldIn, BlockPos pos) {
 		return NULL_AABB;
 	}
 
@@ -86,7 +87,7 @@ public class BlockCaminiteLever extends BlockBase {
 
 	@Override
 	public IBlockState getStateForPlacement(World worldIn, BlockPos pos, EnumFacing facing, float hitX, float hitY,
-			float hitZ, int meta, EntityLivingBase placer) {
+			float hitZ, int meta, EntityLivingBase placer, ItemStack stack) {
 		IBlockState iblockstate = this.getDefaultState().withProperty(POWERED, Boolean.valueOf(false));
 
 		if (canAttachTo(worldIn, pos, facing.getOpposite())) {
@@ -110,7 +111,7 @@ public class BlockCaminiteLever extends BlockBase {
 	}
 
 	@Override
-	public void neighborChanged(IBlockState state, World worldIn, BlockPos pos, Block blockIn, BlockPos fromPos) {
+	public void neighborChanged(IBlockState state, World worldIn, BlockPos pos, Block blockIn) {
 		if (this.checkCanSurvive(worldIn, pos, state) && !canAttachTo(worldIn, pos,
 				((BlockLever.EnumOrientation) state.getValue(FACING)).getFacing().getOpposite())) {
 			this.dropBlockAsItem(worldIn, pos, state, 0);
@@ -150,8 +151,7 @@ public class BlockCaminiteLever extends BlockBase {
 	}
 
 	@Override
-	public boolean onBlockActivated(World worldIn, BlockPos pos, IBlockState state, EntityPlayer playerIn,
-			EnumHand hand, EnumFacing facing, float hitX, float hitY, float hitZ) {
+	public boolean onBlockActivated(World worldIn, BlockPos pos, IBlockState state, EntityPlayer playerIn, EnumHand hand, @Nullable ItemStack heldItem, EnumFacing side, float hitX, float hitY, float hitZ) {
 		if (worldIn.isRemote) {
 			return true;
 		} else {
@@ -159,9 +159,9 @@ public class BlockCaminiteLever extends BlockBase {
 			worldIn.setBlockState(pos, state, 3);
 			float f = ((Boolean) state.getValue(POWERED)).booleanValue() ? 0.6F : 0.5F;
 			worldIn.playSound((EntityPlayer) null, pos, SoundEvents.BLOCK_LEVER_CLICK, SoundCategory.BLOCKS, 0.3F, f);
-			worldIn.notifyNeighborsOfStateChange(pos, this, false);
+			worldIn.notifyNeighborsOfStateChange(pos, this);
 			EnumFacing enumfacing = ((BlockLever.EnumOrientation) state.getValue(FACING)).getFacing();
-			worldIn.notifyNeighborsOfStateChange(pos.offset(enumfacing.getOpposite()), this, false);
+			worldIn.notifyNeighborsOfStateChange(pos.offset(enumfacing.getOpposite()), this);
 			return true;
 		}
 	}
@@ -169,9 +169,9 @@ public class BlockCaminiteLever extends BlockBase {
 	@Override
 	public void breakBlock(World worldIn, BlockPos pos, IBlockState state) {
 		if (((Boolean) state.getValue(POWERED)).booleanValue()) {
-			worldIn.notifyNeighborsOfStateChange(pos, this, false);
+			worldIn.notifyNeighborsOfStateChange(pos, this);
 			EnumFacing enumfacing = ((BlockLever.EnumOrientation) state.getValue(FACING)).getFacing();
-			worldIn.notifyNeighborsOfStateChange(pos.offset(enumfacing.getOpposite()), this, false);
+			worldIn.notifyNeighborsOfStateChange(pos.offset(enumfacing.getOpposite()), this);
 		}
 
 		super.breakBlock(worldIn, pos, state);

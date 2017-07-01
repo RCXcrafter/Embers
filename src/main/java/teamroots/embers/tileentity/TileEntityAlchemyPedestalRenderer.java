@@ -35,8 +35,8 @@ public class TileEntityAlchemyPedestalRenderer extends TileEntitySpecialRenderer
 		if (tile instanceof TileEntityAlchemyPedestal){
             GlStateManager.blendFunc(SourceFactor.SRC_ALPHA, DestFactor.ONE_MINUS_SRC_ALPHA);
 			TileEntityAlchemyPedestal pedestal = (TileEntityAlchemyPedestal)tile;
-			if (pedestal.inventory.getStackInSlot(1) != ItemStack.EMPTY){
-				if (Minecraft.getMinecraft().world != null){
+			if (pedestal.inventory.getStackInSlot(1) != null){
+				if (Minecraft.getMinecraft().theWorld != null){
 					GL11.glPushMatrix();
 					GL11.glTranslated(x+0.5, y+0.75, z+0.5);
 					GL11.glRotated(pedestal.angle+((pedestal.turnRate))*partialTicks, 0, 1.0, 0);
@@ -45,8 +45,8 @@ public class TileEntityAlchemyPedestalRenderer extends TileEntitySpecialRenderer
 				}
 			}
 			
-			if (pedestal.inventory.getStackInSlot(0) != ItemStack.EMPTY){
-				float coeff = pedestal.inventory.getStackInSlot(0).getCount()/64.0f;
+			if (pedestal.inventory.getStackInSlot(0) != null){
+				float coeff = pedestal.inventory.getStackInSlot(0).stackSize/64.0f;
 	            
 	            Minecraft.getMinecraft().renderEngine.bindTexture(texture);
 	            Tessellator tess = Tessellator.getInstance();

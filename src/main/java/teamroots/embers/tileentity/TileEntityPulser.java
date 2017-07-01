@@ -196,7 +196,7 @@ public class TileEntityPulser extends TileEntity implements ITileEntityBase, ITi
 					BlockPos offset = getPos().offset(getWorld().getBlockState(getPos()).getValue(BlockEmberPulser.facing),-1);
 					getWorld().getTileEntity(offset).markDirty();
 					if (!getWorld().isRemote && !(getWorld().getTileEntity(offset) instanceof ITileEntityBase)){
-						EventManager.markTEForUpdate(offset,world.getTileEntity(offset));
+						EventManager.markTEForUpdate(offset,worldObj.getTileEntity(offset));
 					}
 				}
 			}
@@ -233,7 +233,7 @@ public class TileEntityPulser extends TileEntity implements ITileEntityBase, ITi
 					
 					packet.initCustom(getPos(), target, vx, vy, vz, Math.min(400.0,capability.getEmber()));
 					this.capability.removeAmount(Math.min(400.0,capability.getEmber()), true);
-					getWorld().spawnEntity(packet);
+					getWorld().spawnEntityInWorld(packet);
 					markDirty();
 				}
 			}

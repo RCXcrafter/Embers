@@ -54,7 +54,7 @@ public class TileEntityAlchemyTabletRenderer extends TileEntitySpecialRenderer i
 				float ref = GL11.glGetFloat(GL11.GL_ALPHA_TEST_REF);
 				GlStateManager.alphaFunc(GL11.GL_ALWAYS, 0);
 				double sign = 1;
-				if (Minecraft.getMinecraft().player.posY+Minecraft.getMinecraft().player.getEyeHeight() < y+1.5){
+				if (Minecraft.getMinecraft().thePlayer.posY+Minecraft.getMinecraft().thePlayer.getEyeHeight() < y+1.5){
 					sign = -1;
 				}
 				b.begin(GL11.GL_QUADS, DefaultVertexFormats.POSITION_TEX_LMAP_COLOR);
@@ -69,11 +69,11 @@ public class TileEntityAlchemyTabletRenderer extends TileEntitySpecialRenderer i
 				GlStateManager.blendFunc(SourceFactor.SRC_ALPHA, DestFactor.ONE_MINUS_SRC_ALPHA);
 			}
 			
-			if (tablet.center.getStackInSlot(0) != ItemStack.EMPTY){
-				if (Minecraft.getMinecraft().world != null){
+			if (tablet.center.getStackInSlot(0) != null){
+				if (Minecraft.getMinecraft().theWorld != null){
 					GlStateManager.pushAttrib();
 					GL11.glPushMatrix();
-					EntityItem item = new EntityItem(Minecraft.getMinecraft().world,x,y,z,tablet.center.getStackInSlot(0));
+					EntityItem item = new EntityItem(Minecraft.getMinecraft().theWorld,x,y,z,tablet.center.getStackInSlot(0));
 					item.hoverStart = 0;
 					item.isCollided = false;
 					GL11.glTranslated(x,y,z);
@@ -90,11 +90,11 @@ public class TileEntityAlchemyTabletRenderer extends TileEntitySpecialRenderer i
 					GlStateManager.popAttrib();
 				}
 			}
-			if (tablet.north.getStackInSlot(0) != ItemStack.EMPTY){
-				if (Minecraft.getMinecraft().world != null){
+			if (tablet.north.getStackInSlot(0) != null){
+				if (Minecraft.getMinecraft().theWorld != null){
 					GlStateManager.pushAttrib();
 					GL11.glPushMatrix();
-					EntityItem item = new EntityItem(Minecraft.getMinecraft().world,x,y,z,tablet.north.getStackInSlot(0));
+					EntityItem item = new EntityItem(Minecraft.getMinecraft().theWorld,x,y,z,tablet.north.getStackInSlot(0));
 					item.hoverStart = 0;
 					item.isCollided = false;
 					GL11.glTranslated(x,y,z);
@@ -111,11 +111,11 @@ public class TileEntityAlchemyTabletRenderer extends TileEntitySpecialRenderer i
 					GlStateManager.popAttrib();
 				}
 			}
-			if (tablet.south.getStackInSlot(0) != ItemStack.EMPTY){
-				if (Minecraft.getMinecraft().world != null){
+			if (tablet.south.getStackInSlot(0) != null){
+				if (Minecraft.getMinecraft().theWorld != null){
 					GlStateManager.pushAttrib();
 					GL11.glPushMatrix();
-					EntityItem item = new EntityItem(Minecraft.getMinecraft().world,x,y,z,tablet.south.getStackInSlot(0));
+					EntityItem item = new EntityItem(Minecraft.getMinecraft().theWorld,x,y,z,tablet.south.getStackInSlot(0));
 					item.hoverStart = 0;
 					item.isCollided = false;
 					GL11.glTranslated(x,y,z);
@@ -132,11 +132,11 @@ public class TileEntityAlchemyTabletRenderer extends TileEntitySpecialRenderer i
 					GlStateManager.popAttrib();
 				}
 			}
-			if (tablet.west.getStackInSlot(0) != ItemStack.EMPTY){
-				if (Minecraft.getMinecraft().world != null){
+			if (tablet.west.getStackInSlot(0) != null){
+				if (Minecraft.getMinecraft().theWorld != null){
 					GlStateManager.pushAttrib();
 					GL11.glPushMatrix();
-					EntityItem item = new EntityItem(Minecraft.getMinecraft().world,x,y,z,tablet.west.getStackInSlot(0));
+					EntityItem item = new EntityItem(Minecraft.getMinecraft().theWorld,x,y,z,tablet.west.getStackInSlot(0));
 					item.hoverStart = 0;
 					item.isCollided = false;
 					GL11.glTranslated(x,y,z);
@@ -153,11 +153,11 @@ public class TileEntityAlchemyTabletRenderer extends TileEntitySpecialRenderer i
 					GlStateManager.popAttrib();
 				}
 			}
-			if (tablet.east.getStackInSlot(0) != ItemStack.EMPTY){
-				if (Minecraft.getMinecraft().world != null){
+			if (tablet.east.getStackInSlot(0) != null){
+				if (Minecraft.getMinecraft().theWorld != null){
 					GlStateManager.pushAttrib();
 					GL11.glPushMatrix();
-					EntityItem item = new EntityItem(Minecraft.getMinecraft().world,x,y,z,tablet.east.getStackInSlot(0));
+					EntityItem item = new EntityItem(Minecraft.getMinecraft().theWorld,x,y,z,tablet.east.getStackInSlot(0));
 					item.hoverStart = 0;
 					item.isCollided = false;
 					GL11.glTranslated(x,y,z);

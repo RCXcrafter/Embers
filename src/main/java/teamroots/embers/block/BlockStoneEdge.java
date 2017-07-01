@@ -61,7 +61,7 @@ public class BlockStoneEdge extends BlockBase {
 	}
 
     @Override
-	public void addCollisionBoxToList(IBlockState state, World worldIn, BlockPos pos, AxisAlignedBB entityBox, List<AxisAlignedBB> collidingBoxes, @Nullable Entity entityIn, boolean b)
+	public void addCollisionBoxToList(IBlockState state, World worldIn, BlockPos pos, AxisAlignedBB entityBox, List<AxisAlignedBB> collidingBoxes, @Nullable Entity entityIn)
     {
 		if (state.getValue(BlockStoneEdge.state) == 9 || state.getValue(BlockStoneEdge.state) == 4){
 	        addCollisionBoxToList(pos, entityBox, collidingBoxes, AABB_ZFACE);
@@ -129,7 +129,7 @@ public class BlockStoneEdge extends BlockBase {
 					}
 				}
 				if (!world.isRemote && !player.capabilities.isCreativeMode){
-					world.spawnEntity(new EntityItem(world,pos.getX()+0.5,pos.getY()+0.5,pos.getZ()+0.5,new ItemStack(this,1,0)));
+					world.spawnEntityInWorld(new EntityItem(world,pos.getX()+0.5,pos.getY()+0.5,pos.getZ()+0.5,new ItemStack(this,1,0)));
 				}
 			}
 		}

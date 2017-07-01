@@ -68,7 +68,7 @@ public class EntityAncientGolem extends EntityMob {
     		if (!getEntityWorld().isRemote){
     			EntityEmberProjectile proj = new EntityEmberProjectile(getEntityWorld());
     			proj.initCustom(posX, posY+1.6, posZ, getLookVec().xCoord*0.5, getLookVec().yCoord*0.5, getLookVec().zCoord*0.5, 4.0f, this.getUniqueID());
-    			getEntityWorld().spawnEntity(proj);
+    			getEntityWorld().spawnEntityInWorld(proj);
     		}
     	}
     }

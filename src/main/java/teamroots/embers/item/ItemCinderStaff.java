@@ -29,7 +29,7 @@ public class ItemCinderStaff extends ItemBase {
 			float spawnDistance = 2.0f;//Math.max(1.0f, (float)charge/5.0f);
 			EntityEmberProjectile proj = new EntityEmberProjectile(world);
 			proj.initCustom(entity.posX+entity.getLookVec().xCoord*spawnDistance,entity.posY+entity.getEyeHeight()+entity.getLookVec().yCoord*spawnDistance,entity.posZ+entity.getLookVec().zCoord*spawnDistance,entity.getLookVec().xCoord*0.85, entity.getLookVec().yCoord*0.85, entity.getLookVec().zCoord*0.85, charge, entity.getUniqueID());
-			world.spawnEntity(proj);
+			world.spawnEntityInWorld(proj);
 		}
 		stack.getTagCompound().setInteger("cooldown", 10);
 	}
@@ -73,7 +73,7 @@ public class ItemCinderStaff extends ItemBase {
 	}
 
 	@Override
-	public ActionResult<ItemStack> onItemRightClick(World world, EntityPlayer player, EnumHand hand){
+	public ActionResult<ItemStack> onItemRightClick(ItemStack itemStack, World world, EntityPlayer player, EnumHand hand){
 		ItemStack stack = player.getHeldItem(hand);
 		if (EmberInventoryUtil.getEmberTotal(player) >= 25.0 && stack.getTagCompound().getInteger("cooldown") <= 0 || player.capabilities.isCreativeMode){
 			EmberInventoryUtil.removeEmber(player, 25.0);

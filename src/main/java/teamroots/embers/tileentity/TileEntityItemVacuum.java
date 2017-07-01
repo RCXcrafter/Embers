@@ -132,10 +132,10 @@ public class TileEntityItemVacuum extends TileEntity implements ITileEntityBase,
 		IBlockState state = getWorld().getBlockState(getPos());
 		ArrayList<BlockPos> toUpdate = new ArrayList<BlockPos>();
 		ArrayList<EnumFacing> connections = new ArrayList<EnumFacing>();
-		if (world.isBlockPowered(getPos())){
+		if (worldObj.isBlockPowered(getPos())){
 			EnumFacing face = state.getValue(BlockVacuum.facing);
 			Vec3i vec = face.getDirectionVec();
-			List<EntityItem> items = world.getEntitiesWithinAABB(EntityItem.class, new AxisAlignedBB(getPos().getX()-6+vec.getX()*6,getPos().getY()-6+vec.getY()*6,getPos().getZ()-6+vec.getZ()*6,getPos().getX()+7+vec.getX()*6,getPos().getY()+7+vec.getY()*6,getPos().getZ()+7+vec.getZ()*6));
+			List<EntityItem> items = worldObj.getEntitiesWithinAABB(EntityItem.class, new AxisAlignedBB(getPos().getX()-6+vec.getX()*6,getPos().getY()-6+vec.getY()*6,getPos().getZ()-6+vec.getZ()*6,getPos().getX()+7+vec.getX()*6,getPos().getY()+7+vec.getY()*6,getPos().getZ()+7+vec.getZ()*6));
 			if (items.size() > 0){
 				for (EntityItem item : items){
 					Vec3d v = new Vec3d(item.posX-(this.getPos().getX()+0.5),item.posY-(this.getPos().getY()+0.5),item.posZ-(this.getPos().getZ()+0.5));
@@ -145,14 +145,14 @@ public class TileEntityItemVacuum extends TileEntity implements ITileEntityBase,
 					item.motionZ = (-v.zCoord*0.25*0.2f + item.motionZ*0.8f);
 				}
 			}
-			List<EntityItem> nearestItems = world.getEntitiesWithinAABB(EntityItem.class, new AxisAlignedBB(getPos().getX()-0.25,getPos().getY()-0.25,getPos().getZ()-0.25,getPos().getX()+1.25,getPos().getY()+1.25,getPos().getZ()+1.25));
+			List<EntityItem> nearestItems = worldObj.getEntitiesWithinAABB(EntityItem.class, new AxisAlignedBB(getPos().getX()-0.25,getPos().getY()-0.25,getPos().getZ()-0.25,getPos().getX()+1.25,getPos().getY()+1.25,getPos().getZ()+1.25));
 			if (nearestItems.size() > 0){
 				for (EntityItem item : nearestItems){
 					ItemStack stack = inventory.insertItem(0, item.getEntityItem(), true);
-					if (stack.getItem() == item.getEntityItem().getItem() && stack.getItemDamage() == item.getEntityItem().getItemDamage() && stack.getCount() < item.getEntityItem().getCount() || stack == ItemStack.EMPTY){
+					if (stack.getItem() == item.getEntityItem().getItem() && stack.getItemDamage() == item.getEntityItem().getItemDamage() && stack.stackSize < item.getEntityItem().stackSize || stack == null){
 						item.setEntityItemStack(inventory.insertItem(0, item.getEntityItem(), false));
-						if (item.getEntityItem().isEmpty()){
-							world.removeEntity(item);
+						if (item.getEntityItem()==null){
+							worldObj.removeEntity(item);
 						}
 						if (!toUpdate.contains(getPos())){
 							toUpdate.add(getPos());
@@ -165,7 +165,7 @@ public class TileEntityItemVacuum extends TileEntity implements ITileEntityBase,
 		connections.add(Misc.getOppositeFace(state.getValue(BlockVacuum.facing)));
 		if (connections.size() > 0){
 			for (int i = 0; i < 1; i ++){
-				if (!inventory.getStackInSlot(0).isEmpty()){
+				if (inventory.getStackInSlot(0) != null){
 					EnumFacing face = connections.get(random.nextInt(connections.size()));
 					TileEntity tile = getWorld().getTileEntity(getPos().offset(face));
 					if (tile != null){
@@ -177,20 +177,20 @@ public class TileEntityItemVacuum extends TileEntity implements ITileEntityBase,
 							}
 							int slot = -1;
 							for (int j = 0; j < handler.getSlots() && slot == -1; j ++){
-								if (handler.getStackInSlot(j).isEmpty()){
+								if (handler.getStackInSlot(j)==null){
 									slot = j;
 								}
 								else {
-									if (handler.getStackInSlot(j).getCount() < handler.getSlotLimit(j) && ItemStack.areItemsEqual(handler.getStackInSlot(j), inventory.getStackInSlot(0)) && ItemStack.areItemStackTagsEqual(handler.getStackInSlot(j), inventory.getStackInSlot(0))){
+									if (handler.getStackInSlot(j).stackSize < handler.getStackInSlot(j).getMaxStackSize() && ItemStack.areItemsEqual(handler.getStackInSlot(j), inventory.getStackInSlot(0)) && ItemStack.areItemStackTagsEqual(handler.getStackInSlot(j), inventory.getStackInSlot(0))){
 										slot = j;
 									}
 								}
 							}
 							if (slot != -1){
 								ItemStack added = handler.insertItem(slot, passStack, false);
-								if (added.isEmpty()){
+								if (added==null){
 									ItemStack extracted = this.inventory.extractItem(0, 1, false);
-									if (!extracted.isEmpty()){
+									if (extracted!=null){
 										if (tile instanceof TileEntityItemPipe){
 											((TileEntityItemPipe)tile).lastReceived = getPos();
 										}

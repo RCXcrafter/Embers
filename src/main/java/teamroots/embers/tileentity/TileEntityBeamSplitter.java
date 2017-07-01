@@ -124,7 +124,7 @@ public class TileEntityBeamSplitter extends TileEntity implements ITileEntityBas
 						if (!((IEmberPacketReceiver)getWorld().getTileEntity(targetLeft)).isFull()){
 							EntityEmberPacket packetLeft = new EntityEmberPacket(getWorld());
 							packetLeft.initCustom(getPos(), targetLeft, 0, -0.01, -0.5, amount);
-							getWorld().spawnEntity(packetLeft);
+							getWorld().spawnEntityInWorld(packetLeft);
 							didSend = true;
 						}
 					}
@@ -132,7 +132,7 @@ public class TileEntityBeamSplitter extends TileEntity implements ITileEntityBas
 						if (!((IEmberPacketReceiver)getWorld().getTileEntity(targetRight)).isFull()){
 							EntityEmberPacket packetRight = new EntityEmberPacket(getWorld());
 							packetRight.initCustom(getPos(), targetRight, 0, -0.01, 0.5, amount);
-							getWorld().spawnEntity(packetRight);
+							getWorld().spawnEntityInWorld(packetRight);
 							didSend = true;
 						}
 					}
@@ -142,7 +142,7 @@ public class TileEntityBeamSplitter extends TileEntity implements ITileEntityBas
 						if (!((IEmberPacketReceiver)getWorld().getTileEntity(targetLeft)).isFull()){
 							EntityEmberPacket packetLeft = new EntityEmberPacket(getWorld());
 							packetLeft.initCustom(getPos(), targetLeft, -0.5, -0.01, 0, amount);
-							getWorld().spawnEntity(packetLeft);
+							getWorld().spawnEntityInWorld(packetLeft);
 							didSend = true;
 						}
 					}
@@ -150,7 +150,7 @@ public class TileEntityBeamSplitter extends TileEntity implements ITileEntityBas
 						if (!((IEmberPacketReceiver)getWorld().getTileEntity(targetRight)).isFull()){
 							EntityEmberPacket packetRight = new EntityEmberPacket(getWorld());
 							packetRight.initCustom(getPos(), targetRight, 0.5, -0.01, 0, amount);
-							getWorld().spawnEntity(packetRight);
+							getWorld().spawnEntityInWorld(packetRight);
 							didSend = true;
 						}
 					}
@@ -169,7 +169,7 @@ public class TileEntityBeamSplitter extends TileEntity implements ITileEntityBas
 						if (!((IEmberPacketReceiver)getWorld().getTileEntity(targetLeft)).isFull()){
 							EntityEmberPacket packetLeft = new EntityEmberPacket(getWorld());
 							packetLeft.initCustom(getPos(), targetLeft, 0, -0.01, -0.5, amount);
-							getWorld().spawnEntity(packetLeft);
+							getWorld().spawnEntityInWorld(packetLeft);
 							didSend = true;
 						}
 					}
@@ -179,7 +179,7 @@ public class TileEntityBeamSplitter extends TileEntity implements ITileEntityBas
 						if (!((IEmberPacketReceiver)getWorld().getTileEntity(targetLeft)).isFull()){
 							EntityEmberPacket packetLeft = new EntityEmberPacket(getWorld());
 							packetLeft.initCustom(getPos(), targetLeft, -0.5, -0.01, 0, amount);
-							getWorld().spawnEntity(packetLeft);
+							getWorld().spawnEntityInWorld(packetLeft);
 							didSend = true;
 						}
 					}
@@ -198,7 +198,7 @@ public class TileEntityBeamSplitter extends TileEntity implements ITileEntityBas
 						if (!((IEmberPacketReceiver)getWorld().getTileEntity(targetRight)).isFull()){
 							EntityEmberPacket packetRight = new EntityEmberPacket(getWorld());
 							packetRight.initCustom(getPos(), targetRight, 0, -0.01, 0.5, amount);
-							getWorld().spawnEntity(packetRight);
+							getWorld().spawnEntityInWorld(packetRight);
 							didSend = true;
 						}
 					}
@@ -208,7 +208,7 @@ public class TileEntityBeamSplitter extends TileEntity implements ITileEntityBas
 						if (!((IEmberPacketReceiver)getWorld().getTileEntity(targetRight)).isFull()){
 							EntityEmberPacket packetRight = new EntityEmberPacket(getWorld());
 							packetRight.initCustom(getPos(), targetRight, 0.5, -0.01, 0, amount);
-							getWorld().spawnEntity(packetRight);
+							getWorld().spawnEntityInWorld(packetRight);
 							didSend = true;
 						}
 					}

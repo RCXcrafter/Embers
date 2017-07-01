@@ -59,7 +59,7 @@ public class MessageSetPlayerMotion implements IMessage {
     	@SideOnly(Side.CLIENT)
         @Override
         public IMessage onMessage(final MessageSetPlayerMotion message, final MessageContext ctx) {
-    		World world = Minecraft.getMinecraft().world;
+    		World world = Minecraft.getMinecraft().theWorld;
     		EntityPlayer p = world.getPlayerEntityByUUID(message.id);
     		if (p != null){
     			p.motionX = message.posX;

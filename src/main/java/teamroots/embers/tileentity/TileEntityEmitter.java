@@ -195,7 +195,7 @@ public class TileEntityEmitter extends TileEntity implements ITileEntityBase, IT
 					BlockPos offset = getPos().offset(getWorld().getBlockState(getPos()).getValue(BlockEmberEmitter.facing),-1);
 					getWorld().getTileEntity(offset).markDirty();
 					if (!getWorld().isRemote && !(getWorld().getTileEntity(offset) instanceof ITileEntityBase)){
-						EventManager.markTEForUpdate(offset,world.getTileEntity(offset));
+						EventManager.markTEForUpdate(offset,worldObj.getTileEntity(offset));
 					}
 				}
 			}
@@ -232,7 +232,7 @@ public class TileEntityEmitter extends TileEntity implements ITileEntityBase, IT
 					
 					packet.initCustom(getPos(), target, vx, vy, vz, Math.min(40.0,capability.getEmber()));
 					this.capability.removeAmount(Math.min(40.0,capability.getEmber()), true);
-					getWorld().spawnEntity(packet);
+					getWorld().spawnEntityInWorld(packet);
 					markDirty();
 				}
 			}

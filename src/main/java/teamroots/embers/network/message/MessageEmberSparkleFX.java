@@ -45,7 +45,7 @@ public class MessageEmberSparkleFX implements IMessage {
     	@SideOnly(Side.CLIENT)
         @Override
         public IMessage onMessage(final MessageEmberSparkleFX message, final MessageContext ctx) {
-	    		World world = Minecraft.getMinecraft().world;
+	    		World world = Minecraft.getMinecraft().theWorld;
 				if (world.isRemote){
 		    		Minecraft.getMinecraft().addScheduledTask(()-> {
 						for (double i = 0; i < 18; i ++){

@@ -48,7 +48,7 @@ public class BlockItemGauge extends BlockBase implements IDial {
 	}
 	
 	@Override
-	public IBlockState getStateForPlacement(World world, BlockPos pos, EnumFacing face, float hitX, float hitY, float hitZ, int meta, EntityLivingBase placer){
+	public IBlockState getStateForPlacement(World world, BlockPos pos, EnumFacing face, float hitX, float hitY, float hitZ, int meta, EntityLivingBase placer, ItemStack stack){
 		return getDefaultState().withProperty(facing, face);
 	}
 	
@@ -58,7 +58,7 @@ public class BlockItemGauge extends BlockBase implements IDial {
 	}
 	
 	@Override
-	public void neighborChanged(IBlockState state, World world, BlockPos pos, Block block, BlockPos fromPos){
+	public void neighborChanged(IBlockState state, World world, BlockPos pos, Block block){
 		if (world.isAirBlock(pos.offset(state.getValue(facing),-1))){
 			world.setBlockToAir(pos);
 			this.dropBlockAsItem(world, pos, state, 0);
@@ -93,11 +93,11 @@ public class BlockItemGauge extends BlockBase implements IDial {
 				if (handler != null){
 					for (int i = 0; i < handler.getSlots(); i ++){
 						String line = I18n.format("embers.tooltip.itemdial.slot").replace("{0}", Integer.toString(i))+": ";
-						if (handler.getStackInSlot(i) == ItemStack.EMPTY){
+						if (handler.getStackInSlot(i) == null){
 							text.add(line+I18n.format("embers.tooltip.itemdial.noitem"));
 						}
 						else {
-							text.add(line+handler.getStackInSlot(i).getCount()+"x " + handler.getStackInSlot(i).getDisplayName());
+							text.add(line+handler.getStackInSlot(i).stackSize+"x " + handler.getStackInSlot(i).getDisplayName());
 						}
 					}
 				}
@@ -110,7 +110,7 @@ public class BlockItemGauge extends BlockBase implements IDial {
 	public void updateTEData(World world, IBlockState state, BlockPos pos) {
 		TileEntity tile = world.getTileEntity(pos.offset(state.getValue(this.facing)));
 		if (tile != null){
-			PacketHandler.INSTANCE.sendToAll(new MessageTEUpdateRequest(Minecraft.getMinecraft().player.getUniqueID(),pos));
+			PacketHandler.INSTANCE.sendToAll(new MessageTEUpdateRequest(Minecraft.getMinecraft().thePlayer.getUniqueID(),pos));
 		}
 	}
 }

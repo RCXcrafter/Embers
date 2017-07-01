@@ -28,7 +28,7 @@ public class BlockItemPump extends BlockTEBase {
 	}
 	
 	@Override
-	public void neighborChanged(IBlockState state, World world, BlockPos pos, Block block, BlockPos fromPos){
+	public void neighborChanged(IBlockState state, World world, BlockPos pos, Block block){
 		TileEntityItemPump p = (TileEntityItemPump)world.getTileEntity(pos);
 		p.updateNeighbors(world);
 		p.markDirty();

@@ -105,7 +105,7 @@ public class ItemClockworkPickaxe extends ItemTool implements IModeledItem, IEmb
 		return true;
 	}
 	
-	@Override
+	/* @Override
 	public boolean isEnchantable(ItemStack stack){
 		return true;
 	}
@@ -113,7 +113,7 @@ public class ItemClockworkPickaxe extends ItemTool implements IModeledItem, IEmb
 	@Override
 	public boolean canApplyAtEnchantingTable(ItemStack stack, Enchantment enchant){
 		return enchant.type == EnumEnchantmentType.WEAPON || enchant.type == EnumEnchantmentType.DIGGER;
-	}
+	} */
 	
 	@Override
 	public boolean shouldCauseReequipAnimation(ItemStack oldStack, ItemStack newStack, boolean slotChanged){

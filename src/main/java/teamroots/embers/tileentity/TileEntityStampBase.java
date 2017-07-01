@@ -16,7 +16,6 @@ import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 import net.minecraftforge.common.capabilities.Capability;
 import net.minecraftforge.fluids.Fluid;
-import net.minecraftforge.fluids.FluidActionResult;
 import net.minecraftforge.fluids.FluidTank;
 import net.minecraftforge.fluids.FluidUtil;
 import net.minecraftforge.fluids.UniversalBucket;
@@ -87,14 +86,12 @@ public class TileEntityStampBase extends TileFluidHandler implements ITileEntity
 	public boolean activate(World world, BlockPos pos, IBlockState state, EntityPlayer player, EnumHand hand,
 			EnumFacing side, float hitX, float hitY, float hitZ) {
 		ItemStack heldItem = player.getHeldItem(hand);
-		if (heldItem != ItemStack.EMPTY){
+		if (heldItem != null){
 			if (heldItem.getItem() instanceof ItemBucket || heldItem.getItem() instanceof UniversalBucket){
-				FluidActionResult didFill = FluidUtil.interactWithFluidHandler(heldItem, this.getCapability(CapabilityFluidHandler.FLUID_HANDLER_CAPABILITY, side), player);
-				if (didFill.success){
-					player.setHeldItem(hand, didFill.getResult());
-				}
+				boolean didFill = FluidUtil.interactWithFluidHandler(heldItem, this.getCapability(CapabilityFluidHandler.FLUID_HANDLER_CAPABILITY, side), player);
 				this.markDirty();
-				return didFill.success;
+				world.notifyBlockUpdate(pos, state, world.getBlockState(pos), 3);
+				return didFill;
 			}
 			else {
 				player.setHeldItem(hand, this.inputs.insertItem(0,heldItem,false));
@@ -103,9 +100,9 @@ public class TileEntityStampBase extends TileFluidHandler implements ITileEntity
 			}
 		}
 		else {
-			if (inputs.getStackInSlot(0) != ItemStack.EMPTY && !world.isRemote){
-				world.spawnEntity(new EntityItem(world,player.posX,player.posY,player.posZ,inputs.getStackInSlot(0)));
-				inputs.setStackInSlot(0, ItemStack.EMPTY);
+			if (inputs.getStackInSlot(0) != null && !world.isRemote){
+				world.spawnEntityInWorld(new EntityItem(world,player.posX,player.posY,player.posZ,inputs.getStackInSlot(0)));
+				inputs.setStackInSlot(0, null);
 				markDirty();
 				return true;
 			}

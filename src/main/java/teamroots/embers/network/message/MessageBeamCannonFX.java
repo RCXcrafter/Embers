@@ -44,8 +44,8 @@ public class MessageBeamCannonFX implements IMessage {
         @Override
         public IMessage onMessage(final MessageBeamCannonFX message, final MessageContext ctx) {
     		Minecraft.getMinecraft().addScheduledTask(()-> {
-	    		if ((Minecraft.getMinecraft().player.getEntityWorld()).getTileEntity(new BlockPos(message.tag.getInteger("x"),message.tag.getInteger("y"),message.tag.getInteger("z"))) instanceof TileEntityBeamCannon){
-	    			TileEntityBeamCannon cannon = (TileEntityBeamCannon)Minecraft.getMinecraft().player.getEntityWorld().getTileEntity(new BlockPos(message.tag.getInteger("x"),message.tag.getInteger("y"),message.tag.getInteger("z")));
+	    		if ((Minecraft.getMinecraft().thePlayer.getEntityWorld()).getTileEntity(new BlockPos(message.tag.getInteger("x"),message.tag.getInteger("y"),message.tag.getInteger("z"))) instanceof TileEntityBeamCannon){
+	    			TileEntityBeamCannon cannon = (TileEntityBeamCannon)Minecraft.getMinecraft().thePlayer.getEntityWorld().getTileEntity(new BlockPos(message.tag.getInteger("x"),message.tag.getInteger("y"),message.tag.getInteger("z")));
 
 	    			Vec3d ray = (new Vec3d(cannon.target.getX()-cannon.getPos().getX(),cannon.target.getY()-cannon.getPos().getY(),cannon.target.getZ()-cannon.getPos().getZ())).normalize();
 					double posX = cannon.getPos().getX()+0.5;

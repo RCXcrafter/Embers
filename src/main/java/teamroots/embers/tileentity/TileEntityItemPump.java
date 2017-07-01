@@ -241,7 +241,7 @@ public class TileEntityItemPump extends TileEntity implements ITileEntityBase, I
 	public boolean activate(World world, BlockPos pos, IBlockState state, EntityPlayer player, EnumHand hand,
 			EnumFacing side, float hitX, float hitY, float hitZ) {
 		ItemStack heldItem = player.getHeldItem(hand);
-		if (heldItem != ItemStack.EMPTY){
+		if (heldItem != null){
 			if (heldItem.getItem() instanceof ItemTinkerHammer){
 				if (side == EnumFacing.UP || side == EnumFacing.DOWN){
 					if (Math.abs(hitX-0.5) > Math.abs(hitZ-0.5)){
@@ -346,7 +346,7 @@ public class TileEntityItemPump extends TileEntity implements ITileEntityBase, I
 
 	@Override
 	public void update() {
-		if (getWorld().isBlockIndirectlyGettingPowered(getPos()) != 0 && !world.isRemote){
+		if (getWorld().isBlockIndirectlyGettingPowered(getPos()) != 0 && !worldObj.isRemote){
 			ArrayList<BlockPos> toUpdate = new ArrayList<BlockPos>();
 			ArrayList<EnumFacing> connections = new ArrayList<EnumFacing>();
 			if (up != EnumPipeConnection.NONE && up != EnumPipeConnection.FORCENONE && up != EnumPipeConnection.LEVER && isConnected(EnumFacing.UP)){
@@ -406,14 +406,14 @@ public class TileEntityItemPump extends TileEntity implements ITileEntityBase, I
 							if (handler != null){
 								int slot = -1;
 								for (int j = 0; j < handler.getSlots() && slot == -1; j ++){
-									if (!handler.getStackInSlot(j).isEmpty()){
-										if (handler.getStackInSlot(j).getCount() > 0){
+									if (handler.getStackInSlot(j) != null){
+										if (handler.getStackInSlot(j).stackSize > 0){
 											slot = j;
 										}
 									}
 								}
 								if (slot != -1){
-									if (this.inventory.getStackInSlot(0).isEmpty()){
+									if (this.inventory.getStackInSlot(0) == null){
 										ItemStack extracted = handler.extractItem(slot, 1, false);
 										this.inventory.insertItem(0, extracted, false);
 										lastReceived = getPos().offset(face);
@@ -433,7 +433,7 @@ public class TileEntityItemPump extends TileEntity implements ITileEntityBase, I
 				
 				if (connections.size() > 0){
 					for (int i = 0; i < 1; i ++){
-						if (!inventory.getStackInSlot(0).isEmpty()){
+						if (inventory.getStackInSlot(0) != null){
 							EnumFacing face = connections.get(random.nextInt(connections.size()));
 							TileEntity tile = getWorld().getTileEntity(getPos().offset(face));
 							if (tile instanceof TileEntityItemPipe){
@@ -450,20 +450,20 @@ public class TileEntityItemPump extends TileEntity implements ITileEntityBase, I
 									}
 									int slot = -1;
 									for (int j = 0; j < handler.getSlots() && slot == -1; j ++){
-										if (handler.getStackInSlot(j).isEmpty()){
+										if (handler.getStackInSlot(j) == null){
 											slot = j;
 										}
 										else {
-											if (handler.getStackInSlot(j).getCount() < handler.getSlotLimit(j) && ItemStack.areItemsEqual(handler.getStackInSlot(j), inventory.getStackInSlot(0)) && ItemStack.areItemStackTagsEqual(handler.getStackInSlot(j), inventory.getStackInSlot(0))){
+											if (handler.getStackInSlot(j).stackSize < handler.getStackInSlot(j).getMaxStackSize() && ItemStack.areItemsEqual(handler.getStackInSlot(j), inventory.getStackInSlot(0)) && ItemStack.areItemStackTagsEqual(handler.getStackInSlot(j), inventory.getStackInSlot(0))){
 												slot = j;
 											}
 										}
 									}
 									if (slot != -1){
 										ItemStack added = handler.insertItem(slot, passStack, false);
-										if (added.isEmpty()){
+										if (added == null){
 											ItemStack extracted = this.inventory.extractItem(0, 1, false);
-											if (!extracted.isEmpty()){
+											if (extracted != null){
 												if (tile instanceof TileEntityItemPipe){
 													((TileEntityItemPipe)tile).lastReceived = getPos();
 												}

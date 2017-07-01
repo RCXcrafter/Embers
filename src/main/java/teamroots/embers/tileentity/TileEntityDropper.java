@@ -122,13 +122,13 @@ public class TileEntityDropper extends TileEntity implements ITileEntityBase, IT
 
 	@Override
 	public void update() {
-		if (inventory.getStackInSlot(0) != ItemStack.EMPTY && !getWorld().isRemote){
+		if (inventory.getStackInSlot(0) != null && !getWorld().isRemote){
 			ItemStack stack = inventory.extractItem(0, 1, false);
 			EntityItem item = new EntityItem(getWorld(),getPos().getX()+0.5,getPos().getY(),getPos().getZ()+0.5,stack);
 			item.motionX = 0;
 			item.motionY = -0.1;
 			item.motionZ = 0;
-			getWorld().spawnEntity(item);
+			getWorld().spawnEntityInWorld(item);
 			markDirty();
 		}
 	}

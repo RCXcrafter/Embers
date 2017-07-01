@@ -114,15 +114,15 @@ public class TileEntityBin extends TileEntity implements ITileEntityBase, ITicka
 	public boolean activate(World world, BlockPos pos, IBlockState state, EntityPlayer player, EnumHand hand,
 			EnumFacing side, float hitX, float hitY, float hitZ) {
 		ItemStack heldItem = player.getHeldItem(hand);
-		if (heldItem != ItemStack.EMPTY){
+		if (heldItem != null){
 			player.setHeldItem(hand, this.inventory.insertItem(0,heldItem,false));
 			markDirty();
 			return true;
 		}
 		else {
-			if (inventory.getStackInSlot(0) != ItemStack.EMPTY && !world.isRemote){
-				world.spawnEntity(new EntityItem(world,player.posX,player.posY,player.posZ,inventory.getStackInSlot(0)));
-				inventory.setStackInSlot(0, ItemStack.EMPTY);
+			if (inventory.getStackInSlot(0) != null && !world.isRemote){
+				world.spawnEntityInWorld(new EntityItem(world,player.posX,player.posY,player.posZ,inventory.getStackInSlot(0)));
+				inventory.setStackInSlot(0, null);
 				markDirty();
 				return true;
 			}
@@ -144,7 +144,7 @@ public class TileEntityBin extends TileEntity implements ITileEntityBase, ITicka
 			List<EntityItem> items = getWorld().getEntitiesWithinAABB(EntityItem.class, new AxisAlignedBB(getPos().getX(),getPos().getY(),getPos().getZ(),getPos().getX()+1,getPos().getY()+1.25,getPos().getZ()+1));
 			for (int i = 0; i < items.size(); i ++){
 				ItemStack stack = inventory.insertItem(0, items.get(i).getEntityItem(), false);
-				if (stack != ItemStack.EMPTY){
+				if (stack != null){
 					items.get(i).setEntityItemStack(stack);
 				}
 				else {

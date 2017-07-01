@@ -112,7 +112,7 @@ public class TileEntityActivatorBottom extends TileEntity implements ITileEntity
 
 	@Override
 	public void update() {
-		if (!inventory.getStackInSlot(0).isEmpty()){
+		if (inventory.getStackInSlot(0) != null){
 			TileEntity tile = getWorld().getTileEntity(getPos().up());
 			if (tile instanceof TileEntityActivatorTop){
 				TileEntityActivatorTop top = (TileEntityActivatorTop)tile;
@@ -125,7 +125,7 @@ public class TileEntityActivatorBottom extends TileEntity implements ITileEntity
 							if (EmberGenUtil.getEmberForItem(inventory.getStackInSlot(i).getItem()) > 0){
 								double ember = EmberGenUtil.getEmberForItem(inventory.getStackInSlot(i).getItem());
 								if (top.capability.getEmber() <= top.capability.getEmberCapacity()-ember){
-									if (!world.isRemote){
+									if (!worldObj.isRemote){
 										PacketHandler.INSTANCE.sendToAll(new MessageEmberActivationFX(getPos().getX()+0.5f,getPos().getY()+1.5f,getPos().getZ()+0.5f));
 									}
 									top.capability.addAmount(ember, true);

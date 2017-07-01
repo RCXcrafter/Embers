@@ -41,7 +41,7 @@ public class BlockFieldChart extends BlockTEBase {
 	}
 	
 	@Override
-	public boolean onBlockActivated(World world, BlockPos pos, IBlockState state, EntityPlayer player, EnumHand hand, EnumFacing side, float hitX, float hitY, float hitZ){
+	public boolean onBlockActivated(World world, BlockPos pos, IBlockState state, EntityPlayer player, EnumHand hand, @Nullable ItemStack heldItem, EnumFacing side, float hitX, float hitY, float hitZ){
 		return false;
 	}
 	
@@ -76,7 +76,7 @@ public class BlockFieldChart extends BlockTEBase {
 		if (world.getBlockState(pos).getBlock() == this){
 			if (world.getBlockState(pos).getValue(BlockFieldChart.state) == 8){
 				if (!world.isRemote && !player.capabilities.isCreativeMode){
-					world.spawnEntity(new EntityItem(world,pos.getX()+0.5,pos.getY()+0.5,pos.getZ()+0.5,new ItemStack(this,1,0)));
+					world.spawnEntityInWorld(new EntityItem(world,pos.getX()+0.5,pos.getY()+0.5,pos.getZ()+0.5,new ItemStack(this,1,0)));
 				}
 			}
 		}

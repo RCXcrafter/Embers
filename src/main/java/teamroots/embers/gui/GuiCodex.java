@@ -73,11 +73,11 @@ public class GuiCodex extends GuiScreen {
 	}
 	
 	public void renderItemStackAt(ItemStack stack, int x, int y, int mouseX, int mouseY){
-		if (stack != ItemStack.EMPTY){
+		if (stack != null){
 			RenderHelper.disableStandardItemLighting();
 			RenderHelper.enableGUIStandardItemLighting();
 			this.itemRender.renderItemIntoGUI(stack, x, y);
-			this.itemRender.renderItemOverlayIntoGUI(this.fontRendererObj, stack, x, y, stack.getCount() != 1 ? Integer.toString(stack.getCount()) : "");
+			this.itemRender.renderItemOverlayIntoGUI(this.fontRendererObj, stack, x, y, stack.stackSize != 1 ? Integer.toString(stack.stackSize) : "");
 			if (mouseX >= x && mouseY >= y && mouseX < x+16 && mouseY < y+16){
 				this.markTooltipForRender(stack, mouseX, mouseY);
 			}
@@ -87,11 +87,11 @@ public class GuiCodex extends GuiScreen {
 	}
 	
 	public void renderItemStackMinusTooltipAt(ItemStack stack, int x, int y, int mouseX, int mouseY){
-		if (stack != ItemStack.EMPTY){
+		if (stack != null){
 			RenderHelper.disableStandardItemLighting();
 			RenderHelper.enableGUIStandardItemLighting();
 			this.itemRender.renderItemIntoGUI(stack, x, y);
-			this.itemRender.renderItemOverlayIntoGUI(this.fontRendererObj, stack, x, y, stack.getCount() != 1 ? Integer.toString(stack.getCount()) : "");
+			this.itemRender.renderItemOverlayIntoGUI(this.fontRendererObj, stack, x, y, stack.stackSize != 1 ? Integer.toString(stack.stackSize) : "");
 			RenderHelper.enableStandardItemLighting();
 		}
 		GlStateManager.disableLighting();

@@ -49,7 +49,7 @@ public class ModifierIntelligentApparatus extends ModifierBase {
 		if (event.getAttackingPlayer() != null){
 			EntityPlayer player = (EntityPlayer)event.getAttackingPlayer();
 			ItemStack s = player.getHeldItemMainhand();
-			if (!s.isEmpty()){
+			if (s != null){
 				if (ItemModUtil.hasHeat(s)){
 					int level = ItemModUtil.getModifierLevel(s, ItemModUtil.modifierRegistry.get(RegistryManager.superheater).name);
 					if (level > 0 && EmberInventoryUtil.getEmberTotal(player) >= cost){

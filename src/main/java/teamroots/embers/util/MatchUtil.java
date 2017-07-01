@@ -33,10 +33,10 @@ public class MatchUtil {
 	}
 	
 	public static boolean areStacksEqualOreDict(ItemStack stack1, ItemStack stack2){
-		if (stack1.isEmpty() && stack2.isEmpty()){
+		if (stack1 == null && stack2 == null){
 			return true;
 		}
-		else if (stack1.isEmpty() && !stack2.isEmpty() || stack2.isEmpty() && !stack1.isEmpty()){
+		else if (stack1 == null && stack2 != null || stack2 == null && stack1 != null){
 			return false;
 		}
 		else {

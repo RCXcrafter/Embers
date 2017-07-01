@@ -23,9 +23,9 @@ public class TileEntityDawnstoneAnvilRenderer extends TileEntitySpecialRenderer 
 		if (tile instanceof TileEntityDawnstoneAnvil){
 			TileEntityDawnstoneAnvil anvil = (TileEntityDawnstoneAnvil)tile;
 			random.setSeed(tile.getWorld().getSeed());
-			if (anvil.inventory.getStackInSlot(0) != ItemStack.EMPTY){
+			if (anvil.inventory.getStackInSlot(0) != null){
 				GL11.glPushMatrix();
-				EntityItem item = new EntityItem(Minecraft.getMinecraft().world,x,y,z,new ItemStack(anvil.inventory.getStackInSlot(0).getItem(),1,anvil.inventory.getStackInSlot(0).getMetadata()));
+				EntityItem item = new EntityItem(Minecraft.getMinecraft().theWorld,x,y,z,new ItemStack(anvil.inventory.getStackInSlot(0).getItem(),1,anvil.inventory.getStackInSlot(0).getMetadata()));
 				item.hoverStart = 0;
 				GL11.glTranslated(x, y+1.0f, z);
 				GL11.glTranslated(0.5, 0, 0.5);
@@ -37,9 +37,9 @@ public class TileEntityDawnstoneAnvilRenderer extends TileEntitySpecialRenderer 
 				Minecraft.getMinecraft().getRenderManager().doRenderEntity(item, 0, 0, 0, 0, 0, true);
 				GL11.glPopMatrix();
 			}
-			if (anvil.inventory.getStackInSlot(1) != ItemStack.EMPTY){
+			if (anvil.inventory.getStackInSlot(1) != null){
 				GL11.glPushMatrix();
-				EntityItem item = new EntityItem(Minecraft.getMinecraft().world,x,y,z,new ItemStack(anvil.inventory.getStackInSlot(1).getItem(),1,anvil.inventory.getStackInSlot(1).getMetadata()));
+				EntityItem item = new EntityItem(Minecraft.getMinecraft().theWorld,x,y,z,new ItemStack(anvil.inventory.getStackInSlot(1).getItem(),1,anvil.inventory.getStackInSlot(1).getMetadata()));
 				item.hoverStart = 0;
 				GL11.glTranslated(x, y+1.0625f, z);
 				GL11.glTranslated(0.5, 0, 0.5);

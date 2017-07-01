@@ -131,14 +131,14 @@ public class TileEntitySeed extends TileEntity implements ITileEntityBase, ITick
 	@Override
 	public void update() {
 		if (material == -1){
-			material = world.getBlockState(getPos()).getValue(BlockSeed.type);
+			material = worldObj.getBlockState(getPos()).getValue(BlockSeed.type);
 		}
 		ticksExisted ++;
 		if (size > 1000){
 			size = 0;
 			for (int i = 0; i < 12; i ++){
 				if (willSpawn[i] && !getWorld().isRemote){
-					ItemStack nuggetStack = ItemStack.EMPTY;
+					ItemStack nuggetStack = null;
 					if (material == 0){
 						nuggetStack = new ItemStack(RegistryManager.nugget_iron,1);
 					}
@@ -156,7 +156,7 @@ public class TileEntitySeed extends TileEntity implements ITileEntityBase, ITick
 					}
 					float offX = 0.4f*(float)Math.sin(Math.toRadians(i*30.0));
 					float offZ = 0.4f*(float)Math.cos(Math.toRadians(i*30.0));
-					world.spawnEntity(new EntityItem(world,getPos().getX()+0.5+offX,getPos().getY()+0.5f,getPos().getZ()+0.5+offZ,nuggetStack));
+					worldObj.spawnEntityInWorld(new EntityItem(worldObj,getPos().getX()+0.5+offX,getPos().getY()+0.5f,getPos().getZ()+0.5+offZ,nuggetStack));
 				}
 			}
 			resetSpawns();

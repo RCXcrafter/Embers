@@ -187,8 +187,8 @@ public class TileEntityPipe extends TileFluidHandler implements ITileEntityBase,
 	public boolean activate(World world, BlockPos pos, IBlockState state, EntityPlayer player, EnumHand hand,
 			EnumFacing side, float hitX, float hitY, float hitZ) {
 		ItemStack heldItem = player.getHeldItem(hand);
-		if (heldItem != ItemStack.EMPTY){
-			if (heldItem != ItemStack.EMPTY){
+		if (heldItem != null){
+			if (heldItem != null){
 				if (heldItem.getItem() instanceof ItemTinkerHammer){
 					if (side == EnumFacing.UP || side == EnumFacing.DOWN){
 						if (Math.abs(hitX-0.5) > Math.abs(hitZ-0.5)){

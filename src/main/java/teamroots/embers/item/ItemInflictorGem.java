@@ -23,7 +23,7 @@ public class ItemInflictorGem extends ItemBase {
 	}
 
 	@Override
-	public ActionResult<ItemStack> onItemRightClick(World world, EntityPlayer player, EnumHand hand){
+	public ActionResult<ItemStack> onItemRightClick(ItemStack itemStack, World world, EntityPlayer player, EnumHand hand){
 		ItemStack stack = player.getHeldItem(hand);
 		if (player.isSneaking() && stack.getItemDamage() == 1){
 			stack.setItemDamage(0);

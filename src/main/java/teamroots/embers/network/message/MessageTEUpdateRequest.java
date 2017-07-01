@@ -51,9 +51,9 @@ public class MessageTEUpdateRequest implements IMessage {
 	    		BlockPos pos = BlockPos.fromLong(message.pos);
     			EntityPlayer player = FMLCommonHandler.instance().getMinecraftServerInstance().getPlayerList().getPlayerByUUID(message.id);
     			if (player != null){
-    				if (player.world != null){
-    					if (player.world.getTileEntity(pos) != null){
-    						player.world.getTileEntity(pos).markDirty();
+    				if (player.worldObj != null){
+    					if (player.worldObj.getTileEntity(pos) != null){
+    						player.worldObj.getTileEntity(pos).markDirty();
     					}
     				}
     			}

@@ -36,7 +36,7 @@ public class ModifierBlastingCore extends ModifierBase {
 	@SubscribeEvent
 	public void onDrops(BreakEvent event){
 		if (event.getPlayer() != null){
-			if (!event.getPlayer().getHeldItem(EnumHand.MAIN_HAND).isEmpty()){
+			if (event.getPlayer().getHeldItem(EnumHand.MAIN_HAND) != null){
 				ItemStack s = event.getPlayer().getHeldItem(EnumHand.MAIN_HAND);
 				if (ItemModUtil.getModifierLevel(s, ItemModUtil.modifierRegistry.get(RegistryManager.blasting_core).name) > 0 && EmberInventoryUtil.getEmberTotal(event.getPlayer()) >= cost){
 					int blastingLevel = ItemModUtil.getModifierLevel(s, ItemModUtil.modifierRegistry.get(RegistryManager.blasting_core).name);
@@ -63,17 +63,17 @@ public class ModifierBlastingCore extends ModifierBase {
 		if (event.getSource().getEntity() instanceof EntityPlayer){
 			EntityPlayer damager = (EntityPlayer)event.getSource().getEntity();
 			ItemStack s = damager.getHeldItemMainhand();
-			if (!s.isEmpty()){
+			if (s != null){
 				int blastingLevel = ItemModUtil.getModifierLevel(s, ItemModUtil.modifierRegistry.get(RegistryManager.blasting_core).name);
 				float strength = (float)(2.0*(Math.atan(0.6*(blastingLevel))/(Math.PI)));
 				if (blastingLevel > 0 && EmberInventoryUtil.getEmberTotal(damager) >= cost){
-					event.getEntityLiving().world.createExplosion(event.getEntityLiving(), event.getEntityLiving().posX, event.getEntityLiving().posY+event.getEntityLiving().height/2.0, event.getEntityLiving().posZ, 0.5f, true);
+					event.getEntityLiving().worldObj.createExplosion(event.getEntityLiving(), event.getEntityLiving().posX, event.getEntityLiving().posY+event.getEntityLiving().height/2.0, event.getEntityLiving().posZ, 0.5f, true);
 					EmberInventoryUtil.removeEmber(damager, cost);
-					List<EntityLivingBase> entities = damager.world.getEntitiesWithinAABB(EntityLivingBase.class, new AxisAlignedBB(event.getEntityLiving().posX-4.0*strength,event.getEntityLiving().posY-4.0*strength,event.getEntityLiving().posZ-4.0*strength,
+					List<EntityLivingBase> entities = damager.worldObj.getEntitiesWithinAABB(EntityLivingBase.class, new AxisAlignedBB(event.getEntityLiving().posX-4.0*strength,event.getEntityLiving().posY-4.0*strength,event.getEntityLiving().posZ-4.0*strength,
 																																	event.getEntityLiving().posX+4.0*strength,event.getEntityLiving().posY+4.0*strength,event.getEntityLiving().posZ+4.0*strength));
 					for (EntityLivingBase e : entities){
 						if (e.getUniqueID().compareTo(damager.getUniqueID()) != 0){
-							e.attackEntityFrom(DamageSource.GENERIC, event.getAmount()*strength);
+							e.attackEntityFrom(DamageSource.generic, event.getAmount()*strength);
 						}
 					}
 				}
@@ -84,13 +84,13 @@ public class ModifierBlastingCore extends ModifierBase {
 
 			float strength = (float)(2.0*(Math.atan(0.6*(blastingLevel))/(Math.PI)));
 			if (blastingLevel > 0 && EmberInventoryUtil.getEmberTotal(((EntityPlayer)event.getEntity())) >= cost){
-				event.getEntityLiving().world.createExplosion(event.getEntityLiving(), event.getEntityLiving().posX, event.getEntityLiving().posY+event.getEntityLiving().height/2.0, event.getEntityLiving().posZ, 0.5f, true);
+				event.getEntityLiving().worldObj.createExplosion(event.getEntityLiving(), event.getEntityLiving().posX, event.getEntityLiving().posY+event.getEntityLiving().height/2.0, event.getEntityLiving().posZ, 0.5f, true);
 				EmberInventoryUtil.removeEmber(((EntityPlayer)event.getEntity()), cost);
-				List<EntityLivingBase> entities = event.getEntity().world.getEntitiesWithinAABB(EntityLivingBase.class, new AxisAlignedBB(event.getEntityLiving().posX-4.0*strength,event.getEntityLiving().posY-4.0*strength,event.getEntityLiving().posZ-4.0*strength,
+				List<EntityLivingBase> entities = event.getEntity().worldObj.getEntitiesWithinAABB(EntityLivingBase.class, new AxisAlignedBB(event.getEntityLiving().posX-4.0*strength,event.getEntityLiving().posY-4.0*strength,event.getEntityLiving().posZ-4.0*strength,
 																																event.getEntityLiving().posX+4.0*strength,event.getEntityLiving().posY+4.0*strength,event.getEntityLiving().posZ+4.0*strength));
 				for (EntityLivingBase e : entities){
 					if (e.getUniqueID().compareTo(event.getEntity().getUniqueID()) != 0){
-						e.attackEntityFrom(DamageSource.GENERIC, event.getAmount()*strength*0.25f);
+						e.attackEntityFrom(DamageSource.generic, event.getAmount()*strength*0.25f);
 						e.knockBack(event.getEntity(), 2.0f*strength, -e.posX+event.getEntity().posX, -e.posZ+event.getEntity().posZ);
 					}
 				}

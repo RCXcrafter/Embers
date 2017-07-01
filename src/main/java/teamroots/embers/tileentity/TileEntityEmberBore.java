@@ -56,7 +56,7 @@ public class TileEntityEmberBore extends TileEntity implements ITileEntityBase, 
         @Override
         public ItemStack extractItem(int slot, int amount, boolean simulate){
         	if (slot == stackFuel){
-        		return ItemStack.EMPTY;
+        		return null;
         	}
         	return super.extractItem(slot, amount, simulate);
         }
@@ -130,22 +130,22 @@ public class TileEntityEmberBore extends TileEntity implements ITileEntityBase, 
 				ticksFueled --;
 			}
 			if (ticksFueled == 0){
-				if (inventory.getStackInSlot(stackFuel) != ItemStack.EMPTY){
+				if (inventory.getStackInSlot(stackFuel) != null){
 					ticksFueled = TileEntityFurnace.getItemBurnTime(inventory.getStackInSlot(stackFuel).copy());
-					inventory.getStackInSlot(stackFuel).shrink(1);
-					if (inventory.getStackInSlot(stackFuel).getCount() <= 0){
-						inventory.setStackInSlot(stackFuel, ItemStack.EMPTY);
+					inventory.getStackInSlot(stackFuel).stackSize = inventory.getStackInSlot(stackFuel).stackSize - 1 ;
+					if (inventory.getStackInSlot(stackFuel).stackSize <= 0){
+						inventory.setStackInSlot(stackFuel, null);
 					}
 					markDirty();
 				}
 			}
 			else if (ticksExisted % 200 == 0){
-				if (random.nextFloat() < EmberGenUtil.getEmberDensity(world.getSeed(), getPos().getX(), getPos().getZ())){
+				if (random.nextFloat() < EmberGenUtil.getEmberDensity(worldObj.getSeed(), getPos().getX(), getPos().getZ())){
 					int chance = random.nextInt(4);
 					if (chance == 0){
-						if (inventory.getStackInSlot(stackCrystals) != ItemStack.EMPTY){ 
-							if (inventory.getStackInSlot(stackCrystals).getCount() < inventory.getStackInSlot(stackCrystals).getMaxStackSize()){
-								inventory.getStackInSlot(stackCrystals).setCount(Math.min(64, inventory.getStackInSlot(stackCrystals).getCount()));
+						if (inventory.getStackInSlot(stackCrystals) != null){ 
+							if (inventory.getStackInSlot(stackCrystals).stackSize < inventory.getStackInSlot(stackCrystals).getMaxStackSize()){
+								inventory.getStackInSlot(stackCrystals).stackSize = Math.min(64, inventory.getStackInSlot(stackCrystals).stackSize);
 							}
 						}
 						else {
@@ -154,9 +154,9 @@ public class TileEntityEmberBore extends TileEntity implements ITileEntityBase, 
 						markDirty();
 					}
 					else {
-						if (inventory.getStackInSlot(stackShards) != ItemStack.EMPTY){
-							if (inventory.getStackInSlot(stackShards).getCount() < inventory.getStackInSlot(stackShards).getMaxStackSize()){
-								inventory.getStackInSlot(stackShards).setCount(Math.min(inventory.getStackInSlot(stackShards).getMaxStackSize(), inventory.getStackInSlot(stackShards).getCount()));
+						if (inventory.getStackInSlot(stackShards) != null){
+							if (inventory.getStackInSlot(stackShards).stackSize < inventory.getStackInSlot(stackShards).getMaxStackSize()){
+								inventory.getStackInSlot(stackShards).stackSize = Math.min(inventory.getStackInSlot(stackShards).getMaxStackSize(), inventory.getStackInSlot(stackShards).stackSize);
 							}
 						}
 						else {
