@@ -3,6 +3,9 @@ package teamroots.embers.block;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.annotation.Nullable;
+
+import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
 import net.minecraft.block.properties.PropertyBool;
 import net.minecraft.block.properties.PropertyDirection;
@@ -61,7 +64,7 @@ public class BlockPump extends BlockTEBase {
 	@Override
 	public void onBlockExploded(World world, BlockPos pos, Explosion explosion){
 		if (!world.isRemote){
-			world.spawnEntity(new EntityItem(world,pos.getX()+0.5,pos.getY()+0.5,pos.getZ()+0.5,new ItemStack(this,1,0)));
+			world.spawnEntityInWorld(new EntityItem(world,pos.getX()+0.5,pos.getY()+0.5,pos.getZ()+0.5,new ItemStack(this,1,0)));
 		}
 		IBlockState state = world.getBlockState(pos);
 		if (this.getMetaFromState(state) < 6){
@@ -85,7 +88,7 @@ public class BlockPump extends BlockTEBase {
 	}
 	
 	@Override
-	public IBlockState getStateForPlacement(World world, BlockPos pos, EnumFacing face, float hitX, float hitY, float hitZ, int meta, EntityLivingBase placer){
+	public IBlockState getStateForPlacement(World world, BlockPos pos, EnumFacing face, float hitX, float hitY, float hitZ, int meta, EntityLivingBase placer, ItemStack stack){
 		return getDefaultState().withProperty(facing, Misc.getOppositeFace(placer.getHorizontalFacing())).withProperty(isTop, false);
 	}
 	
@@ -98,7 +101,7 @@ public class BlockPump extends BlockTEBase {
 	public void onBlockHarvested(World world, BlockPos pos, IBlockState state, EntityPlayer player){
 		if (state.getValue(isTop) && world.getBlockState(pos.down()).getBlock() == this || !state.getValue(isTop) && world.getBlockState(pos.up()).getBlock() == this){
 			if (!world.isRemote && !player.capabilities.isCreativeMode){
-				world.spawnEntity(new EntityItem(world,pos.getX()+0.5,pos.getY()+0.5,pos.getZ()+0.5,new ItemStack(this,1,0)));
+				world.spawnEntityInWorld(new EntityItem(world,pos.getX()+0.5,pos.getY()+0.5,pos.getZ()+0.5,new ItemStack(this,1,0)));
 			}
 		}
 		if (this.getMetaFromState(state) < 6){
@@ -132,7 +135,7 @@ public class BlockPump extends BlockTEBase {
 	}
 	
 	@Override
-	public boolean onBlockActivated(World world, BlockPos pos, IBlockState state, EntityPlayer player, EnumHand hand, EnumFacing side, float hitX, float hitY, float hitZ){
+	public boolean onBlockActivated(World world, BlockPos pos, IBlockState state, EntityPlayer player, EnumHand hand, @Nullable ItemStack heldItem, EnumFacing side, float hitX, float hitY, float hitZ){
 		return ((ITileEntityBase)world.getTileEntity(pos)).activate(world,pos,state,player,hand,side,hitX,hitY,hitZ);
 	}
 }

@@ -126,16 +126,16 @@ public class TileEntityInfernoForge extends TileEntity implements ITileEntityBas
 				if (getWorld().isRemote){
 					if (random.nextInt(10) == 0){
 						if (random.nextInt(3) == 0){
-							ParticleUtil.spawnParticleSpark(world, getPos().getX()-0.5f+0.125f*(random.nextFloat()-0.5f), getPos().getY()+1.75f, getPos().getZ()-0.5f+0.125f*(random.nextFloat()-0.5f), 0.125f*(random.nextFloat()-0.5f), 0.125f*(random.nextFloat()), 0.125f*(random.nextFloat()-0.5f), 255, 64, 16, random.nextFloat()*0.75f+0.45f, 80);
+							ParticleUtil.spawnParticleSpark(worldObj, getPos().getX()-0.5f+0.125f*(random.nextFloat()-0.5f), getPos().getY()+1.75f, getPos().getZ()-0.5f+0.125f*(random.nextFloat()-0.5f), 0.125f*(random.nextFloat()-0.5f), 0.125f*(random.nextFloat()), 0.125f*(random.nextFloat()-0.5f), 255, 64, 16, random.nextFloat()*0.75f+0.45f, 80);
 						}
 						if (random.nextInt(3) == 0){
-							ParticleUtil.spawnParticleSpark(world, getPos().getX()+1.5f+0.125f*(random.nextFloat()-0.5f), getPos().getY()+1.75f, getPos().getZ()-0.5f+0.125f*(random.nextFloat()-0.5f), 0.125f*(random.nextFloat()-0.5f), 0.125f*(random.nextFloat()), 0.125f*(random.nextFloat()-0.5f), 255, 64, 16, random.nextFloat()*0.75f+0.45f, 80);
+							ParticleUtil.spawnParticleSpark(worldObj, getPos().getX()+1.5f+0.125f*(random.nextFloat()-0.5f), getPos().getY()+1.75f, getPos().getZ()-0.5f+0.125f*(random.nextFloat()-0.5f), 0.125f*(random.nextFloat()-0.5f), 0.125f*(random.nextFloat()), 0.125f*(random.nextFloat()-0.5f), 255, 64, 16, random.nextFloat()*0.75f+0.45f, 80);
 						}
 						if (random.nextInt(3) == 0){
-							ParticleUtil.spawnParticleSpark(world, getPos().getX()+1.5f+0.125f*(random.nextFloat()-0.5f), getPos().getY()+1.75f, getPos().getZ()+1.5f+0.125f*(random.nextFloat()-0.5f), 0.125f*(random.nextFloat()-0.5f), 0.125f*(random.nextFloat()), 0.125f*(random.nextFloat()-0.5f), 255, 64, 16, random.nextFloat()*0.75f+0.45f, 80);
+							ParticleUtil.spawnParticleSpark(worldObj, getPos().getX()+1.5f+0.125f*(random.nextFloat()-0.5f), getPos().getY()+1.75f, getPos().getZ()+1.5f+0.125f*(random.nextFloat()-0.5f), 0.125f*(random.nextFloat()-0.5f), 0.125f*(random.nextFloat()), 0.125f*(random.nextFloat()-0.5f), 255, 64, 16, random.nextFloat()*0.75f+0.45f, 80);
 						}
 						if (random.nextInt(3) == 0){
-							ParticleUtil.spawnParticleSpark(world, getPos().getX()-0.5f+0.125f*(random.nextFloat()-0.5f), getPos().getY()+1.75f, getPos().getZ()+1.5f+0.125f*(random.nextFloat()-0.5f), 0.125f*(random.nextFloat()-0.5f), 0.125f*(random.nextFloat()), 0.125f*(random.nextFloat()-0.5f), 255, 64, 16, random.nextFloat()*0.75f+0.45f, 80);
+							ParticleUtil.spawnParticleSpark(worldObj, getPos().getX()-0.5f+0.125f*(random.nextFloat()-0.5f), getPos().getY()+1.75f, getPos().getZ()+1.5f+0.125f*(random.nextFloat()-0.5f), 0.125f*(random.nextFloat()-0.5f), 0.125f*(random.nextFloat()), 0.125f*(random.nextFloat()-0.5f), 255, 64, 16, random.nextFloat()*0.75f+0.45f, 80);
 						}
 					}
 					ParticleUtil.spawnParticleSmoke(getWorld(), (float)getPos().getX()-0.3f, (float)getPos().getY()+1.85f, (float)getPos().getZ()-0.3f, 0.025f*(random.nextFloat()-0.5f), 0.05f*(random.nextFloat()+1.0f), 0.025f*(random.nextFloat()-0.5f), 72, 72, 72, 1.0f, 3.0f+3.0f*random.nextFloat(), 48);
@@ -155,16 +155,16 @@ public class TileEntityInfernoForge extends TileEntity implements ITileEntityBas
 						ParticleUtil.spawnParticleGlow(getWorld(), (float)getPos().getX()-0.3f, (float)getPos().getY()+1.85f, (float)getPos().getZ()+1.3f, 0.0125f*(random.nextFloat()-0.5f), 0.025f*(random.nextFloat()+1.0f), 0.0125f*(random.nextFloat()-0.5f), 255, 64, 16, 2.0f, 48);
 					}*/
 				}
-				List<EntityItem> items = world.getEntitiesWithinAABB(EntityItem.class, new AxisAlignedBB(getPos().getX(),getPos().getY()+0.25,getPos().getZ(),getPos().getX()+1,getPos().getY()+1,getPos().getZ()+1));
+				List<EntityItem> items = worldObj.getEntitiesWithinAABB(EntityItem.class, new AxisAlignedBB(getPos().getX(),getPos().getY()+0.25,getPos().getZ(),getPos().getX()+1,getPos().getY()+1,getPos().getZ()+1));
 				for (EntityItem e : items){
 					e.setPickupDelay(20);
 				}
-				if (progress == 0 && !world.isRemote){
-					ItemStack item = ItemStack.EMPTY;
+				if (progress == 0 && !worldObj.isRemote){
+					ItemStack item = null;
 					double emberValue = 0;
 					for (int i = 0; i < items.size(); i ++){
 						if (ItemModUtil.hasHeat(items.get(i).getEntityItem())){
-							if (item.isEmpty() && ItemModUtil.getLevel(items.get(i).getEntityItem()) <= 5 && ItemModUtil.getHeat(items.get(i).getEntityItem()) >= ItemModUtil.getMaxHeat(items.get(i).getEntityItem())){
+							if (item == null && ItemModUtil.getLevel(items.get(i).getEntityItem()) <= 5 && ItemModUtil.getHeat(items.get(i).getEntityItem()) >= ItemModUtil.getMaxHeat(items.get(i).getEntityItem())){
 								item = items.get(i).getEntityItem();
 							}
 							else {
@@ -184,19 +184,19 @@ public class TileEntityInfernoForge extends TileEntity implements ITileEntityBas
 							}
 						}
 					}
-					if (!item.isEmpty() && emberValue > 0 && emberValue <= EmberGenUtil.getEmberForItem(RegistryManager.ember_cluster)*3.0){
-						TileEntity tile = world.getTileEntity(pos.up());
+					if (item != null && emberValue > 0 && emberValue <= EmberGenUtil.getEmberForItem(RegistryManager.ember_cluster)*3.0){
+						TileEntity tile = worldObj.getTileEntity(pos.up());
 						if (tile instanceof TileEntityInfernoForgeOpening){
 							((TileEntityInfernoForgeOpening)tile).isOpen = true;
 							((TileEntityInfernoForgeOpening)tile).prevState = false;
 							((TileEntityInfernoForgeOpening)tile).markDirty();
 						}
-						if (!world.isRemote){
+						if (!worldObj.isRemote){
 							PacketHandler.INSTANCE.sendToAll(new MessageEmberActivationFX(getPos().getX()+0.5,getPos().getY()+1.5,getPos().getZ()+0.5));
 						}
 						for (int i = 0; i < items.size(); i ++){
 							if (!ItemModUtil.hasHeat(items.get(i).getEntityItem())){
-								world.removeEntity(items.get(i));
+								worldObj.removeEntity(items.get(i));
 								items.get(i).setDead();
 							}
 							else if (Math.atan(emberValue/1200.0f) > Misc.random.nextFloat()){
@@ -219,12 +219,12 @@ public class TileEntityInfernoForge extends TileEntity implements ITileEntityBas
 	
 	public void updateProgress(){
 		if (progress == 0){
-			List<EntityItem> items = world.getEntitiesWithinAABB(EntityItem.class, new AxisAlignedBB(getPos().getX(),getPos().getY()+0.25,getPos().getZ(),getPos().getX()+1,getPos().getY()+1,getPos().getZ()+1));
-			ItemStack item = ItemStack.EMPTY;
+			List<EntityItem> items = worldObj.getEntitiesWithinAABB(EntityItem.class, new AxisAlignedBB(getPos().getX(),getPos().getY()+0.25,getPos().getZ(),getPos().getX()+1,getPos().getY()+1,getPos().getZ()+1));
+			ItemStack item = null;
 			double emberValue = 0;
 			for (int i = 0; i < items.size(); i ++){
 				if (ItemModUtil.hasHeat(items.get(i).getEntityItem())){
-					if (item.isEmpty() && ItemModUtil.getLevel(items.get(i).getEntityItem()) < 5 && ItemModUtil.getHeat(items.get(i).getEntityItem()) >= ItemModUtil.getMaxHeat(items.get(i).getEntityItem())){
+					if (item == null && ItemModUtil.getLevel(items.get(i).getEntityItem()) < 5 && ItemModUtil.getHeat(items.get(i).getEntityItem()) >= ItemModUtil.getMaxHeat(items.get(i).getEntityItem())){
 						item = items.get(i).getEntityItem();
 					}
 					else {
@@ -240,7 +240,7 @@ public class TileEntityInfernoForge extends TileEntity implements ITileEntityBas
 					}
 				}
 			}
-			if (!item.isEmpty() && emberValue > 0 && emberValue < EmberGenUtil.getEmberForItem(RegistryManager.ember_cluster)*3.0){
+			if (item != null && emberValue > 0 && emberValue < EmberGenUtil.getEmberForItem(RegistryManager.ember_cluster)*3.0){
 				progress = 200;
 				markDirty();
 			}

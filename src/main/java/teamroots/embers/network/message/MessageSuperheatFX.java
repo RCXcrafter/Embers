@@ -46,7 +46,7 @@ public class MessageSuperheatFX implements IMessage {
     	@SideOnly(Side.CLIENT)
         @Override
         public IMessage onMessage(final MessageSuperheatFX message, final MessageContext ctx) {
-    		World world = Minecraft.getMinecraft().world;
+    		World world = Minecraft.getMinecraft().theWorld;
 			for (int j = 0; j < 8; j ++){
 				float pitch = random.nextFloat()*360.0f;
 				float yaw = random.nextFloat()*360.0f;

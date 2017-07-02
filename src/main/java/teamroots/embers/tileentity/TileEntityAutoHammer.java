@@ -113,7 +113,7 @@ public class TileEntityAutoHammer extends TileEntity implements ITileEntityBase,
 	public void update(){
 		ticksExisted ++;
 		if (ticksExisted % 20 == 0){
-			TileEntity tile = world.getTileEntity(getPos().down().offset(world.getBlockState(getPos()).getValue(BlockAutoHammer.facing)));
+			TileEntity tile = worldObj.getTileEntity(getPos().down().offset(worldObj.getBlockState(getPos()).getValue(BlockAutoHammer.facing)));
 			if (tile instanceof TileEntityDawnstoneAnvil && progress == -1 && capability.getEmber() >= 40.0f && getWorld().isBlockIndirectlyGettingPowered(getPos()) != 0){
 				if (((TileEntityDawnstoneAnvil)tile).isValid(((TileEntityDawnstoneAnvil)tile).inventory.getStackInSlot(0), ((TileEntityDawnstoneAnvil)tile).inventory.getStackInSlot(1))){
 					progress = 10;
@@ -124,7 +124,7 @@ public class TileEntityAutoHammer extends TileEntity implements ITileEntityBase,
 		if (progress > 0){
 			progress --;
 			if (progress == 5){
-				TileEntity tile = world.getTileEntity(getPos().down().offset(world.getBlockState(getPos()).getValue(BlockAutoHammer.facing)));
+				TileEntity tile = worldObj.getTileEntity(getPos().down().offset(worldObj.getBlockState(getPos()).getValue(BlockAutoHammer.facing)));
 				if (tile instanceof TileEntityDawnstoneAnvil && capability.getEmber() >= 40.0f){
 					capability.removeAmount(40.0f, true);
 					((TileEntityDawnstoneAnvil)tile).progress = 40;

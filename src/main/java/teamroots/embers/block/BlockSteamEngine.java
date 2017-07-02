@@ -6,6 +6,7 @@ import net.minecraft.block.properties.PropertyDirection;
 import net.minecraft.block.state.BlockStateContainer;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.entity.EntityLivingBase;
+import net.minecraft.item.ItemStack;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.EnumFacing;
 import net.minecraft.util.math.AxisAlignedBB;
@@ -43,7 +44,7 @@ public class BlockSteamEngine extends BlockTEBase {
 	}
 	
 	@Override
-	public IBlockState getStateForPlacement(World world, BlockPos pos, EnumFacing face, float hitX, float hitY, float hitZ, int meta, EntityLivingBase placer){
+	public IBlockState getStateForPlacement(World world, BlockPos pos, EnumFacing face, float hitX, float hitY, float hitZ, int meta, EntityLivingBase placer, ItemStack stack){
 		return getDefaultState().withProperty(facing, Misc.getOppositeFace(placer.getHorizontalFacing()));
 	}
 	
@@ -58,7 +59,7 @@ public class BlockSteamEngine extends BlockTEBase {
 	}
 	
 	@Override
-	public void neighborChanged(IBlockState state, World world, BlockPos pos, Block block, BlockPos fromPos){
+	public void neighborChanged(IBlockState state, World world, BlockPos pos, Block block){
 		TileEntitySteamEngine p = (TileEntitySteamEngine)world.getTileEntity(pos);
 		p.updateNearby();
 		p.markDirty();

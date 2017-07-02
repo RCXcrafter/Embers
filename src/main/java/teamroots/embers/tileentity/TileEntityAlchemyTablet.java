@@ -220,15 +220,15 @@ public class TileEntityAlchemyTablet extends TileEntity implements ITileEntityBa
 	public boolean activate(World world, BlockPos pos, IBlockState state, EntityPlayer player, EnumHand hand,
 			EnumFacing side, float hitX, float hitY, float hitZ) {
 		ItemStack heldItem = player.getHeldItem(hand);
-		if (heldItem != ItemStack.EMPTY){
+		if (heldItem != null){
 			player.setHeldItem(hand, getInventoryForFace(side).insertItem(0,heldItem,false));
 			markDirty();
 			return true;
 		}
 		else {
-			if (getInventoryForFace(side).getStackInSlot(0) != ItemStack.EMPTY){
+			if (getInventoryForFace(side).getStackInSlot(0) != null){
 				if (!getWorld().isRemote){
-					player.setHeldItem(hand, getInventoryForFace(side).extractItem(0, getInventoryForFace(side).getStackInSlot(0).getCount(), false));
+					player.setHeldItem(hand, getInventoryForFace(side).extractItem(0, getInventoryForFace(side).getStackInSlot(0).stackSize, false));
 					markDirty();
 				}
 				return true;
@@ -264,8 +264,8 @@ public class TileEntityAlchemyTablet extends TileEntity implements ITileEntityBa
 	public int getNearbyAsh(List<TileEntityAlchemyPedestal> pedestals){
 		int count = 0;
 		for (TileEntityAlchemyPedestal pedestal : pedestals){
-			if (pedestal.inventory.getStackInSlot(0) != ItemStack.EMPTY){
-				count += pedestal.inventory.getStackInSlot(0).getCount();
+			if (pedestal.inventory.getStackInSlot(0) != null){
+				count += pedestal.inventory.getStackInSlot(0).stackSize;
 			}
 		}
 		return count;
@@ -294,10 +294,10 @@ public class TileEntityAlchemyTablet extends TileEntity implements ITileEntityBa
 			if (angle % 10 == 0){
 				if (getNearbyAsh(pedestals) > 0){
 					TileEntityAlchemyPedestal pedestal = pedestals.get(random.nextInt(pedestals.size()));
-					while (pedestal.inventory.extractItem(0, 1, true) == ItemStack.EMPTY){
+					while (pedestal.inventory.extractItem(0, 1, true) == null){
 						pedestal = pedestals.get(random.nextInt(pedestals.size()));
 					}
-					if (pedestal.inventory.getStackInSlot(1) != ItemStack.EMPTY){
+					if (pedestal.inventory.getStackInSlot(1) != null){
 						if (getWorld().isRemote){
 							for (int j = 0; j < 20; j ++){
 								float dx = (getPos().getX()+0.5f) - (pedestal.getPos().getX()+0.5f);
@@ -332,7 +332,7 @@ public class TileEntityAlchemyTablet extends TileEntity implements ITileEntityBa
 					if (recipe != null && !getWorld().isRemote){
 						ItemStack stack = recipe.getResult(getWorld(), iron, dawnstone, copper, silver, lead).copy();
 						if (!getWorld().isRemote){
-							getWorld().spawnEntity(new EntityItem(getWorld(),getPos().getX()+0.5,getPos().getY()+1.0f,getPos().getZ()+0.5,stack));
+							getWorld().spawnEntityInWorld(new EntityItem(getWorld(),getPos().getX()+0.5,getPos().getY()+1.0f,getPos().getZ()+0.5,stack));
 							PacketHandler.INSTANCE.sendToAll(new MessageEmberSphereFX(getPos().getX()+0.5,getPos().getY()+0.875,getPos().getZ()+0.5));
 						}
 						this.progress = 0;
@@ -359,10 +359,10 @@ public class TileEntityAlchemyTablet extends TileEntity implements ITileEntityBa
 	}
 	
 	public ItemStack decrStack(ItemStack stack){
-		if (stack != ItemStack.EMPTY){
-			stack.shrink(1);
-			if (stack.getCount() == 0){
-				return ItemStack.EMPTY;
+		if (stack != null){
+			stack.stackSize = stack.stackSize - 1;
+			if (stack.stackSize == 0){
+				return null;
 			}
 		}
 		return stack;

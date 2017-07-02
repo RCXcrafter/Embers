@@ -161,7 +161,7 @@ public class ItemClockworkAxe extends ItemTool implements IModeledItem, IEmberCh
 		}
 	}
 	
-	@Override
+	/* @Override
 	public boolean isEnchantable(ItemStack stack){
 		return true;
 	}
@@ -169,7 +169,7 @@ public class ItemClockworkAxe extends ItemTool implements IModeledItem, IEmberCh
 	@Override
 	public boolean canApplyAtEnchantingTable(ItemStack stack, Enchantment enchant){
 		return enchant.type == EnumEnchantmentType.WEAPON || enchant.type == EnumEnchantmentType.DIGGER;
-	}
+	} */
 	
 	@Override
 	public void initModel(){

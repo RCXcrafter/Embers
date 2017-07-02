@@ -17,8 +17,8 @@ public class AlchemyRecipe {
 	public int ironAspectMin = 0, dawnstoneAspectMin = 0, copperAspectMin = 0, silverAspectMin = 0, leadAspectMin = 0;
 	public int ironAspectRange = 0, dawnstoneAspectRange = 0, copperAspectRange = 0, silverAspectRange = 0, leadAspectRange = 0;
 	public List<ItemStack> inputs = new ArrayList<ItemStack>();
-	public ItemStack centerInput = ItemStack.EMPTY;
-	public ItemStack result = ItemStack.EMPTY;
+	public ItemStack centerInput = null;
+	public ItemStack result = null;
 	public AlchemyRecipe(int ironMin, int ironMax, int dawnstoneMin, int dawnstoneMax, int copperMin, int copperMax, int silverMin, int silverMax, int leadMin, int leadMax, ItemStack center, ItemStack east, ItemStack west, ItemStack north, ItemStack south, ItemStack result){
 		this.ironAspectMin = ironMin;
 		this.ironAspectRange = ironMax-ironMin;
@@ -31,16 +31,16 @@ public class AlchemyRecipe {
 		this.leadAspectMin = leadMin;
 		this.leadAspectRange = leadMax-leadMin;
 		this.centerInput = center;
-		if (east != ItemStack.EMPTY){
+		if (east != null){
 			inputs.add(east);
 		}
-		if (west != ItemStack.EMPTY){
+		if (west != null){
 			inputs.add(west);
 		}
-		if (north != ItemStack.EMPTY){
+		if (north != null){
 			inputs.add(north);
 		}
-		if (south != ItemStack.EMPTY){
+		if (south != null){
 			inputs.add(south);
 		}
 		this.result = result;

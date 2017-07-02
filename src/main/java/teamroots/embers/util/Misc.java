@@ -61,13 +61,13 @@ public class Misc {
 			return mat;
 		}
 		if (stack.getItem() instanceof ItemArmor){
-			ItemStack mat = ((ItemArmor)stack.getItem()).getArmorMaterial().getRepairItemStack().copy();
+			ItemStack mat = new ItemStack(((ItemArmor)stack.getItem()).getArmorMaterial().getRepairItem()).copy();
 			if (mat.getItemDamage() == OreDictionary.WILDCARD_VALUE){
 				mat.setItemDamage(0);
 			}
 			return mat;
 		}
-		return ItemStack.EMPTY;
+		return null;
 	}
 	
 	public static List<TileEntity> getAdjacentTiles(World world, BlockPos pos){
@@ -205,8 +205,8 @@ public class Misc {
 	public static void spawnInventoryInWorld(World world, double x, double y, double z, IItemHandler inventory){
 		if (inventory != null && !world.isRemote){
 			for (int i = 0; i < inventory.getSlots(); i ++){
-				if (inventory.getStackInSlot(i) != ItemStack.EMPTY){
-					world.spawnEntity(new EntityItem(world,x,y,z,inventory.getStackInSlot(i)));
+				if (inventory.getStackInSlot(i) != null){
+					world.spawnEntityInWorld(new EntityItem(world,x,y,z,inventory.getStackInSlot(i)));
 				}
 			}
 		}

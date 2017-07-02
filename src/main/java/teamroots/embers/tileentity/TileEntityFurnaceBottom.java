@@ -118,20 +118,20 @@ public class TileEntityFurnaceBottom extends TileEntity implements ITileEntityBa
 	public void update() {
 		TileEntityFurnaceTop furnace = (TileEntityFurnaceTop)getWorld().getTileEntity(getPos().up());
 		if (furnace != null){
-			if (!furnace.inventory.getStackInSlot(0).isEmpty()){
+			if (furnace.inventory.getStackInSlot(0) != null){
 				if (progress == -1){
 					progress = 200;
 					markDirty();
 				}
 				else if (capability.getEmber() >= 1){
 					capability.removeAmount(1.0, true);
-					if (world.isRemote){
+					if (worldObj.isRemote){
 						if (random.nextInt(20) == 0){
-							ParticleUtil.spawnParticleSpark(world, getPos().getX()+0.5f+0.125f*(random.nextFloat()-0.5f), getPos().getY()+1.25f, getPos().getZ()+0.5f+0.125f*(random.nextFloat()-0.5f), 0.125f*(random.nextFloat()-0.5f), 0.125f*(random.nextFloat()), 0.125f*(random.nextFloat()-0.5f), 255, 64, 16, random.nextFloat()*0.75f+0.45f, 80);
+							ParticleUtil.spawnParticleSpark(worldObj, getPos().getX()+0.5f+0.125f*(random.nextFloat()-0.5f), getPos().getY()+1.25f, getPos().getZ()+0.5f+0.125f*(random.nextFloat()-0.5f), 0.125f*(random.nextFloat()-0.5f), 0.125f*(random.nextFloat()), 0.125f*(random.nextFloat()-0.5f), 255, 64, 16, random.nextFloat()*0.75f+0.45f, 80);
 						}
 						if (random.nextInt(10) == 0){
 							for (int i = 0; i < 12; i ++){
-								ParticleUtil.spawnParticleSmoke(world, getPos().getX()+0.5f+0.125f*(random.nextFloat()-0.5f), getPos().getY()+1.25f, getPos().getZ()+0.5f+0.125f*(random.nextFloat()-0.5f), 0, 0.03125f+0.03125f*random.nextFloat(), 0, 64, 64, 64, 0.125f, 5.0f+3.0f*random.nextFloat(), 80);
+								ParticleUtil.spawnParticleSmoke(worldObj, getPos().getX()+0.5f+0.125f*(random.nextFloat()-0.5f), getPos().getY()+1.25f, getPos().getZ()+0.5f+0.125f*(random.nextFloat()-0.5f), 0, 0.03125f+0.03125f*random.nextFloat(), 0, 64, 64, 64, 0.125f, 5.0f+3.0f*random.nextFloat(), 80);
 							}
 						}
 					}
@@ -151,9 +151,9 @@ public class TileEntityFurnaceBottom extends TileEntity implements ITileEntityBa
 									t.getCapability(CapabilityFluidHandler.FLUID_HANDLER_CAPABILITY, null).fill(recipe.getFluid(), true);
 									t.markDirty();
 									if (!getWorld().isRemote){
-										furnace.inventory.getStackInSlot(0).shrink(1);
-										if (furnace.inventory.getStackInSlot(0).getCount() <= 0){
-											furnace.inventory.setStackInSlot(0, ItemStack.EMPTY);
+										furnace.inventory.getStackInSlot(0).stackSize = furnace.inventory.getStackInSlot(0).stackSize - 1;
+										if (furnace.inventory.getStackInSlot(0).stackSize <= 0){
+											furnace.inventory.setStackInSlot(0, null);
 										}
 									}
 									markDirty();
@@ -164,9 +164,9 @@ public class TileEntityFurnaceBottom extends TileEntity implements ITileEntityBa
 								t.getCapability(CapabilityFluidHandler.FLUID_HANDLER_CAPABILITY, null).fill(recipe.getFluid(), true);
 								t.markDirty();
 								if (!getWorld().isRemote){
-									furnace.inventory.getStackInSlot(0).shrink(1);
-									if (furnace.inventory.getStackInSlot(0).getCount() <= 0){
-										furnace.inventory.setStackInSlot(0, ItemStack.EMPTY);
+									furnace.inventory.getStackInSlot(0).stackSize = furnace.inventory.getStackInSlot(0).stackSize - 1;
+									if (furnace.inventory.getStackInSlot(0).stackSize <= 0){
+										furnace.inventory.setStackInSlot(0, null);
 									}
 								}
 								markDirty();
@@ -181,9 +181,9 @@ public class TileEntityFurnaceBottom extends TileEntity implements ITileEntityBa
 									t.getCapability(CapabilityFluidHandler.FLUID_HANDLER_CAPABILITY, null).fill(oreRecipe.getFluid(), true);
 									t.markDirty();
 									if (!getWorld().isRemote){
-										furnace.inventory.getStackInSlot(0).shrink(1);
-										if (furnace.inventory.getStackInSlot(0).getCount() <= 0){
-											furnace.inventory.setStackInSlot(0, ItemStack.EMPTY);
+										furnace.inventory.getStackInSlot(0).stackSize = furnace.inventory.getStackInSlot(0).stackSize - 1;
+										if (furnace.inventory.getStackInSlot(0).stackSize <= 0){
+											furnace.inventory.setStackInSlot(0, null);
 										}
 									}
 									markDirty();
@@ -193,9 +193,9 @@ public class TileEntityFurnaceBottom extends TileEntity implements ITileEntityBa
 							else {
 								t.getCapability(CapabilityFluidHandler.FLUID_HANDLER_CAPABILITY, null).fill(oreRecipe.getFluid(), true);
 								t.markDirty();
-								furnace.inventory.getStackInSlot(0).shrink(1);
-								if (furnace.inventory.getStackInSlot(0).getCount() <= 0){
-									furnace.inventory.setStackInSlot(0, ItemStack.EMPTY);
+								furnace.inventory.getStackInSlot(0).stackSize = furnace.inventory.getStackInSlot(0).stackSize - 1;
+								if (furnace.inventory.getStackInSlot(0).stackSize <= 0){
+									furnace.inventory.setStackInSlot(0, null);
 								}
 								markDirty();
 								return;

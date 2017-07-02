@@ -60,10 +60,10 @@ public class MessageSpawnEmberProj implements IMessage {
     {
         @Override
         public IMessage onMessage(final MessageSpawnEmberProj message, final MessageContext ctx) {
-    		World world = ctx.getServerHandler().playerEntity.world;
+    		World world = ctx.getServerHandler().playerEntity.worldObj;
     		EntityEmberProjectile proj = new EntityEmberProjectile(world);
     		proj.initCustom(message.posX, message.posY, message.posZ, message.motionX, message.motionY, message.motionZ, message.size, ctx.getServerHandler().playerEntity.getUniqueID());
-			world.spawnEntity(proj);
+			world.spawnEntityInWorld(proj);
 			return null;
         }
     }

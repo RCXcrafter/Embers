@@ -141,27 +141,27 @@ public class TileEntityPumpBottom extends TileEntity implements ITileEntityBase,
 	}
 	
 	public boolean attemptPump(BlockPos pos){
-		IBlockState state = world.getBlockState(pos);
-		if (state.getBlock() instanceof IFluidBlock && ((IFluidBlock)state.getBlock()).canDrain(world, pos) || state.getBlock() instanceof BlockStaticLiquid){
+		IBlockState state = worldObj.getBlockState(pos);
+		if (state.getBlock() instanceof IFluidBlock && ((IFluidBlock)state.getBlock()).canDrain(worldObj, pos) || state.getBlock() instanceof BlockStaticLiquid){
 			if (capability.getPower(null) > 0 || state.getBlock() == Blocks.WATER){
-				FluidStack stack = FluidUtil.getFluid(world, pos, state);
+				FluidStack stack = FluidUtil.getFluid(worldObj, pos, state);
 				if (stack != null){
-					TileEntityPumpTop t = (TileEntityPumpTop)world.getTileEntity(getPos().up());
+					TileEntityPumpTop t = (TileEntityPumpTop)worldObj.getTileEntity(getPos().up());
 					int filled = t.getTank().fill(stack, false);
 					if (filled == stack.amount){
-						if (!world.isRemote){
+						if (!worldObj.isRemote){
 							t.getTank().fill(stack, true);
 						}
 						t.markDirty();
-						world.setBlockToAir(pos);
-						world.notifyBlockUpdate(pos, state, Blocks.AIR.getDefaultState(), 8);
-						world.notifyNeighborsOfStateChange(pos.north(), Blocks.AIR, true);
-						world.notifyNeighborsOfStateChange(pos.south(), Blocks.AIR, true);
-						world.notifyNeighborsOfStateChange(pos.east(), Blocks.AIR, true);
-						world.notifyNeighborsOfStateChange(pos.west(), Blocks.AIR, true);
-						world.notifyNeighborsOfStateChange(pos.up(), Blocks.AIR, true);
-						world.notifyNeighborsOfStateChange(pos.down(), Blocks.AIR, true);
-						world.notifyNeighborsOfStateChange(pos, Blocks.AIR, true);
+						worldObj.setBlockToAir(pos);
+						worldObj.notifyBlockUpdate(pos, state, Blocks.AIR.getDefaultState(), 8);
+						worldObj.notifyNeighborsOfStateChange(pos.north(), Blocks.AIR);
+						worldObj.notifyNeighborsOfStateChange(pos.south(), Blocks.AIR);
+						worldObj.notifyNeighborsOfStateChange(pos.east(), Blocks.AIR);
+						worldObj.notifyNeighborsOfStateChange(pos.west(), Blocks.AIR);
+						worldObj.notifyNeighborsOfStateChange(pos.up(), Blocks.AIR);
+						worldObj.notifyNeighborsOfStateChange(pos.down(), Blocks.AIR);
+						worldObj.notifyNeighborsOfStateChange(pos, Blocks.AIR);
 						return false;
 					}
 				}
@@ -172,7 +172,7 @@ public class TileEntityPumpBottom extends TileEntity implements ITileEntityBase,
 
 	@Override
 	public void update() {
-		IBlockState state = world.getBlockState(getPos());
+		IBlockState state = worldObj.getBlockState(getPos());
 		if (state.getBlock() instanceof BlockPump){
 			this.front = state.getValue(BlockPump.facing);
 		}

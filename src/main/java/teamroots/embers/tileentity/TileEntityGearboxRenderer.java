@@ -36,7 +36,7 @@ public class TileEntityGearboxRenderer extends TileEntitySpecialRenderer {
 			TileEntityGearbox box = (TileEntityGearbox)t;
 			if (state.getBlock() instanceof BlockGearbox){
 				for (int i = 0; i < 6; i ++){
-					if (!box.gears[i].isEmpty()){
+					if (box.gears[i] != null){
 						EnumFacing face = EnumFacing.getFront(i);
 				        
 			            GlStateManager.disableCull();

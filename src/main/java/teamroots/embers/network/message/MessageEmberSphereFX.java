@@ -45,7 +45,7 @@ public class MessageEmberSphereFX implements IMessage {
     	@SideOnly(Side.CLIENT)
         @Override
         public IMessage onMessage(final MessageEmberSphereFX message, final MessageContext ctx) {
-    		World world = Minecraft.getMinecraft().world;
+    		World world = Minecraft.getMinecraft().theWorld;
 			if (world.isRemote){
 				for (double i = 0; i < 24; i ++){
 					ParticleUtil.spawnParticleGlow(world, (float)message.posX, (float)message.posY, (float)message.posZ, 0.0125f*(random.nextFloat()-0.5f), 0.0125f*(random.nextFloat()-0.5f), 0.0125f*(random.nextFloat()-0.5f), 255, 64, 16, 3.0f+random.nextFloat(), 36+random.nextInt(24));

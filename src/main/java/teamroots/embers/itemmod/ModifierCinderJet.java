@@ -41,7 +41,7 @@ public class ModifierCinderJet extends ModifierBase {
 	
 	@SubscribeEvent
 	public void onLivingTick(LivingUpdateEvent event){
-		if (event.getEntity() instanceof EntityPlayer && !event.getEntity().world.isRemote){
+		if (event.getEntity() instanceof EntityPlayer && !event.getEntity().worldObj.isRemote){
 			UUID id = event.getEntity().getUniqueID();
 			if (this.sprinting.containsKey(id)){
 				if (event.getEntity().isSprinting() && !sprinting.get(id)){

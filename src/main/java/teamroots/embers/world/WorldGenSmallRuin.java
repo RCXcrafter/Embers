@@ -94,7 +94,7 @@ public class WorldGenSmallRuin extends StructureBase implements IWorldGenerator 
 				golem.setPosition(pos.getX()+0.5, pos.getY(), pos.getZ());
 				golem.onInitialSpawn(world.getDifficultyForLocation(pos), null);
 				golem.enablePersistence();
-				world.spawnEntity(golem);
+				world.spawnEntityInWorld(golem);
 				world.setBlockToAir(pos);
 			}
 			else if (state.getBlock().getMetaFromState(state) == 1){
@@ -115,8 +115,8 @@ public class WorldGenSmallRuin extends StructureBase implements IWorldGenerator 
 			if (ConfigManager.smallRuinChance == 0){
 				return;
 			}
-			if (world.getHeight(xx, zz) > 16){
-				int yy = 4+Misc.random.nextInt(world.getHeight(xx, zz));if (random.nextInt(ConfigManager.smallRuinChance) == 0){
+			if (world.getHeight() > 16){
+				int yy = 4+Misc.random.nextInt(world.getHeight());if (random.nextInt(ConfigManager.smallRuinChance) == 0){
 					if (world.getBlockState(new BlockPos(xx,yy,zz)).getBlock() instanceof BlockStone){
 						boolean canGenerate = false;
 						BlockPos pos = new BlockPos(xx,yy,zz);

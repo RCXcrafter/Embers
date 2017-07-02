@@ -51,13 +51,13 @@ public class TileEntityAxle extends TileEntity implements ITileEntityBase {
 	};
 	
 	public void updateNeighbors(){
-		IBlockState state = world.getBlockState(getPos());
+		IBlockState state = worldObj.getBlockState(getPos());
 		if (state.getBlock() instanceof BlockAxle){
 			front = Misc.getOppositeFace(state.getValue(BlockAxle.facing));
 			markDirty();
 		}
 		if (front != null && !this.isInvalid()){
-			TileEntity lastTile = world.getTileEntity(getPos().offset(front));
+			TileEntity lastTile = worldObj.getTileEntity(getPos().offset(front));
 			if (lastTile == null){
 				capability.setPower(0,null);
 				markDirty();
@@ -81,7 +81,7 @@ public class TileEntityAxle extends TileEntity implements ITileEntityBase {
 					fromPos = getPos().offset(front);
 				}
 				if (fromPos == null || fromPos != null && !p1.equals(fromPos)){
-					TileEntity t = world.getTileEntity(p1);
+					TileEntity t = worldObj.getTileEntity(p1);
 					if (t != null && t.hasCapability(MechCapabilityProvider.mechCapability, Misc.getOppositeFace(face))){
 						if (!(t instanceof TileEntityAxle && ((TileEntityAxle) t).front == Misc.getOppositeFace(front))){
 							t.getCapability(MechCapabilityProvider.mechCapability, Misc.getOppositeFace(face)).setPower(capability.getPower(face),Misc.getOppositeFace(face));
@@ -141,7 +141,7 @@ public class TileEntityAxle extends TileEntity implements ITileEntityBase {
 	@Override
 	public boolean hasCapability(Capability<?> capability, EnumFacing facing){
 		if (capability == MechCapabilityProvider.mechCapability){
-			IBlockState state = world.getBlockState(getPos());
+			IBlockState state = worldObj.getBlockState(getPos());
 			if (state.getBlock() instanceof BlockAxle){
 				EnumFacing face = state.getValue(BlockAxle.facing);
 				if (face != null && facing != null){

@@ -10,6 +10,7 @@ import net.minecraft.block.state.BlockStateContainer;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.client.Minecraft;
 import net.minecraft.entity.EntityLivingBase;
+import net.minecraft.item.ItemStack;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.EnumFacing;
 import net.minecraft.util.math.AxisAlignedBB;
@@ -47,7 +48,7 @@ public class BlockFluidGauge extends BlockBase implements IDial {
 	}
 	
 	@Override
-	public IBlockState getStateForPlacement(World world, BlockPos pos, EnumFacing face, float hitX, float hitY, float hitZ, int meta, EntityLivingBase placer){
+	public IBlockState getStateForPlacement(World world, BlockPos pos, EnumFacing face, float hitX, float hitY, float hitZ, int meta, EntityLivingBase placer, ItemStack stack){
 		return getDefaultState().withProperty(facing, face);
 	}
 	
@@ -57,7 +58,7 @@ public class BlockFluidGauge extends BlockBase implements IDial {
 	}
 	
 	@Override
-	public void neighborChanged(IBlockState state, World world, BlockPos pos, Block block, BlockPos fromPos){
+	public void neighborChanged(IBlockState state, World world, BlockPos pos, Block block){
 		if (world.isAirBlock(pos.offset(state.getValue(facing),-1))){
 			world.setBlockToAir(pos);
 			this.dropBlockAsItem(world, pos, state, 0);
@@ -106,7 +107,7 @@ public class BlockFluidGauge extends BlockBase implements IDial {
 	public void updateTEData(World world, IBlockState state, BlockPos pos) {
 		TileEntity tile = world.getTileEntity(pos.offset(state.getValue(this.facing)));
 		if (tile != null){
-			PacketHandler.INSTANCE.sendToServer(new MessageTEUpdateRequest(Minecraft.getMinecraft().player.getUniqueID(),pos));
+			PacketHandler.INSTANCE.sendToServer(new MessageTEUpdateRequest(Minecraft.getMinecraft().thePlayer.getUniqueID(),pos));
 		}
 	}
 }

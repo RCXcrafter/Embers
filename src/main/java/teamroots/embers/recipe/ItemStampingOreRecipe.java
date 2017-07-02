@@ -8,7 +8,7 @@ import teamroots.embers.item.EnumStampType;
 public class ItemStampingOreRecipe {
 	private String ore = "";
 	private FluidStack fluid = null;
-	public ItemStack result = ItemStack.EMPTY;
+	public ItemStack result = null;
 	private EnumStampType type = EnumStampType.TYPE_NULL;
 	boolean matchMetadata = false;
 	boolean matchNBT = false;

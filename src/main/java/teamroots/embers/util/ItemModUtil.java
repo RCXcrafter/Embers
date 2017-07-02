@@ -112,7 +112,7 @@ public class ItemModUtil {
 			NBTTagList list = stack.getTagCompound().getCompoundTag(HEAT_TAG).getTagList("modifiers", Constants.NBT.TAG_COMPOUND);
 			for (int i = 0; i < list.tagCount(); i ++){
 				NBTTagCompound compound = list.getCompoundTagAt(i);
-				ItemStack s = new ItemStack(compound.getCompoundTag("item"));
+				ItemStack s = new ItemStack(null, 1, 0, compound.getCompoundTag("item"));
 				if (modifierRegistry.get(s.getItem()).countTowardsTotalLevel){
 					total += compound.getInteger("level");
 				}
@@ -189,7 +189,7 @@ public class ItemModUtil {
 	}
 	
 	public static boolean hasHeat(ItemStack stack){
-		if (!stack.isEmpty()){
+		if (stack != null){
 			if (stack.hasTagCompound()){
 				if (stack.getTagCompound().hasKey(HEAT_TAG)){
 					return true;

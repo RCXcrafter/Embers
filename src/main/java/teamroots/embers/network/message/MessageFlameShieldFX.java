@@ -46,7 +46,7 @@ public class MessageFlameShieldFX implements IMessage {
     	@SideOnly(Side.CLIENT)
         @Override
         public IMessage onMessage(final MessageFlameShieldFX message, final MessageContext ctx) {
-    		World world = Minecraft.getMinecraft().world;
+    		World world = Minecraft.getMinecraft().theWorld;
 			for (int j = 0; j < 360; j += 18){
 				float offX = 0.65f*(float)Math.sin(Math.toRadians(j));
 				float offZ = 0.65f*(float)Math.cos(Math.toRadians(j));

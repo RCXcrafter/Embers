@@ -60,7 +60,7 @@ public class TileEntitySteamEngine extends TileEntity implements ITileEntityBase
         
         @Override
         public ItemStack extractItem(int slot, int amount, boolean simulate){
-        	return ItemStack.EMPTY;
+        	return null;
         }
         
 	};
@@ -166,7 +166,7 @@ public class TileEntitySteamEngine extends TileEntity implements ITileEntityBase
 	
 	public void updateNearby(){
 		for (EnumFacing f : EnumFacing.values()){
-			TileEntity t = world.getTileEntity(getPos().offset(f));
+			TileEntity t = worldObj.getTileEntity(getPos().offset(f));
 			if (t != null && f == front){
 				if (t.hasCapability(MechCapabilityProvider.mechCapability, Misc.getOppositeFace(f))){
 					t.getCapability(MechCapabilityProvider.mechCapability, Misc.getOppositeFace(f)).setPower(capability.getPower(Misc.getOppositeFace(f)),Misc.getOppositeFace(f));
@@ -178,20 +178,20 @@ public class TileEntitySteamEngine extends TileEntity implements ITileEntityBase
 
 	@Override
 	public void update() {
-		IBlockState state = world.getBlockState(getPos());
+		IBlockState state = worldObj.getBlockState(getPos());
 		if (state.getBlock() instanceof BlockSteamEngine){
 			this.front = state.getValue(BlockSteamEngine.facing);
 		}
 		if (progress == 0){
-			if (!inventory.getStackInSlot(0).isEmpty() && tank.getFluid() != null && tank.getFluid().getFluid() == FluidRegistry.WATER && tank.getFluidAmount() > 10){
+			if (inventory.getStackInSlot(0) != null && tank.getFluid() != null && tank.getFluid().getFluid() == FluidRegistry.WATER && tank.getFluidAmount() > 10){
 				ItemStack stack = inventory.getStackInSlot(0).copy();
-				stack.setCount(1);
+				stack.stackSize = 1;
 				int fuel = TileEntityFurnace.getItemBurnTime(stack);
 				if (fuel > 0){
 					progress = fuel;
-					inventory.getStackInSlot(0).shrink(1);
-					if (inventory.getStackInSlot(0).isEmpty()){
-						inventory.setStackInSlot(0, ItemStack.EMPTY);
+					inventory.getStackInSlot(0).stackSize = inventory.getStackInSlot(0).stackSize - 1;
+					if (inventory.getStackInSlot(0) == null){
+						inventory.setStackInSlot(0, null);
 					}
 					markDirty();
 				}
@@ -203,12 +203,12 @@ public class TileEntitySteamEngine extends TileEntity implements ITileEntityBase
 		}
 		else {
 			progress --;
-			if (world.isRemote){
+			if (worldObj.isRemote){
 				for (int i = 0; i < 4; i ++){
 					if (front == EnumFacing.NORTH || front == EnumFacing.SOUTH){
 						float offX = 0.8125f * (float)Misc.random.nextInt(2);
 						float offZ = 0.4375f * (float)Misc.random.nextInt(2);
-						ParticleUtil.spawnParticleSmoke(world, 
+						ParticleUtil.spawnParticleSmoke(worldObj, 
 									getPos().getX()+0.09375f + offX, getPos().getY()+1.0f, getPos().getZ()+0.28125f+offZ, 
 									0.025f*(Misc.random.nextFloat()-0.5f), 0.125f*(Misc.random.nextFloat()), 0.025f*(Misc.random.nextFloat()-0.5f), 
 									72, 72, 72, 0.5f, 2.0f+Misc.random.nextFloat(), 24);
@@ -216,7 +216,7 @@ public class TileEntitySteamEngine extends TileEntity implements ITileEntityBase
 					if (front == EnumFacing.EAST || front == EnumFacing.WEST){
 						float offZ = 0.8125f * (float)Misc.random.nextInt(2);
 						float offX = 0.4375f * (float)Misc.random.nextInt(2);
-						ParticleUtil.spawnParticleSmoke(world, 
+						ParticleUtil.spawnParticleSmoke(worldObj, 
 									getPos().getX()+0.28125f + offX, getPos().getY()+1.0f, getPos().getZ()+0.09375f+offZ, 
 									0.025f*(Misc.random.nextFloat()-0.5f), 0.125f*(Misc.random.nextFloat()), 0.025f*(Misc.random.nextFloat()-0.5f), 
 									72, 72, 72, 0.5f, 2.0f+Misc.random.nextFloat(), 24);

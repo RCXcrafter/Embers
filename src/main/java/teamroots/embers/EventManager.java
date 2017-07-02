@@ -198,13 +198,13 @@ public class EventManager {
 			EntityPlayer player = (EntityPlayer)event.getEntity();
 			String source = event.getSource().getDamageType();
 			if (source.compareTo("mob") != 0 && source.compareTo("generic") != 0 && source.compareTo("player") != 0 && source.compareTo("arrow") != 0){
-				if (player.getHeldItemMainhand() != ItemStack.EMPTY){
+				if (player.getHeldItemMainhand() != null){
 					if (player.getHeldItemMainhand().getItem() == RegistryManager.inflictor_gem && player.getHeldItemMainhand().hasTagCompound()){
 						player.getHeldItemMainhand().setItemDamage(1);
 						player.getHeldItemMainhand().getTagCompound().setString("type", event.getSource().getDamageType());
 					}
 				}
-				if (player.getHeldItemOffhand() != ItemStack.EMPTY){
+				if (player.getHeldItemOffhand() != null){
 					if (player.getHeldItemOffhand().getItem() == RegistryManager.inflictor_gem && player.getHeldItemOffhand().hasTagCompound()){
 						player.getHeldItemOffhand().setItemDamage(1);
 						player.getHeldItemOffhand().getTagCompound().setString("type", event.getSource().getDamageType());
@@ -212,10 +212,10 @@ public class EventManager {
 				}
 			}
 		}
-		if (event.getEntityLiving().getItemStackFromSlot(EntityEquipmentSlot.HEAD) != ItemStack.EMPTY &&
-				event.getEntityLiving().getItemStackFromSlot(EntityEquipmentSlot.CHEST) != ItemStack.EMPTY &&
-				event.getEntityLiving().getItemStackFromSlot(EntityEquipmentSlot.LEGS) != ItemStack.EMPTY &&
-				event.getEntityLiving().getItemStackFromSlot(EntityEquipmentSlot.FEET) != ItemStack.EMPTY){
+		if (event.getEntityLiving().getItemStackFromSlot(EntityEquipmentSlot.HEAD) != null &&
+				event.getEntityLiving().getItemStackFromSlot(EntityEquipmentSlot.CHEST) != null &&
+				event.getEntityLiving().getItemStackFromSlot(EntityEquipmentSlot.LEGS) != null &&
+				event.getEntityLiving().getItemStackFromSlot(EntityEquipmentSlot.FEET) != null){
 			if (event.getEntityLiving().getItemStackFromSlot(EntityEquipmentSlot.HEAD).getItem() instanceof ItemAshenCloak &&
 					event.getEntityLiving().getItemStackFromSlot(EntityEquipmentSlot.CHEST).getItem() instanceof ItemAshenCloak &&
 					event.getEntityLiving().getItemStackFromSlot(EntityEquipmentSlot.LEGS).getItem() instanceof ItemAshenCloak &&
@@ -228,7 +228,7 @@ public class EventManager {
 			}
 		}
 		for (ItemStack s : event.getEntityLiving().getEquipmentAndArmor()){
-			if (s.getItem() instanceof ItemArmor){
+			if (s != null){//.getItem() instanceof ItemArmor){
 				if (ItemModUtil.hasHeat(s)){
 					ItemModUtil.addHeat(s, 5.0f);
 				}
@@ -237,7 +237,7 @@ public class EventManager {
 		if (event.getSource().getEntity() instanceof EntityPlayer){
 			EntityPlayer damager = (EntityPlayer)event.getSource().getEntity();
 			ItemStack s = damager.getHeldItemMainhand();
-			if (!s.isEmpty()){
+			if (s != null){
 				if (ItemModUtil.hasHeat(s)){
 					ItemModUtil.addHeat(s, 1.0f);
 				}
@@ -253,7 +253,7 @@ public class EventManager {
 			EventManager.frameTime = (System.nanoTime()-prevTime)/1000000000.0f;
 			EventManager.prevTime = System.nanoTime();
 		}
-		EntityPlayer player = Minecraft.getMinecraft().player;
+		EntityPlayer player = Minecraft.getMinecraft().thePlayer;
 		boolean showBar = false;
 
 		int w = e.getResolution().getScaledWidth();
@@ -261,12 +261,12 @@ public class EventManager {
 		
 		int x = w/2;
 		int y = h/2;
-		if (player.getHeldItemMainhand() != ItemStack.EMPTY){
+		if (player.getHeldItemMainhand() != null){
 			if (player.getHeldItemMainhand().getItem() instanceof ItemEmberGauge){
 				showBar = true;
 			}
 		}
-		if (player.getHeldItemOffhand() != ItemStack.EMPTY){
+		if (player.getHeldItemOffhand() != null){
 			if (player.getHeldItemOffhand().getItem() instanceof ItemEmberGauge){
 				showBar = true;
 			}
@@ -342,7 +342,7 @@ public class EventManager {
 			ticks ++;
 			ClientProxy.particleRenderer.updateParticles();
 			
-			EntityPlayer player = Minecraft.getMinecraft().player;
+			EntityPlayer player = Minecraft.getMinecraft().thePlayer;
 			if (player != null){
 				World world = player.getEntityWorld();
 				RayTraceResult result = player.rayTrace(6.0, Minecraft.getMinecraft().getRenderPartialTicks());
@@ -362,7 +362,7 @@ public class EventManager {
 	@SideOnly(Side.CLIENT)
 	public void onPlayerRender(RenderPlayerEvent.Pre event){
 		if (event.getEntityPlayer() != null){
-			if (Minecraft.getMinecraft().inGameHasFocus || event.getEntityPlayer().getUniqueID().compareTo(Minecraft.getMinecraft().player.getUniqueID()) != 0){
+			if (Minecraft.getMinecraft().inGameHasFocus || event.getEntityPlayer().getUniqueID().compareTo(Minecraft.getMinecraft().thePlayer.getUniqueID()) != 0){
 				event.setCanceled(!allowPlayerRenderEvent);
 			}
 		}
@@ -378,13 +378,13 @@ public class EventManager {
 		if (event.getSource().getEntity() != null){
 			if (event.getSource().getEntity() instanceof EntityPlayer){
 				if (((EntityPlayer)event.getSource().getEntity()).getHeldItemMainhand().getItem() == RegistryManager.tyrfing){
-					if (!event.getEntity().world.isRemote){
+					if (!event.getEntity().getEntityWorld().isRemote){
 						PacketHandler.INSTANCE.sendToAll(new MessageTyrfingBurstFX(event.getEntity().posX,event.getEntity().posY+event.getEntity().height/2.0f,event.getEntity().posZ));
 					}
 					EntityPlayer p = ((EntityPlayer)event.getSource().getEntity());
 					event.setAmount((event.getAmount()/4.0f)*(4.0f+(float)event.getEntityLiving().getEntityAttribute(SharedMonsterAttributes.ARMOR).getAttributeValue()*1.0f));
 				}
-				if (((EntityPlayer)event.getSource().getEntity()).getHeldItemMainhand() != ItemStack.EMPTY){
+				if (((EntityPlayer)event.getSource().getEntity()).getHeldItemMainhand() != null){
 					if (((EntityPlayer)event.getSource().getEntity()).getHeldItemMainhand().getItem() instanceof IEmberChargedTool){
 						if (((IEmberChargedTool)((EntityPlayer)event.getSource().getEntity()).getHeldItemMainhand().getItem()).hasEmber(((EntityPlayer)event.getSource().getEntity()).getHeldItemMainhand()) || ((EntityPlayer)event.getSource().getEntity()).capabilities.isCreativeMode){
 							event.getEntityLiving().setFire(1);
@@ -405,9 +405,9 @@ public class EventManager {
 	@SubscribeEvent
 	public void onBlockBreak(BlockEvent.BreakEvent event){
 		if (event.getPlayer() != null){
-			if (event.getPlayer().getHeldItemMainhand() != ItemStack.EMPTY){
+			if (event.getPlayer().getHeldItemMainhand() != null){
 				ItemStack s = event.getPlayer().getHeldItemMainhand();
-				if (!s.isEmpty() && event.getState().getBlockHardness(event.getWorld(), event.getPos()) > 0){
+				if (s != null && event.getState().getBlockHardness(event.getWorld(), event.getPos()) > 0){
 					if (ItemModUtil.hasHeat(s)){
 						ItemModUtil.addHeat(s, 1.0f);
 					}
@@ -581,14 +581,14 @@ public class EventManager {
 			ClientProxy.particleRenderer.renderParticles(clientPlayer, event.getPartialTicks());
 			GlStateManager.popMatrix();
 		}
-		List<TileEntity> list = Minecraft.getMinecraft().world.loadedTileEntityList;
+		List<TileEntity> list = Minecraft.getMinecraft().theWorld.loadedTileEntityList;
 		GlStateManager.pushMatrix();
 		for (int i = 0; i < list.size(); i ++){
 			TileEntitySpecialRenderer render = TileEntityRendererDispatcher.instance.getSpecialRenderer(list.get(i));
 			if (render instanceof ITileEntitySpecialRendererLater){
-				double x = Minecraft.getMinecraft().player.lastTickPosX + Minecraft.getMinecraft().getRenderPartialTicks()*(Minecraft.getMinecraft().player.posX-Minecraft.getMinecraft().player.lastTickPosX);
-				double y = Minecraft.getMinecraft().player.lastTickPosY + Minecraft.getMinecraft().getRenderPartialTicks()*(Minecraft.getMinecraft().player.posY-Minecraft.getMinecraft().player.lastTickPosY);
-				double z = Minecraft.getMinecraft().player.lastTickPosZ + Minecraft.getMinecraft().getRenderPartialTicks()*(Minecraft.getMinecraft().player.posZ-Minecraft.getMinecraft().player.lastTickPosZ);
+				double x = Minecraft.getMinecraft().thePlayer.lastTickPosX + Minecraft.getMinecraft().getRenderPartialTicks()*(Minecraft.getMinecraft().thePlayer.posX-Minecraft.getMinecraft().thePlayer.lastTickPosX);
+				double y = Minecraft.getMinecraft().thePlayer.lastTickPosY + Minecraft.getMinecraft().getRenderPartialTicks()*(Minecraft.getMinecraft().thePlayer.posY-Minecraft.getMinecraft().thePlayer.lastTickPosY);
+				double z = Minecraft.getMinecraft().thePlayer.lastTickPosZ + Minecraft.getMinecraft().getRenderPartialTicks()*(Minecraft.getMinecraft().thePlayer.posZ-Minecraft.getMinecraft().thePlayer.lastTickPosZ);
 				((ITileEntitySpecialRendererLater)render).renderLater(list.get(i), list.get(i).getPos().getX()-x, list.get(i).getPos().getY()-y, list.get(i).getPos().getZ()-z, Minecraft.getMinecraft().getRenderPartialTicks());
 			}
 		}

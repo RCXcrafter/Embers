@@ -20,7 +20,6 @@ import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 import net.minecraftforge.common.capabilities.Capability;
 import net.minecraftforge.fluids.Fluid;
-import net.minecraftforge.fluids.FluidActionResult;
 import net.minecraftforge.fluids.FluidRegistry;
 import net.minecraftforge.fluids.FluidTank;
 import net.minecraftforge.fluids.FluidUtil;
@@ -103,12 +102,10 @@ public class TileEntityBoilerBottom extends TileFluidHandler implements ITileEnt
 			EnumFacing side, float hitX, float hitY, float hitZ) {
 		ItemStack heldItem = player.getHeldItem(hand);
 		if (heldItem.getItem() instanceof ItemBucket || heldItem.getItem() instanceof UniversalBucket){
-			FluidActionResult didFill = FluidUtil.interactWithFluidHandler(heldItem, this.getCapability(CapabilityFluidHandler.FLUID_HANDLER_CAPABILITY, side), player);
-			if (didFill.success){
-				player.setHeldItem(hand, didFill.getResult());
-			}
+			boolean didFill = FluidUtil.interactWithFluidHandler(heldItem, this.getCapability(CapabilityFluidHandler.FLUID_HANDLER_CAPABILITY, side), player);
 			this.markDirty();
-			return didFill.success;
+			world.notifyBlockUpdate(pos, state, world.getBlockState(pos), 3);
+			return didFill;
 		}
 		return false;
 	}
@@ -121,12 +118,12 @@ public class TileEntityBoilerBottom extends TileFluidHandler implements ITileEnt
 	}
 	
 	public float getMultiplier(){
-		float metalMultiplier = EmberGenUtil.getMetalCoefficient(world.getBlockState(pos.down()));
+		float metalMultiplier = EmberGenUtil.getMetalCoefficient(worldObj.getBlockState(pos.down()));
 		float totalMult = 1.5f;
-		IBlockState north = world.getBlockState(pos.down().north());
-		IBlockState south = world.getBlockState(pos.down().south());
-		IBlockState east = world.getBlockState(pos.down().east());
-		IBlockState west = world.getBlockState(pos.down().west());
+		IBlockState north = worldObj.getBlockState(pos.down().north());
+		IBlockState south = worldObj.getBlockState(pos.down().south());
+		IBlockState east = worldObj.getBlockState(pos.down().east());
+		IBlockState west = worldObj.getBlockState(pos.down().west());
 		if (north.getBlock() == Blocks.LAVA || north.getBlock() == Blocks.FLOWING_LAVA || north.getBlock() == Blocks.FIRE){
 			totalMult += 0.375f*metalMultiplier;
 		}
@@ -161,7 +158,7 @@ public class TileEntityBoilerBottom extends TileFluidHandler implements ITileEnt
 	@Override
 	public void update() {
 		TileEntity tile = getWorld().getTileEntity(getPos().up());
-		if (!inventory.getStackInSlot(0).isEmpty()){
+		if (inventory.getStackInSlot(0) != null){
 			if (tank.getFluid() != null){
 				if (tank.getFluid().getFluid() == FluidRegistry.WATER && tank.getFluidAmount() > 25){
 					if (tile instanceof TileEntityBoilerTop){
@@ -172,11 +169,11 @@ public class TileEntityBoilerBottom extends TileFluidHandler implements ITileEnt
 								progress = 0;
 								int i = random.nextInt(inventory.getSlots());
 								if (inventory != null){
-									if (inventory.getStackInSlot(i) != ItemStack.EMPTY){
+									if (inventory.getStackInSlot(i) != null){
 										if (EmberGenUtil.getEmberForItem(inventory.getStackInSlot(i).getItem()) > 0){
 											double ember = EmberGenUtil.getEmberForItem(inventory.getStackInSlot(i).getItem())*getMultiplier();
 											if (top.capability.getEmber() <= top.capability.getEmberCapacity()-ember){
-												if (!world.isRemote){
+												if (!worldObj.isRemote){
 													PacketHandler.INSTANCE.sendToAll(new MessageEmberActivationFX(getPos().getX()+0.5f,getPos().getY()+1.5f,getPos().getZ()+0.5f));
 												}
 												top.capability.addAmount(ember, true);

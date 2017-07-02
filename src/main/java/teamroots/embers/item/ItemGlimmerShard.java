@@ -44,7 +44,7 @@ public class ItemGlimmerShard extends ItemBase {
 	}
 	
 	@Override
-	public EnumActionResult onItemUse(EntityPlayer player, World world, BlockPos pos, EnumHand hand, EnumFacing face, float hitX, float hitY, float hitZ){
+	public EnumActionResult onItemUse(ItemStack itemStack, EntityPlayer player, World world, BlockPos pos, EnumHand hand, EnumFacing face, float hitX, float hitY, float hitZ){
 		ItemStack stack = player.getHeldItem(hand);
 		if (stack.hasTagCompound()){
 			if (stack.getTagCompound().getInteger("light") >= 10){

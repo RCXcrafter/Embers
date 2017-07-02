@@ -126,35 +126,35 @@ public class TileEntityReactor extends TileEntity implements ITileEntityBase, IT
 
 	@Override
 	public void update() {
-		if (!inventory.getStackInSlot(0).isEmpty()){
+		if (inventory.getStackInSlot(0) != null){
 			progress ++;
 			if (progress > 20){
 				float catalyzerMult = 0.0f;
 				float combustorMult = 0.0f;
 				float multiplier = 1.0f;
-				if (world.getTileEntity(getPos().north().down()) instanceof TileEntityCatalyzer){
-					catalyzerMult += ((TileEntityCatalyzer)world.getTileEntity(getPos().north().down())).multiplier;
+				if (worldObj.getTileEntity(getPos().north().down()) instanceof TileEntityCatalyzer){
+					catalyzerMult += ((TileEntityCatalyzer)worldObj.getTileEntity(getPos().north().down())).multiplier;
 				}
-				if (world.getTileEntity(getPos().south().down()) instanceof TileEntityCatalyzer){
-					catalyzerMult += ((TileEntityCatalyzer)world.getTileEntity(getPos().south().down())).multiplier;
+				if (worldObj.getTileEntity(getPos().south().down()) instanceof TileEntityCatalyzer){
+					catalyzerMult += ((TileEntityCatalyzer)worldObj.getTileEntity(getPos().south().down())).multiplier;
 				}
-				if (world.getTileEntity(getPos().east().down()) instanceof TileEntityCatalyzer){
-					catalyzerMult += ((TileEntityCatalyzer)world.getTileEntity(getPos().east().down())).multiplier;
+				if (worldObj.getTileEntity(getPos().east().down()) instanceof TileEntityCatalyzer){
+					catalyzerMult += ((TileEntityCatalyzer)worldObj.getTileEntity(getPos().east().down())).multiplier;
 				}
-				if (world.getTileEntity(getPos().west().down()) instanceof TileEntityCatalyzer){
-					catalyzerMult += ((TileEntityCatalyzer)world.getTileEntity(getPos().west().down())).multiplier;
+				if (worldObj.getTileEntity(getPos().west().down()) instanceof TileEntityCatalyzer){
+					catalyzerMult += ((TileEntityCatalyzer)worldObj.getTileEntity(getPos().west().down())).multiplier;
 				}
-				if (world.getTileEntity(getPos().north().down()) instanceof TileEntityCombustor){
-					combustorMult += ((TileEntityCombustor)world.getTileEntity(getPos().north().down())).multiplier;
+				if (worldObj.getTileEntity(getPos().north().down()) instanceof TileEntityCombustor){
+					combustorMult += ((TileEntityCombustor)worldObj.getTileEntity(getPos().north().down())).multiplier;
 				}
-				if (world.getTileEntity(getPos().south().down()) instanceof TileEntityCombustor){
-					combustorMult += ((TileEntityCombustor)world.getTileEntity(getPos().south().down())).multiplier;
+				if (worldObj.getTileEntity(getPos().south().down()) instanceof TileEntityCombustor){
+					combustorMult += ((TileEntityCombustor)worldObj.getTileEntity(getPos().south().down())).multiplier;
 				}
-				if (world.getTileEntity(getPos().east().down()) instanceof TileEntityCombustor){
-					combustorMult += ((TileEntityCombustor)world.getTileEntity(getPos().east().down())).multiplier;
+				if (worldObj.getTileEntity(getPos().east().down()) instanceof TileEntityCombustor){
+					combustorMult += ((TileEntityCombustor)worldObj.getTileEntity(getPos().east().down())).multiplier;
 				}
-				if (world.getTileEntity(getPos().west().down()) instanceof TileEntityCombustor){
-					combustorMult += ((TileEntityCombustor)world.getTileEntity(getPos().west().down())).multiplier;
+				if (worldObj.getTileEntity(getPos().west().down()) instanceof TileEntityCombustor){
+					combustorMult += ((TileEntityCombustor)worldObj.getTileEntity(getPos().west().down())).multiplier;
 				}
 				if (Math.max(combustorMult, catalyzerMult) < 2.0f*Math.min(combustorMult, catalyzerMult)){
 					multiplier += combustorMult;
@@ -165,7 +165,7 @@ public class TileEntityReactor extends TileEntity implements ITileEntityBase, IT
 						if (EmberGenUtil.getEmberForItem(inventory.getStackInSlot(i).getItem()) > 0){
 							double ember = multiplier*EmberGenUtil.getEmberForItem(inventory.getStackInSlot(i).getItem());
 							if (capability.getEmber() <= capability.getEmberCapacity()-ember){
-								if (!world.isRemote){
+								if (!worldObj.isRemote){
 									PacketHandler.INSTANCE.sendToAll(new MessageEmberActivationFX(getPos().getX()+0.5f,getPos().getY()+0.5f,getPos().getZ()+0.5f));
 								}
 								capability.addAmount(ember, true);

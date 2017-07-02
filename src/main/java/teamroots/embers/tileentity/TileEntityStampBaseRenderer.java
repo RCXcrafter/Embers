@@ -109,9 +109,9 @@ public class TileEntityStampBaseRenderer extends TileEntitySpecialRenderer {
 						GlStateManager.enableCull();
 		            }
 				}
-				if (tank.inputs.getStackInSlot(0) != ItemStack.EMPTY){
+				if (tank.inputs.getStackInSlot(0) != null){
 					GL11.glPushMatrix();
-					EntityItem item = new EntityItem(Minecraft.getMinecraft().world,x,y,z,new ItemStack(tank.inputs.getStackInSlot(0).getItem(),1,tank.inputs.getStackInSlot(0).getMetadata()));
+					EntityItem item = new EntityItem(Minecraft.getMinecraft().theWorld,x,y,z,new ItemStack(tank.inputs.getStackInSlot(0).getItem(),1,tank.inputs.getStackInSlot(0).getMetadata()));
 					item.hoverStart = 0;
 					GL11.glTranslated(x, y, z);
 					GL11.glTranslated(0.5, 0.5, 0.5);

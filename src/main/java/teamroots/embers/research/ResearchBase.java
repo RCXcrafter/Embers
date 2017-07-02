@@ -12,7 +12,7 @@ import net.minecraftforge.fml.relauncher.SideOnly;
 public class ResearchBase {
 	public String name = "";
 	public double v = 0;
-	public ItemStack icon = ItemStack.EMPTY;
+	public ItemStack icon = null;
 	public int x = 0;
 	public int y = 0;
 	public List<ResearchBase> ancestors = new ArrayList<ResearchBase>();

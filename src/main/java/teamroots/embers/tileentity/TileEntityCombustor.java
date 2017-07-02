@@ -123,7 +123,7 @@ public class TileEntityCombustor extends TileEntity implements ITileEntityBase, 
 			}
 			markDirty();
 		}
-		if (progress == 0 && !inventory.getStackInSlot(0).isEmpty()){
+		if (progress == 0 && inventory.getStackInSlot(0) != null){
 			if (EmberGenUtil.getFuelCoefficient(inventory.getStackInSlot(0).getItem()) > 0){
 				multiplier = EmberGenUtil.getFuelCoefficient(inventory.getStackInSlot(0).getItem());
 				progress = 400;

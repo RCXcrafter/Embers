@@ -25,12 +25,12 @@ public class TileEntityItemTransferRenderer extends TileEntitySpecialRenderer {
 	public void renderTileEntityAt(TileEntity tile, double x, double y, double z, float partialTicks, int destroyStage){
 		if (tile instanceof TileEntityItemTransfer){
 			TileEntityItemTransfer transfer = (TileEntityItemTransfer)tile;
-			if (transfer.filterItem != ItemStack.EMPTY){
-				if (Minecraft.getMinecraft().world != null){
+			if (transfer.filterItem != null){
+				if (Minecraft.getMinecraft().theWorld != null){
 					GlStateManager.pushAttrib();
 		            GlStateManager.blendFunc(SourceFactor.SRC_ALPHA, DestFactor.ONE_MINUS_SRC_ALPHA);
 					GL11.glPushMatrix();
-					EntityItem item = new EntityItem(Minecraft.getMinecraft().world,x,y,z,new ItemStack(transfer.filterItem.getItem(),1,transfer.filterItem.getMetadata()));
+					EntityItem item = new EntityItem(Minecraft.getMinecraft().theWorld,x,y,z,new ItemStack(transfer.filterItem.getItem(),1,transfer.filterItem.getMetadata()));
 					item.hoverStart = 0;
 					item.isCollided = false;
 					GL11.glTranslated(x+0.5, y+0.15, z+0.5);

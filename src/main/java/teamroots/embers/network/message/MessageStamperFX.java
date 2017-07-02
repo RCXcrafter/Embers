@@ -53,7 +53,7 @@ public class MessageStamperFX implements IMessage {
     	@SideOnly(Side.CLIENT)
         @Override
         public IMessage onMessage(final MessageStamperFX message, final MessageContext ctx) {
-    		World world = Minecraft.getMinecraft().world;
+    		World world = Minecraft.getMinecraft().theWorld;
     		for (float a = 0; a < 360; a += random.nextFloat()*40.0f){
     			float dx = 0.125f*(float)Math.sin(Math.toRadians(a));
     			float dz = 0.125f*(float)Math.cos(Math.toRadians(a));

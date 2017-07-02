@@ -37,12 +37,13 @@ public class ItemBaubleBase extends ItemBase implements IBauble {
 	 * https://github.com/Vazkii/Botania/blob/master/src/main/java/vazkii/botania/common/item/equipment/bauble/ItemBauble.java
 	 */
 	
+	@SuppressWarnings("unused")
 	@Override
-	public ActionResult<ItemStack> onItemRightClick(World world, EntityPlayer player, EnumHand hand) {
+	public ActionResult<ItemStack> onItemRightClick(ItemStack itemStack, World world, EntityPlayer player, EnumHand hand) {
 		ItemStack stack = player.getHeldItem(hand);
 
 		ItemStack toEquip = stack.copy();
-		toEquip.setCount(1);
+		toEquip.stackSize = 1;
 
 		if(canEquip(toEquip, player)) {
 			if(world.isRemote)
@@ -52,14 +53,14 @@ public class ItemBaubleBase extends ItemBase implements IBauble {
 			for(int i = 0; i < baubles.getSlots(); i++) {
 				if(baubles.isItemValidForSlot(i, toEquip, player)) {
 					ItemStack stackInSlot = baubles.getStackInSlot(i);
-					if(stackInSlot.isEmpty() || ((IBauble) stackInSlot.getItem()).canUnequip(stackInSlot, player)) {
+					if(stackInSlot == null || ((IBauble) stackInSlot.getItem()).canUnequip(stackInSlot, player)) {
 						baubles.setStackInSlot(i, toEquip);
-						stack.shrink(1);
+						stack.stackSize = stack.stackSize - 1;
 
-						if(!stackInSlot.isEmpty()) {
+						if(stackInSlot != null) {
 							((IBauble) stackInSlot.getItem()).onUnequipped(stackInSlot, player);
 
-							if(stack.isEmpty()) {
+							if(stack == null) {
 								return ActionResult.newResult(EnumActionResult.SUCCESS, stackInSlot);
 							} else {
 								ItemHandlerHelper.giveItemToPlayer(player, stackInSlot);

@@ -55,10 +55,11 @@ public class EmberGenUtil {
 		metalCoefficients.put(key, coeff);
 	}
 	
+	@SuppressWarnings("unused")
 	public static float getMetalCoefficient(IBlockState state){
 		Block b = state.getBlock();
 		ItemStack s = new ItemStack(b);
-		if (s.isEmpty()){
+		if (s == null){
 			return 0;
 		}
 		int[] ids = OreDictionary.getOreIDs(s);

@@ -98,37 +98,37 @@ public class TileEntityBreaker extends TileEntity implements ITileEntityBase, IT
 	@Override
 	public void update() {
 		ticksExisted ++;
-		if (ticksExisted % 20 == 0 && world.isBlockIndirectlyGettingPowered(getPos()) == 0){
-			IBlockState state = world.getBlockState(getPos());
-			IBlockState target = world.getBlockState(pos.offset(state.getValue(BlockBreaker.facing)));
+		if (ticksExisted % 20 == 0 && worldObj.isBlockIndirectlyGettingPowered(getPos()) == 0){
+			IBlockState state = worldObj.getBlockState(getPos());
+			IBlockState target = worldObj.getBlockState(pos.offset(state.getValue(BlockBreaker.facing)));
 			if (!(target.getBlock() instanceof BlockLiquid) && target.getBlockHardness(getWorld(), getPos().offset(state.getValue(BlockBreaker.facing))) != -1){
-				List<ItemStack> drops = target.getBlock().getDrops(world, getPos().offset(state.getValue(BlockBreaker.facing)), target, 0);
-				if (!world.isRemote){
+				List<ItemStack> drops = target.getBlock().getDrops(worldObj, getPos().offset(state.getValue(BlockBreaker.facing)), target, 0);
+				if (!worldObj.isRemote){
 					//world.getBlockState(getPos().offset(state.getValue(BlockBreaker.facing))).getBlock().onBlockHarvested(world, getPos().offset(state.getValue(BlockBreaker.facing)), world.getBlockState(getPos().offset(state.getValue(BlockBreaker.facing))), null);
-					FakePlayer p = new FakePlayer((WorldServer) world, new GameProfile(new UUID(13,13), "embers_breaker"));
-					target.getBlock().onBlockHarvested(world, pos.offset(state.getValue(BlockBreaker.facing)), target, p);
-					world.destroyBlock(getPos().offset(state.getValue(BlockBreaker.facing)), false);
-					world.notifyBlockUpdate(getPos().offset(state.getValue(BlockBreaker.facing)), state, Blocks.AIR.getDefaultState(), 8);
+					FakePlayer p = new FakePlayer((WorldServer) worldObj, new GameProfile(new UUID(13,13), "embers_breaker"));
+					target.getBlock().onBlockHarvested(worldObj, pos.offset(state.getValue(BlockBreaker.facing)), target, p);
+					worldObj.destroyBlock(getPos().offset(state.getValue(BlockBreaker.facing)), false);
+					worldObj.notifyBlockUpdate(getPos().offset(state.getValue(BlockBreaker.facing)), state, Blocks.AIR.getDefaultState(), 8);
 				}
 				for (ItemStack i : drops){
 					BlockPos binPos = getPos().offset(state.getValue(BlockBreaker.facing),-1);
 					if (getWorld().getTileEntity(binPos) instanceof TileEntityBin){
 						TileEntityBin bin = (TileEntityBin)getWorld().getTileEntity(binPos);
 						ItemStack remainder = bin.inventory.insertItem(0, i, false);
-						if (remainder != ItemStack.EMPTY && !getWorld().isRemote){
+						if (remainder != null && !getWorld().isRemote){
 							EntityItem item = new EntityItem(getWorld(),getPos().offset(state.getValue(BlockBreaker.facing)).getX()+0.5,getPos().offset(state.getValue(BlockBreaker.facing)).getY()+1.0625f,getPos().offset(state.getValue(BlockBreaker.facing)).getZ()+0.5,remainder);
-							getWorld().spawnEntity(item);
+							getWorld().spawnEntityInWorld(item);
 						}
 						bin.markDirty();
 						markDirty();
 					}
-					else if (!world.isRemote){
+					else if (!worldObj.isRemote){
 						EntityItem item = new EntityItem(getWorld(),getPos().offset(state.getValue(BlockBreaker.facing)).getX()+0.5,getPos().offset(state.getValue(BlockBreaker.facing)).getY()+1.0625f,getPos().offset(state.getValue(BlockBreaker.facing)).getZ()+0.5,i);
-						getWorld().spawnEntity(item);
+						getWorld().spawnEntityInWorld(item);
 					}
 				}
-				if (!world.isRemote && world instanceof WorldServer){
-					ForgeHooks.onBlockBreakEvent(world, GameType.SURVIVAL, FakePlayerFactory.getMinecraft((WorldServer)world), getPos());
+				if (!worldObj.isRemote && worldObj instanceof WorldServer){
+					ForgeHooks.onBlockBreakEvent(worldObj, GameType.SURVIVAL, FakePlayerFactory.getMinecraft((WorldServer)worldObj), getPos());
 				}
 			}
 		}

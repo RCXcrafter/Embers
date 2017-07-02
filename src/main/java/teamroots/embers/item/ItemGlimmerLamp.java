@@ -47,7 +47,7 @@ public class ItemGlimmerLamp extends ItemBase {
 	}
 
 	@Override
-	public ActionResult<ItemStack> onItemRightClick(World world, EntityPlayer player, EnumHand hand){
+	public ActionResult<ItemStack> onItemRightClick(ItemStack itemStack, World world, EntityPlayer player, EnumHand hand){
 		ItemStack stack = player.getHeldItem(hand);
 		if (stack.hasTagCompound()){
 			if (stack.getTagCompound().getInteger("light") >= 10){
@@ -55,7 +55,7 @@ public class ItemGlimmerLamp extends ItemBase {
 				if (!world.isRemote){
 					EntityEmberLight light = (new EntityEmberLight(world));
 					light.initCustom(player.posX,player.posY+player.getEyeHeight(),player.posZ,player.getLookVec().xCoord,player.getLookVec().yCoord,player.getLookVec().zCoord);
-					world.spawnEntity(light);
+					world.spawnEntityInWorld(light);
 				}
 				return new ActionResult<ItemStack>(EnumActionResult.SUCCESS,stack);
 			}

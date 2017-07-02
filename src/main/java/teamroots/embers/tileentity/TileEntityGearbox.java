@@ -39,12 +39,12 @@ public class TileEntityGearbox extends TileEntity implements ITileEntityBase {
 	EnumFacing from = null;
 	public int connections = 0;
 	public ItemStack[] gears = new ItemStack[]{
-			ItemStack.EMPTY,
-			ItemStack.EMPTY,
-			ItemStack.EMPTY,
-			ItemStack.EMPTY,
-			ItemStack.EMPTY,
-			ItemStack.EMPTY
+			null,
+			null,
+			null,
+			null,
+			null,
+			null
 	};
 	
 	public DefaultMechCapability capability = new DefaultMechCapability(){
@@ -57,7 +57,7 @@ public class TileEntityGearbox extends TileEntity implements ITileEntityBase {
 
 		@Override
 		public double getPower(EnumFacing from) {
-			if (from != null && gears[from.getIndex()].isEmpty()){
+			if (from != null && gears[from.getIndex()] == null){
 				return 0;
 			}
 			if (from == TileEntityGearbox.this.from || from == null){
@@ -70,7 +70,7 @@ public class TileEntityGearbox extends TileEntity implements ITileEntityBase {
 
 		@Override
 		public void setPower(double value, EnumFacing from) {
-			if (from != null && gears[from.getIndex()].isEmpty()){
+			if (from != null && gears[from.getIndex()] == null){
 				return;
 			}
 			if (from == TileEntityGearbox.this.from || from == null){
@@ -83,10 +83,10 @@ public class TileEntityGearbox extends TileEntity implements ITileEntityBase {
 	};
 	
 	public void updateNeighbors(){
-		IBlockState state = world.getBlockState(getPos());
+		IBlockState state = worldObj.getBlockState(getPos());
 		if (state.getBlock() instanceof BlockGearbox){
 			from = state.getValue(BlockGearbox.facing);
-			TileEntity t = world.getTileEntity(getPos().offset(from));
+			TileEntity t = worldObj.getTileEntity(getPos().offset(from));
 			if (t instanceof TileEntityAxle){
 				((TileEntityAxle)t).updateNeighbors();
 			}
@@ -95,22 +95,22 @@ public class TileEntityGearbox extends TileEntity implements ITileEntityBase {
 		List<EnumFacing> toUpdate = new ArrayList<EnumFacing>();
 		for (EnumFacing f : EnumFacing.values()){
 			if (f != null && f != from){
-				TileEntity t = world.getTileEntity(getPos().offset(f));
+				TileEntity t = worldObj.getTileEntity(getPos().offset(f));
 				if (t != null && t.hasCapability(MechCapabilityProvider.mechCapability, Misc.getOppositeFace(f))){
 					toUpdate.add(f);
 				}
 			}
 		}
 		for (EnumFacing f : toUpdate){
-			if (!getGear(f).isEmpty()){
+			if (getGear(f) != null){
 				connections ++;
 			}
 		}
 		for (EnumFacing f : toUpdate){
 			BlockPos p = getPos().offset(f);
-			TileEntity t = world.getTileEntity(p);
+			TileEntity t = worldObj.getTileEntity(p);
 			if (t instanceof TileEntityAxle && ((TileEntityAxle) t).front == null){
-				IBlockState s = world.getBlockState(p);
+				IBlockState s = worldObj.getBlockState(p);
 				if (s.getBlock() instanceof BlockAxle){
 					((TileEntityAxle)t).front = Misc.getOppositeFace(s.getValue(BlockAxle.facing));
 					t.markDirty();
@@ -149,7 +149,7 @@ public class TileEntityGearbox extends TileEntity implements ITileEntityBase {
 			from = EnumFacing.getFront(tag.getInteger("from"));
 		}
 		for (int i = 0; i < 6; i ++){
-			gears[i] = new ItemStack(tag.getCompoundTag("gear"+i));
+			gears[i] = new ItemStack(null, 1, 0, tag.getCompoundTag("gear"+i));
 		}
 		connections = tag.getInteger("connections");
 	}
@@ -212,15 +212,15 @@ public class TileEntityGearbox extends TileEntity implements ITileEntityBase {
 	public boolean activate(World world, BlockPos pos, IBlockState state, EntityPlayer player, EnumHand hand,
 			EnumFacing side, float hitX, float hitY, float hitZ) {
 		ItemStack heldItem = player.getHeldItem(hand);
-		if (!heldItem.isEmpty()){
+		if (heldItem != null){
 			if (heldItem.getItem() instanceof ItemGear){
-				if (getGear(side).isEmpty()){
+				if (getGear(side) == null){
 					ItemStack gear = heldItem.copy();
-					gear.setCount(1);
+					gear.stackSize = 1;
 					this.setGear(side,gear);
-					heldItem.shrink(1);
-					if (heldItem.getCount() == 0){
-						player.setHeldItem(hand, ItemStack.EMPTY);
+					heldItem.stackSize = heldItem.stackSize - 1;
+					if (heldItem.stackSize == 0){
+						player.setHeldItem(hand, null);
 					}
 					capability.onContentsChanged();
 					return true;
@@ -228,12 +228,12 @@ public class TileEntityGearbox extends TileEntity implements ITileEntityBase {
 			}
 		}
 		else {
-			if (!getGear(side).isEmpty()){
+			if (getGear(side) != null){
 				ItemStack gear = getGear(side);
 				if (!world.isRemote){
-					world.spawnEntity(new EntityItem(world,player.posX,player.posY+player.height/2.0f,player.posZ,gear));
+					world.spawnEntityInWorld(new EntityItem(world,player.posX,player.posY+player.height/2.0f,player.posZ,gear));
 				}
-				setGear(side,ItemStack.EMPTY);
+				setGear(side,null);
 				capability.onContentsChanged();
 				return true;
 			}
@@ -248,7 +248,7 @@ public class TileEntityGearbox extends TileEntity implements ITileEntityBase {
 		updateNeighbors();
 		for (int i = 0; i < 6; i ++){
 			if (!world.isRemote){
-				world.spawnEntity(new EntityItem(world,pos.getX()+0.5,pos.getY()+0.5,pos.getZ()+0.5,gears[i]));
+				world.spawnEntityInWorld(new EntityItem(world,pos.getX()+0.5,pos.getY()+0.5,pos.getZ()+0.5,gears[i]));
 			}
 		}
 		world.setTileEntity(pos, null);

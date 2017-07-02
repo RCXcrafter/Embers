@@ -48,10 +48,10 @@ public class TileEntityStamper extends TileEntity implements ITileEntityBase, IT
         	TileEntityStamper.this.markDirty();
         }
         
-        @Override
+        /* @Override
         public int getSlotLimit(int slot){
         	return 1;
-        }
+        } */
 	};
 	
 	public TileEntityStamper(){
@@ -96,9 +96,9 @@ public class TileEntityStamper extends TileEntity implements ITileEntityBase, IT
 	public boolean activate(World world, BlockPos pos, IBlockState state, EntityPlayer player, EnumHand hand,
 			EnumFacing side, float hitX, float hitY, float hitZ) {
 		ItemStack heldItem = player.getHeldItem(hand);
-		if (heldItem != ItemStack.EMPTY){
+		if (heldItem != null){
 			if (EnumStampType.getType(heldItem) != EnumStampType.TYPE_NULL){
-				if (stamp.getStackInSlot(0) == ItemStack.EMPTY){
+				if (stamp.getStackInSlot(0) == null){
 					ItemStack newStack = new ItemStack(heldItem.getItem(),1,heldItem.getMetadata());
 					if (heldItem.hasTagCompound()){
 						newStack.setTagCompound(heldItem.getTagCompound());
@@ -110,9 +110,9 @@ public class TileEntityStamper extends TileEntity implements ITileEntityBase, IT
 			}
 		}
 		else {
-			if (stamp.getStackInSlot(0) != ItemStack.EMPTY && !world.isRemote){
-				world.spawnEntity(new EntityItem(world,player.posX,player.posY,player.posZ,stamp.getStackInSlot(0)));
-				stamp.setStackInSlot(0, ItemStack.EMPTY);
+			if (stamp.getStackInSlot(0) != null && !world.isRemote){
+				world.spawnEntityInWorld(new EntityItem(world,player.posX,player.posY,player.posZ,stamp.getStackInSlot(0)));
+				stamp.setStackInSlot(0, null);
 				markDirty();
 				return true;
 			}
@@ -144,13 +144,13 @@ public class TileEntityStamper extends TileEntity implements ITileEntityBase, IT
 					if (recipe != null){
 						if (this.capability.getEmber() > 80.0){
 							this.capability.removeAmount(80.0, true);
-							if (!world.isRemote){
+							if (!worldObj.isRemote){
 								PacketHandler.INSTANCE.sendToAll(new MessageStamperFX(getPos().offset(face,2).getX()+0.5f,getPos().offset(face,2).getY()+1.0f,getPos().offset(face,2).getZ()+0.5f));
 							}
 							powered = true;
 							ItemStack result = recipe.getResult(stamp.inputs.getStackInSlot(0), stamp.getFluid() != null ? new FluidStack(stamp.getFluid(), stamp.getAmount()) : null,EnumStampType.getType(this.stamp.getStackInSlot(0))).copy();
-							if (recipe.getStack() != ItemStack.EMPTY){
-								stamp.inputs.extractItem(0, recipe.getStack().getCount(), false);
+							if (recipe.getStack() != null){
+								stamp.inputs.extractItem(0, recipe.getStack().stackSize, false);
 							}
 							if (recipe.getFluid() != null){
 								stamp.getTank().drain(recipe.getFluid(), true);
@@ -159,9 +159,9 @@ public class TileEntityStamper extends TileEntity implements ITileEntityBase, IT
 							if (getWorld().getTileEntity(getPos().offset(face,3)) instanceof TileEntityBin){
 								TileEntityBin bin = (TileEntityBin)getWorld().getTileEntity(getPos().offset(face,3));
 								ItemStack remainder = bin.inventory.insertItem(0, result, false);
-								if (remainder != ItemStack.EMPTY && !getWorld().isRemote){
+								if (remainder != null && !getWorld().isRemote){
 									EntityItem item = new EntityItem(getWorld(),off.getX()+0.5,off.getY()+0.5,off.getZ()+0.5,remainder);
-									getWorld().spawnEntity(item);
+									getWorld().spawnEntityInWorld(item);
 								}
 								bin.markDirty();
 								IBlockState state = getWorld().getBlockState(getPos().offset(face,3));
@@ -169,7 +169,7 @@ public class TileEntityStamper extends TileEntity implements ITileEntityBase, IT
 							}
 							else if (!getWorld().isRemote){
 								EntityItem item = new EntityItem(getWorld(),off.getX()+0.5,off.getY()+0.5,off.getZ()+0.5,result);
-								getWorld().spawnEntity(item);
+								getWorld().spawnEntityInWorld(item);
 							}
 							stamp.markDirty();
 							IBlockState state = getWorld().getBlockState(getPos().offset(face,2));
@@ -191,16 +191,16 @@ public class TileEntityStamper extends TileEntity implements ITileEntityBase, IT
 							if (getWorld().getTileEntity(getPos().offset(face,3)) instanceof TileEntityBin){
 								TileEntityBin bin = (TileEntityBin)getWorld().getTileEntity(getPos().offset(face,3));
 								ItemStack remainder = bin.inventory.insertItem(0, result, false);
-								if (remainder != ItemStack.EMPTY && !getWorld().isRemote){
+								if (remainder != null && !getWorld().isRemote){
 									EntityItem item = new EntityItem(getWorld(),off.getX()+0.5,off.getY()+0.5,off.getZ()+0.5,remainder);
-									getWorld().spawnEntity(item);
+									getWorld().spawnEntityInWorld(item);
 								}
 								bin.markDirty();
 								markDirty();
 							}
 							else if (!getWorld().isRemote){
 								EntityItem item = new EntityItem(getWorld(),off.getX()+0.5,off.getY()+0.5,off.getZ()+0.5,result);
-								getWorld().spawnEntity(item);
+								getWorld().spawnEntityInWorld(item);
 							}
 							stamp.markDirty();
 							IBlockState state = getWorld().getBlockState(getPos().offset(face,2));

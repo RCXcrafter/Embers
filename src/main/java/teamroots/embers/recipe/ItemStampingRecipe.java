@@ -5,9 +5,9 @@ import net.minecraftforge.fluids.FluidStack;
 import teamroots.embers.item.EnumStampType;
 
 public class ItemStampingRecipe {
-	protected ItemStack stack = ItemStack.EMPTY;
+	protected ItemStack stack = null;
 	protected FluidStack fluid = null;
-	public ItemStack result = ItemStack.EMPTY;
+	public ItemStack result = null;
 	protected EnumStampType type = EnumStampType.TYPE_NULL;
 	boolean matchMetadata = false;
 	boolean matchNBT = false;
@@ -34,10 +34,10 @@ public class ItemStampingRecipe {
 	
 	public boolean matches(ItemStack stack, FluidStack fluid, EnumStampType type){
 		boolean matchesItem = false;
-		if (stack == ItemStack.EMPTY && this.stack == ItemStack.EMPTY){
+		if (stack == null && this.stack == null){
 			matchesItem = true;
 		}
-		else if (this.stack != ItemStack.EMPTY && stack != ItemStack.EMPTY){
+		else if (this.stack != null && stack != null){
 			if (this.matchNBT){
 				matchesItem = this.stack.getItem().equals(stack.getItem()) && this.stack.getMetadata() == stack.getMetadata() && ItemStack.areItemStackTagsEqual(this.stack, stack);
 			}

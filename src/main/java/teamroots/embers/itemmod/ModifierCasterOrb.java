@@ -42,8 +42,8 @@ public class ModifierCasterOrb extends ModifierBase {
 	@SubscribeEvent
 	public void onClientTick(TickEvent.ClientTickEvent event){
 		if (event.phase == TickEvent.Phase.START){
-			if (Minecraft.getMinecraft().player != null){
-				prevCooledStrength = Minecraft.getMinecraft().player.getCooledAttackStrength(0);
+			if (Minecraft.getMinecraft().thePlayer != null){
+				prevCooledStrength = Minecraft.getMinecraft().thePlayer.getCooledAttackStrength(0);
 			}
 			if (cooldownTicks > 0){
 				cooldownTicks --;

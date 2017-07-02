@@ -113,7 +113,7 @@ public class TileEntityCreativeMechSource extends TileEntity implements ITileEnt
 	
 	public void updateNearby(){
 		for (EnumFacing f : EnumFacing.values()){
-			TileEntity t = world.getTileEntity(getPos().offset(f));
+			TileEntity t = worldObj.getTileEntity(getPos().offset(f));
 			if (t != null){
 				if (t.hasCapability(MechCapabilityProvider.mechCapability, Misc.getOppositeFace(f))){
 					t.getCapability(MechCapabilityProvider.mechCapability, Misc.getOppositeFace(f)).setPower(capability.getPower(Misc.getOppositeFace(f)),Misc.getOppositeFace(f));

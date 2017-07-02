@@ -44,7 +44,7 @@ public class MessageTEUpdate implements IMessage {
     			NBTTagList list = message.tag.getTagList("data", Constants.NBT.TAG_COMPOUND);
     			for (int i = 0; i < list.tagCount(); i ++){
     				NBTTagCompound tag = list.getCompoundTagAt(i);
-    				TileEntity t = Minecraft.getMinecraft().player.getEntityWorld().getTileEntity(new BlockPos(tag.getInteger("x"),tag.getInteger("y"),tag.getInteger("z")));
+    				TileEntity t = Minecraft.getMinecraft().thePlayer.getEntityWorld().getTileEntity(new BlockPos(tag.getInteger("x"),tag.getInteger("y"),tag.getInteger("z")));
 		    		if (t != null){
 		    			t.readFromNBT(tag);
 		    			t.markDirty();

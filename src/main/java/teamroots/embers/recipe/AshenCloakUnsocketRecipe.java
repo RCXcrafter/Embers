@@ -1,13 +1,13 @@
 package teamroots.embers.recipe;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import net.minecraft.init.Items;
 import net.minecraft.inventory.InventoryCrafting;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.crafting.IRecipe;
 import net.minecraft.nbt.NBTTagCompound;
-import net.minecraft.util.NonNullList;
 import net.minecraft.world.World;
 import teamroots.embers.RegistryManager;
 import teamroots.embers.item.ItemAshenCloak;
@@ -21,7 +21,7 @@ public class AshenCloakUnsocketRecipe implements IRecipe {
 		boolean more_than_one_cloak = false;
 		if (inv.getSizeInventory() > 4){
 			for (int i = 0; i < inv.getSizeInventory(); i ++){
-				if (inv.getStackInSlot(i) != ItemStack.EMPTY){
+				if (inv.getStackInSlot(i) != null){
 					if (inv.getStackInSlot(i).getItem() == RegistryManager.ashen_cloak_chest && inv.getStackInSlot(i).getTagCompound() != null){
 						if (inv.getStackInSlot(i).getTagCompound().hasKey("gem1") ||
 								inv.getStackInSlot(i).getTagCompound().hasKey("gem2") ||
@@ -40,7 +40,7 @@ public class AshenCloakUnsocketRecipe implements IRecipe {
 						}
 					}
 					else {
-						if (inv.getStackInSlot(i) != ItemStack.EMPTY){
+						if (inv.getStackInSlot(i) != null){
 							return false;
 						}
 					}
@@ -52,15 +52,15 @@ public class AshenCloakUnsocketRecipe implements IRecipe {
 
 	@Override
 	public ItemStack getCraftingResult(InventoryCrafting inv) {
-		ItemStack capeStack = ItemStack.EMPTY;
+		ItemStack capeStack = null;
 		for (int i = 0; i < inv.getSizeInventory(); i ++){
-			if (!inv.getStackInSlot(i).isEmpty()){
+			if (inv.getStackInSlot(i) != null){
 				if (inv.getStackInSlot(i).getItem() == RegistryManager.ashen_cloak_chest){
 					capeStack = inv.getStackInSlot(i).copy();
 				}
 			}
 		}
-		if (!capeStack.isEmpty()){
+		if (capeStack != null){
 			for (int i = 1; i < 8; i ++){
 				if (capeStack.getTagCompound().hasKey("gem"+i)){
 					capeStack.getTagCompound().removeTag("gem"+i);
@@ -81,14 +81,14 @@ public class AshenCloakUnsocketRecipe implements IRecipe {
 	}
 
 	@Override
-	public NonNullList<ItemStack> getRemainingItems(InventoryCrafting inv) {
-		NonNullList<ItemStack> gems = NonNullList.create();
+	public ItemStack[] getRemainingItems(InventoryCrafting inv) {
+		ItemStack[] gems = new ItemStack[inv.getSizeInventory()];
 		for (int i = 0; i < inv.getSizeInventory(); i ++){
-			if (inv.getStackInSlot(i) != ItemStack.EMPTY){
+			if (inv.getStackInSlot(i) != null){
 				if (inv.getStackInSlot(i).getItem() == RegistryManager.ashen_cloak_chest){
 					for (int j = 1; j < 8; j ++){
 						if (inv.getStackInSlot(i).getTagCompound().hasKey("gem"+j)){
-							gems.add(new ItemStack(inv.getStackInSlot(i).getTagCompound().getCompoundTag("gem"+j)));
+							gems[i] = new ItemStack(RegistryManager.ashen_cloak_chest, 1, 0, inv.getStackInSlot(i).getTagCompound().getCompoundTag("gem"+j));
 						}
 					}
 				}
