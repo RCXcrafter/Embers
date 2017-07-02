@@ -113,9 +113,9 @@ public class ItemModUtil {
 			for (int i = 0; i < list.tagCount(); i ++){
 				NBTTagCompound compound = list.getCompoundTagAt(i);
 				ItemStack s = new ItemStack(null, 1, 0, compound.getCompoundTag("item"));
-				if (modifierRegistry.get(s.getItem()).countTowardsTotalLevel){
+				//if (modifierRegistry.get(s.getItem()).countTowardsTotalLevel){
 					total += compound.getInteger("level");
-				}
+				//}
 			}
 		}
 		return total;

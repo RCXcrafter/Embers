@@ -105,8 +105,7 @@ public class AshenCloakSocketRecipe implements IRecipe {
 	@Override
 	public ItemStack[] getRemainingItems(InventoryCrafting inv) {
 		inv.clear();
-		return null;
-		//haha how could I possibly expect this to work
+		return new ItemStack[9];
 	}
 
 }

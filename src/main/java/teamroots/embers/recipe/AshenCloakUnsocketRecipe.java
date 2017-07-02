@@ -88,7 +88,7 @@ public class AshenCloakUnsocketRecipe implements IRecipe {
 				if (inv.getStackInSlot(i).getItem() == RegistryManager.ashen_cloak_chest){
 					for (int j = 1; j < 8; j ++){
 						if (inv.getStackInSlot(i).getTagCompound().hasKey("gem"+j)){
-							gems[i] = new ItemStack(RegistryManager.ashen_cloak_chest, 1, 0, inv.getStackInSlot(i).getTagCompound().getCompoundTag("gem"+j));
+							gems[i] = new ItemStack(RegistryManager.inflictor_gem, 1, 0, inv.getStackInSlot(i).getTagCompound().getCompoundTag("gem"+j));
 						}
 					}
 				}

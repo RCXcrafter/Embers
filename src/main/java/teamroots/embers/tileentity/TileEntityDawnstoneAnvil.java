@@ -118,6 +118,9 @@ public class TileEntityDawnstoneAnvil extends TileEntity implements ITileEntityB
 				}
 			}
 		}
+		else if (heldItem == null){
+			return false;
+		}
 		else if (heldItem.getItem() == RegistryManager.tinker_hammer){
 			onHit();
 			return true;
@@ -131,7 +134,7 @@ public class TileEntityDawnstoneAnvil extends TileEntity implements ITileEntityB
 				if (inventory.getStackInSlot(i) == null){
 					this.inventory.insertItem(i,stack2,false);
 					doContinue = false;
-					player.getHeldItem(hand).stackSize =player.getHeldItem(hand).stackSize - 1;
+					player.getHeldItem(hand).stackSize = player.getHeldItem(hand).stackSize - 1;
 					if (player.getHeldItem(hand).stackSize == 0){
 						player.setHeldItem(hand, null);
 					}
@@ -152,11 +155,13 @@ public class TileEntityDawnstoneAnvil extends TileEntity implements ITileEntityB
 	}
 	
 	public boolean isValid(ItemStack stack1, ItemStack stack2){
-		if (stack1.getItem() instanceof ItemTool || stack1.getItem() instanceof ItemSword || stack1.getItem() instanceof ItemArmor){
-			if (!ItemModUtil.hasHeat(stack1) && stack2.getItem() == RegistryManager.ancient_motive_core){
+		if (stack1 == null){
+		return false;
+		}else  if (stack1.getItem() instanceof ItemTool || stack1.getItem() instanceof ItemSword || stack1.getItem() instanceof ItemArmor){
+			if (!ItemModUtil.hasHeat(stack1) && stack2 != null && stack2.getItem() == RegistryManager.ancient_motive_core){
 				return true;
 			}
-			else if (ItemModUtil.hasHeat(stack1) && ItemModUtil.modifierRegistry.containsKey(stack2.getItem()) && ItemModUtil.getLevel(stack1) > ItemModUtil.getTotalModLevel(stack1) && ItemModUtil.isModValid(stack1,stack2)){
+			else if (ItemModUtil.hasHeat(stack1) && stack2 != null && ItemModUtil.modifierRegistry.containsKey(stack2.getItem()) && ItemModUtil.getLevel(stack1) > ItemModUtil.getTotalModLevel(stack1) && ItemModUtil.isModValid(stack1,stack2)){
 				return true;
 			}
 			else if (ItemModUtil.hasHeat(stack1)){
@@ -166,7 +171,7 @@ public class TileEntityDawnstoneAnvil extends TileEntity implements ITileEntityB
 			}
 		}
 		if (stack1.getItem().getIsRepairable(stack1,stack2)
-				|| stack1.getItem().isRepairable() && stack2.getItem() == RegistryManager.isolated_materia){
+				|| stack1.getItem().isRepairable() && stack2 != null && stack2.getItem() == RegistryManager.isolated_materia){
 			return true;
 		}
 		if (Misc.getRepairItem(stack1) != null && stack1.getItem().getIsRepairable(stack1, Misc.getRepairItem(stack1)) && Misc.getResourceCount(stack1) != -1 && stack2 == null){
