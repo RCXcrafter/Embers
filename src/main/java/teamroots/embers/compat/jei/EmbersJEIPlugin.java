@@ -38,12 +38,12 @@ public class EmbersJEIPlugin extends BlankModPlugin {
         reg.addRecipeHandlers(new MelterRecipeHandler());
 
         ArrayList<MeltingRecipeWrapper> meltingRecipes = new ArrayList<MeltingRecipeWrapper>();
-        for (int i = 0; i < RecipeRegistry.meltingRecipes.size(); i ++){
-        	ItemStack key = (ItemStack)RecipeRegistry.meltingRecipes.get(i).getStack();
-        	meltingRecipes.add(new MeltingRecipeWrapper(RecipeRegistry.meltingRecipes.get(i)));
+        for (int i = 0; i < RecipeRegistry.allMeltingRecipes.size(); i ++){
+        	ItemStack key = (ItemStack)RecipeRegistry.allMeltingRecipes.get(i).getStack();
+        	meltingRecipes.add(new MeltingRecipeWrapper(RecipeRegistry.allMeltingRecipes.get(i)));
         }
-        for (int i = 0; i < RecipeRegistry.meltingOreRecipes.size(); i ++){
-        	meltingRecipes.add(new MeltingRecipeWrapper(RecipeRegistry.meltingOreRecipes.get(i)));
+        for (int i = 0; i < RecipeRegistry.allMeltingOreRecipes.size(); i ++){
+        	meltingRecipes.add(new MeltingRecipeWrapper(RecipeRegistry.allMeltingOreRecipes.get(i)));
         }
         reg.addRecipes(meltingRecipes);
 

@@ -24,8 +24,11 @@ import teamroots.embers.RegistryManager;
 import teamroots.embers.item.EnumStampType;
 
 public class RecipeRegistry {
-	public static ArrayList<ItemMeltingRecipe> meltingRecipes = new ArrayList<ItemMeltingRecipe>();
-	public static ArrayList<ItemMeltingOreRecipe> meltingOreRecipes = new ArrayList<ItemMeltingOreRecipe>();
+	public static Map<ItemStack,ItemMeltingRecipe> meltingRecipes = new HashMap<ItemStack,ItemMeltingRecipe>();
+	public static Map<String,ItemMeltingOreRecipe> meltingOreRecipes = new HashMap<String,ItemMeltingOreRecipe>();
+	
+	public static ArrayList<ItemMeltingRecipe> allMeltingRecipes = new ArrayList<ItemMeltingRecipe>();
+	public static ArrayList<ItemMeltingOreRecipe> allMeltingOreRecipes = new ArrayList<ItemMeltingOreRecipe>();
 	
 	public static ArrayList<ItemStampingRecipe> stampingRecipes = new ArrayList<ItemStampingRecipe>();
 	public static ArrayList<ItemStampingOreRecipe> stampingOreRecipes = new ArrayList<ItemStampingOreRecipe>();
@@ -953,66 +956,66 @@ public class RecipeRegistry {
 		GameRegistry.addSmelting(new ItemStack(RegistryManager.stamp_plate_raw), new ItemStack(RegistryManager.stamp_plate), 0.35f);
 		GameRegistry.addSmelting(new ItemStack(RegistryManager.stamp_flat_raw), new ItemStack(RegistryManager.stamp_flat), 0.35f);
 		
-		meltingOreRecipes.add(new ItemMeltingOreRecipe("oreIron",new FluidStack(RegistryManager.fluid_molten_iron,288)));
-		meltingOreRecipes.add(new ItemMeltingOreRecipe("ingotIron",new FluidStack(RegistryManager.fluid_molten_iron,144)));
-		meltingOreRecipes.add(new ItemMeltingOreRecipe("nuggetIron",new FluidStack(RegistryManager.fluid_molten_iron,16)));
-		meltingOreRecipes.add(new ItemMeltingOreRecipe("plateIron",new FluidStack(RegistryManager.fluid_molten_iron,144)));
+		allMeltingOreRecipes.add(new ItemMeltingOreRecipe("oreIron",new FluidStack(RegistryManager.fluid_molten_iron,288)));
+		allMeltingOreRecipes.add(new ItemMeltingOreRecipe("ingotIron",new FluidStack(RegistryManager.fluid_molten_iron,144)));
+		allMeltingOreRecipes.add(new ItemMeltingOreRecipe("nuggetIron",new FluidStack(RegistryManager.fluid_molten_iron,16)));
+		allMeltingOreRecipes.add(new ItemMeltingOreRecipe("plateIron",new FluidStack(RegistryManager.fluid_molten_iron,144)));
 
-		meltingOreRecipes.add(new ItemMeltingOreRecipe("oreGold",new FluidStack(RegistryManager.fluid_molten_gold,288)));
-		meltingOreRecipes.add(new ItemMeltingOreRecipe("ingotGold",new FluidStack(RegistryManager.fluid_molten_gold,144)));
-		meltingOreRecipes.add(new ItemMeltingOreRecipe("nuggetGold",new FluidStack(RegistryManager.fluid_molten_gold,16)));
-		meltingOreRecipes.add(new ItemMeltingOreRecipe("plateGold",new FluidStack(RegistryManager.fluid_molten_gold,144)));
+		allMeltingOreRecipes.add(new ItemMeltingOreRecipe("oreGold",new FluidStack(RegistryManager.fluid_molten_gold,288)));
+		allMeltingOreRecipes.add(new ItemMeltingOreRecipe("ingotGold",new FluidStack(RegistryManager.fluid_molten_gold,144)));
+		allMeltingOreRecipes.add(new ItemMeltingOreRecipe("nuggetGold",new FluidStack(RegistryManager.fluid_molten_gold,16)));
+		allMeltingOreRecipes.add(new ItemMeltingOreRecipe("plateGold",new FluidStack(RegistryManager.fluid_molten_gold,144)));
 
-		meltingOreRecipes.add(new ItemMeltingOreRecipe("oreSilver",new FluidStack(RegistryManager.fluid_molten_silver,288)));
-		meltingOreRecipes.add(new ItemMeltingOreRecipe("ingotSilver",new FluidStack(RegistryManager.fluid_molten_silver,144)));
-		meltingOreRecipes.add(new ItemMeltingOreRecipe("nuggetSilver",new FluidStack(RegistryManager.fluid_molten_silver,16)));
-		meltingOreRecipes.add(new ItemMeltingOreRecipe("plateSilver",new FluidStack(RegistryManager.fluid_molten_silver,144)));
+		allMeltingOreRecipes.add(new ItemMeltingOreRecipe("oreSilver",new FluidStack(RegistryManager.fluid_molten_silver,288)));
+		allMeltingOreRecipes.add(new ItemMeltingOreRecipe("ingotSilver",new FluidStack(RegistryManager.fluid_molten_silver,144)));
+		allMeltingOreRecipes.add(new ItemMeltingOreRecipe("nuggetSilver",new FluidStack(RegistryManager.fluid_molten_silver,16)));
+		allMeltingOreRecipes.add(new ItemMeltingOreRecipe("plateSilver",new FluidStack(RegistryManager.fluid_molten_silver,144)));
 
-		meltingOreRecipes.add(new ItemMeltingOreRecipe("oreCopper",new FluidStack(RegistryManager.fluid_molten_copper,288)));
-		meltingOreRecipes.add(new ItemMeltingOreRecipe("ingotCopper",new FluidStack(RegistryManager.fluid_molten_copper,144)));
-		meltingOreRecipes.add(new ItemMeltingOreRecipe("nuggetCopper",new FluidStack(RegistryManager.fluid_molten_copper,16)));
-		meltingOreRecipes.add(new ItemMeltingOreRecipe("plateCopper",new FluidStack(RegistryManager.fluid_molten_copper,144)));
+		allMeltingOreRecipes.add(new ItemMeltingOreRecipe("oreCopper",new FluidStack(RegistryManager.fluid_molten_copper,288)));
+		allMeltingOreRecipes.add(new ItemMeltingOreRecipe("ingotCopper",new FluidStack(RegistryManager.fluid_molten_copper,144)));
+		allMeltingOreRecipes.add(new ItemMeltingOreRecipe("nuggetCopper",new FluidStack(RegistryManager.fluid_molten_copper,16)));
+		allMeltingOreRecipes.add(new ItemMeltingOreRecipe("plateCopper",new FluidStack(RegistryManager.fluid_molten_copper,144)));
 
-		meltingOreRecipes.add(new ItemMeltingOreRecipe("oreLead",new FluidStack(RegistryManager.fluid_molten_lead,288)));
-		meltingOreRecipes.add(new ItemMeltingOreRecipe("ingotLead",new FluidStack(RegistryManager.fluid_molten_lead,144)));
-		meltingOreRecipes.add(new ItemMeltingOreRecipe("nuggetLead",new FluidStack(RegistryManager.fluid_molten_lead,16)));
-		meltingOreRecipes.add(new ItemMeltingOreRecipe("plateLead",new FluidStack(RegistryManager.fluid_molten_lead,144)));
+		allMeltingOreRecipes.add(new ItemMeltingOreRecipe("oreLead",new FluidStack(RegistryManager.fluid_molten_lead,288)));
+		allMeltingOreRecipes.add(new ItemMeltingOreRecipe("ingotLead",new FluidStack(RegistryManager.fluid_molten_lead,144)));
+		allMeltingOreRecipes.add(new ItemMeltingOreRecipe("nuggetLead",new FluidStack(RegistryManager.fluid_molten_lead,16)));
+		allMeltingOreRecipes.add(new ItemMeltingOreRecipe("plateLead",new FluidStack(RegistryManager.fluid_molten_lead,144)));
 
 		if (ConfigManager.enableAluminum){
-			meltingOreRecipes.add(new ItemMeltingOreRecipe("oreAluminum",new FluidStack(RegistryManager.fluid_molten_aluminum,288)));
-			meltingOreRecipes.add(new ItemMeltingOreRecipe("ingotAluminum",new FluidStack(RegistryManager.fluid_molten_aluminum,144)));
-			meltingOreRecipes.add(new ItemMeltingOreRecipe("nuggetAluminum",new FluidStack(RegistryManager.fluid_molten_aluminum,16)));
-			meltingOreRecipes.add(new ItemMeltingOreRecipe("plateAluminum",new FluidStack(RegistryManager.fluid_molten_aluminum,144)));
+			allMeltingOreRecipes.add(new ItemMeltingOreRecipe("oreAluminum",new FluidStack(RegistryManager.fluid_molten_aluminum,288)));
+			allMeltingOreRecipes.add(new ItemMeltingOreRecipe("ingotAluminum",new FluidStack(RegistryManager.fluid_molten_aluminum,144)));
+			allMeltingOreRecipes.add(new ItemMeltingOreRecipe("nuggetAluminum",new FluidStack(RegistryManager.fluid_molten_aluminum,16)));
+			allMeltingOreRecipes.add(new ItemMeltingOreRecipe("plateAluminum",new FluidStack(RegistryManager.fluid_molten_aluminum,144)));
 		}
 
 		if (ConfigManager.enableNickel){
-			meltingOreRecipes.add(new ItemMeltingOreRecipe("oreNickel",new FluidStack(RegistryManager.fluid_molten_nickel,288)));
-			meltingOreRecipes.add(new ItemMeltingOreRecipe("ingotNickel",new FluidStack(RegistryManager.fluid_molten_nickel,144)));
-			meltingOreRecipes.add(new ItemMeltingOreRecipe("nuggetNickel",new FluidStack(RegistryManager.fluid_molten_nickel,16)));
-			meltingOreRecipes.add(new ItemMeltingOreRecipe("plateNickel",new FluidStack(RegistryManager.fluid_molten_nickel,144)));
+			allMeltingOreRecipes.add(new ItemMeltingOreRecipe("oreNickel",new FluidStack(RegistryManager.fluid_molten_nickel,288)));
+			allMeltingOreRecipes.add(new ItemMeltingOreRecipe("ingotNickel",new FluidStack(RegistryManager.fluid_molten_nickel,144)));
+			allMeltingOreRecipes.add(new ItemMeltingOreRecipe("nuggetNickel",new FluidStack(RegistryManager.fluid_molten_nickel,16)));
+			allMeltingOreRecipes.add(new ItemMeltingOreRecipe("plateNickel",new FluidStack(RegistryManager.fluid_molten_nickel,144)));
 		}
 
 		if (ConfigManager.enableTin){
-			meltingOreRecipes.add(new ItemMeltingOreRecipe("oreTin",new FluidStack(RegistryManager.fluid_molten_tin,288)));
-			meltingOreRecipes.add(new ItemMeltingOreRecipe("ingotTin",new FluidStack(RegistryManager.fluid_molten_tin,144)));
-			meltingOreRecipes.add(new ItemMeltingOreRecipe("nuggetTin",new FluidStack(RegistryManager.fluid_molten_tin,16)));
-			meltingOreRecipes.add(new ItemMeltingOreRecipe("plateTin",new FluidStack(RegistryManager.fluid_molten_tin,144)));
+			allMeltingOreRecipes.add(new ItemMeltingOreRecipe("oreTin",new FluidStack(RegistryManager.fluid_molten_tin,288)));
+			allMeltingOreRecipes.add(new ItemMeltingOreRecipe("ingotTin",new FluidStack(RegistryManager.fluid_molten_tin,144)));
+			allMeltingOreRecipes.add(new ItemMeltingOreRecipe("nuggetTin",new FluidStack(RegistryManager.fluid_molten_tin,16)));
+			allMeltingOreRecipes.add(new ItemMeltingOreRecipe("plateTin",new FluidStack(RegistryManager.fluid_molten_tin,144)));
 		}
 		
-		meltingOreRecipes.add(new ItemMeltingOreRecipe("ingotDawnstone",new FluidStack(RegistryManager.fluid_molten_dawnstone,144)));
-		meltingOreRecipes.add(new ItemMeltingOreRecipe("nuggetDawnstone",new FluidStack(RegistryManager.fluid_molten_dawnstone,16)));
-		meltingOreRecipes.add(new ItemMeltingOreRecipe("plateDawnstone",new FluidStack(RegistryManager.fluid_molten_dawnstone,144)));
+		allMeltingOreRecipes.add(new ItemMeltingOreRecipe("ingotDawnstone",new FluidStack(RegistryManager.fluid_molten_dawnstone,144)));
+		allMeltingOreRecipes.add(new ItemMeltingOreRecipe("nuggetDawnstone",new FluidStack(RegistryManager.fluid_molten_dawnstone,16)));
+		allMeltingOreRecipes.add(new ItemMeltingOreRecipe("plateDawnstone",new FluidStack(RegistryManager.fluid_molten_dawnstone,144)));
 		
 		if (ConfigManager.enableBronze){
-			meltingOreRecipes.add(new ItemMeltingOreRecipe("ingotBronze",new FluidStack(RegistryManager.fluid_molten_bronze,144)));
-			meltingOreRecipes.add(new ItemMeltingOreRecipe("nuggetBronze",new FluidStack(RegistryManager.fluid_molten_bronze,16)));
-			meltingOreRecipes.add(new ItemMeltingOreRecipe("plateBronze",new FluidStack(RegistryManager.fluid_molten_bronze,144)));
+			allMeltingOreRecipes.add(new ItemMeltingOreRecipe("ingotBronze",new FluidStack(RegistryManager.fluid_molten_bronze,144)));
+			allMeltingOreRecipes.add(new ItemMeltingOreRecipe("nuggetBronze",new FluidStack(RegistryManager.fluid_molten_bronze,16)));
+			allMeltingOreRecipes.add(new ItemMeltingOreRecipe("plateBronze",new FluidStack(RegistryManager.fluid_molten_bronze,144)));
 		}
 		
 		if (ConfigManager.enableElectrum){
-			meltingOreRecipes.add(new ItemMeltingOreRecipe("ingotElectrum",new FluidStack(RegistryManager.fluid_molten_electrum,144)));
-			meltingOreRecipes.add(new ItemMeltingOreRecipe("nuggetElectrum",new FluidStack(RegistryManager.fluid_molten_electrum,16)));
-			meltingOreRecipes.add(new ItemMeltingOreRecipe("plateElectrum",new FluidStack(RegistryManager.fluid_molten_electrum,144)));
+			allMeltingOreRecipes.add(new ItemMeltingOreRecipe("ingotElectrum",new FluidStack(RegistryManager.fluid_molten_electrum,144)));
+			allMeltingOreRecipes.add(new ItemMeltingOreRecipe("nuggetElectrum",new FluidStack(RegistryManager.fluid_molten_electrum,16)));
+			allMeltingOreRecipes.add(new ItemMeltingOreRecipe("plateElectrum",new FluidStack(RegistryManager.fluid_molten_electrum,144)));
 		}
 		
 		stampingRecipes.add(new ItemStampingRecipe(null,new FluidStack(RegistryManager.fluid_molten_iron,144),EnumStampType.TYPE_BAR,new ItemStack(Items.IRON_INGOT,1),false,false));
@@ -1122,6 +1125,16 @@ public class RecipeRegistry {
 				new ItemStack(RegistryManager.flame_barrier,1)));
 	}
 	
+	public static void postInit(){
+		for (String recipeString : meltingOreRecipes.keySet()){
+			allMeltingOreRecipes.add(meltingOreRecipes.get(recipeString));
+		}
+		
+		for (ItemStack recipeStack : meltingRecipes.keySet()){
+			allMeltingRecipes.add(meltingRecipes.get(recipeStack));
+		}
+	}
+	
 	public static ItemStampingRecipe getStampingRecipe(ItemStack stack, FluidStack fluid, EnumStampType type){
 		for (int i = 0; i < stampingRecipes.size(); i ++){
 			if (stampingRecipes.get(i).matches(stack, fluid, type)){
@@ -1141,18 +1154,18 @@ public class RecipeRegistry {
 	}
 	
 	public static ItemMeltingRecipe getMeltingRecipe(ItemStack stack){
-		for (int i = 0; i < meltingRecipes.size(); i ++){
-			if (meltingRecipes.get(i).matches(stack)){
-				return meltingRecipes.get(i);
+		for (int i = 0; i < allMeltingRecipes.size(); i ++){
+			if (allMeltingRecipes.get(i).matches(stack)){
+				return allMeltingRecipes.get(i);
 			}
 		}
 		return null;
 	}
 	
 	public static ItemMeltingOreRecipe getMeltingOreRecipe(ItemStack stack){
-		for (int i = 0; i < meltingOreRecipes.size(); i ++){
-			if (meltingOreRecipes.get(i).matches(stack)){
-				return meltingOreRecipes.get(i);
+		for (int i = 0; i < allMeltingOreRecipes.size(); i ++){
+			if (allMeltingOreRecipes.get(i).matches(stack)){
+				return allMeltingOreRecipes.get(i);
 			}
 		}
 		return null;

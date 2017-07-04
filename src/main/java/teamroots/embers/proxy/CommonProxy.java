@@ -31,6 +31,7 @@ public class CommonProxy {
 	}
 	
 	public void postInit(FMLPostInitializationEvent event){
+		RecipeRegistry.postInit();
 		NetworkRegistry.INSTANCE.registerGuiHandler(Embers.instance, new GuiHandler());
 	}
 }
