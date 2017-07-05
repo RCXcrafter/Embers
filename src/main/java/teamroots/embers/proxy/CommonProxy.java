@@ -1,11 +1,13 @@
 package teamroots.embers.proxy;
 
+import minetweaker.MineTweakerImplementationAPI;
 import net.minecraftforge.fml.common.event.FMLInitializationEvent;
 import net.minecraftforge.fml.common.event.FMLPostInitializationEvent;
 import net.minecraftforge.fml.common.event.FMLPreInitializationEvent;
 import net.minecraftforge.fml.common.network.NetworkRegistry;
 import teamroots.embers.Embers;
 import teamroots.embers.RegistryManager;
+import teamroots.embers.compat.crafttweaker.Melter;
 import teamroots.embers.gui.GuiHandler;
 import teamroots.embers.network.PacketHandler;
 import teamroots.embers.recipe.RecipeRegistry;
@@ -24,6 +26,7 @@ public class CommonProxy {
 		ItemModUtil.init();
 		RecipeRegistry.init();
 		ResearchManager.initResearches();
+		MineTweakerImplementationAPI.onPostReload(new Melter());
 	}
 	
 	public void init(FMLInitializationEvent event){
