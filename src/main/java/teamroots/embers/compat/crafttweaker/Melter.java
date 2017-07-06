@@ -9,6 +9,9 @@ public class Melter implements IEventHandler<MineTweakerImplementationAPI.Reload
 
 	@Override
 	public void handle(MineTweakerImplementationAPI.ReloadEvent event) {
+		RecipeRegistry.allMeltingOreRecipes.clear();
+		RecipeRegistry.allMeltingRecipes.clear();
+		
 		for (String recipeString : RecipeRegistry.meltingOreRecipes.keySet()){
 			RecipeRegistry.allMeltingOreRecipes.add(RecipeRegistry.meltingOreRecipes.get(recipeString));
 		}
