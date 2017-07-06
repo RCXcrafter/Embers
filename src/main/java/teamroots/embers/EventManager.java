@@ -4,11 +4,11 @@ import java.awt.Color;
 import java.lang.instrument.Instrumentation;
 import java.lang.reflect.Field;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Random;
 import java.util.UUID;
+import java.util.concurrent.ConcurrentHashMap;
 
 import org.lwjgl.opengl.GL11;
 import org.lwjgl.opengl.GL20;
@@ -147,7 +147,7 @@ public class EventManager {
 	public static int ticks = 0;
 	public static float prevCooledStrength = 0;
 	
-	public static Map<BlockPos, TileEntity> toUpdate = new HashMap<BlockPos, TileEntity>();
+	public static Map<BlockPos, TileEntity> toUpdate = new ConcurrentHashMap<BlockPos, TileEntity>();
 	
 	static EntityPlayer clientPlayer = null;
 	
