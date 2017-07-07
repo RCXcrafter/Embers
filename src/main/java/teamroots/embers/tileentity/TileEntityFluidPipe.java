@@ -3,6 +3,7 @@ package teamroots.embers.tileentity;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
+import java.util.concurrent.CopyOnWriteArrayList;
 
 import javax.annotation.Nullable;
 
@@ -36,7 +37,7 @@ import teamroots.embers.util.Misc;
 
 public class TileEntityFluidPipe extends TileFluidHandler implements ITileEntityBase, ITickable {
 	Random random = new Random();
-	List<EnumFacing> from = new ArrayList<EnumFacing>();
+	List<EnumFacing> from = new CopyOnWriteArrayList<EnumFacing>();
 	public static enum EnumPipeConnection{
 		NONE, PIPE, BLOCK, LEVER, FORCENONE
 	}
