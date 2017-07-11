@@ -1,6 +1,5 @@
 package teamroots.embers.proxy;
 
-import minetweaker.MineTweakerImplementationAPI;
 import net.minecraftforge.fml.common.Loader;
 import net.minecraftforge.fml.common.event.FMLInitializationEvent;
 import net.minecraftforge.fml.common.event.FMLPostInitializationEvent;
@@ -28,7 +27,7 @@ public class CommonProxy {
 		RecipeRegistry.init();
 		ResearchManager.initResearches();
 		if(Loader.isModLoaded("modtweaker"))
-			MineTweakerImplementationAPI.onPostReload(new Melter());
+			new Melter();
 	}
 	
 	public void init(FMLInitializationEvent event){

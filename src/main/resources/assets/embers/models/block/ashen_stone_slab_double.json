@@ -1,7 +1,7 @@
 {
     "parent": "block/cube_all",
     "textures": {
-        "all": "embers:blocks/ashen_Stone",
-        "particle": "embers:blocks/ashen_Stone"
+        "all": "embers:blocks/ashen_stone",
+        "particle": "embers:blocks/ashen_stone"
     }
 }

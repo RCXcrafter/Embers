@@ -7,6 +7,10 @@ import teamroots.embers.recipe.RecipeRegistry;
 
 public class Melter implements IEventHandler<MineTweakerImplementationAPI.ReloadEvent> {
 
+	public Melter() {
+        MineTweakerImplementationAPI.onPostReload(this);
+    }
+	
 	@Override
 	public void handle(MineTweakerImplementationAPI.ReloadEvent event) {
 		RecipeRegistry.allMeltingOreRecipes.clear();
