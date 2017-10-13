@@ -43,6 +43,8 @@ public class ItemClockworkAxe extends ItemTool implements IModeledItem, IEmberCh
 		setHarvestLevel("axe",this.toolMaterial.getHarvestLevel());
 		this.damageVsEntity = 8.0f;
 		this.attackSpeed = -3.0f;
+		this.setNoRepair();
+		this.setMaxDamage(0);
 		GameRegistry.register(this);
 	}
 	
@@ -183,4 +185,8 @@ public class ItemClockworkAxe extends ItemTool implements IModeledItem, IEmberCh
 		}
 		return false;
 	}
+	
+	public boolean getIsRepairable(ItemStack toRepair, ItemStack repair)    {
+        return false;
+    }
 }

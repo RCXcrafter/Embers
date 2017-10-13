@@ -30,6 +30,7 @@ import net.minecraftforge.common.capabilities.Capability;
 import net.minecraftforge.common.util.Constants;
 import net.minecraftforge.items.CapabilityItemHandler;
 import net.minecraftforge.items.ItemStackHandler;
+import slimeknights.tconstruct.library.tools.ToolCore;
 import teamroots.embers.EventManager;
 import teamroots.embers.RegistryManager;
 import teamroots.embers.network.PacketHandler;
@@ -157,7 +158,7 @@ public class TileEntityDawnstoneAnvil extends TileEntity implements ITileEntityB
 	public boolean isValid(ItemStack stack1, ItemStack stack2){
 		if (stack1 == null){
 		return false;
-		}else  if (stack1.getItem() instanceof ItemTool || stack1.getItem() instanceof ItemSword || stack1.getItem() instanceof ItemArmor){
+		}else  if (stack1.getItem() instanceof ItemTool || stack1.getItem() instanceof ItemSword || stack1.getItem() instanceof ItemArmor || stack1.getItem() instanceof ToolCore){
 			if (!ItemModUtil.hasHeat(stack1) && stack2 != null && stack2.getItem() == RegistryManager.ancient_motive_core){
 				return true;
 			}
@@ -170,18 +171,17 @@ public class TileEntityDawnstoneAnvil extends TileEntity implements ITileEntityB
 				}
 			}
 		}
-		if (stack1.getItem().getIsRepairable(stack1,stack2)
-				|| stack1.getItem().isRepairable() && stack2 != null && stack2.getItem() == RegistryManager.isolated_materia){
+		if (stack1.getItem().isRepairable() && stack2 != null && stack2.getItem() == RegistryManager.isolated_materia){
 			return true;
 		}
-		if (Misc.getRepairItem(stack1) != null && stack1.getItem().getIsRepairable(stack1, Misc.getRepairItem(stack1)) && Misc.getResourceCount(stack1) != -1 && stack2 == null){
+		if (stack1.getItem().getIsRepairable(stack1, stack2) && Misc.getRepairItem(stack1) != null && stack1.getItem().getIsRepairable(stack1, Misc.getRepairItem(stack1)) && Misc.getResourceCount(stack1) != -1 && stack2 == null){
 			return true;
 		}
 		return false;
 	}
 	
 	public ItemStack[] getResult(ItemStack stack1, ItemStack stack2){
-		if (stack1.getItem() instanceof ItemTool || stack1.getItem() instanceof ItemSword || stack1.getItem() instanceof ItemArmor){
+		if (stack1.getItem() instanceof ItemTool || stack1.getItem() instanceof ItemSword || stack1.getItem() instanceof ItemArmor || stack1.getItem() instanceof ToolCore){
 			if ((!ItemModUtil.hasHeat(stack1) || !ItemModUtil.hasModifier(stack1, ItemModUtil.modifierRegistry.get(RegistryManager.ancient_motive_core).name)) && stack2.getItem() == RegistryManager.ancient_motive_core){
 				ItemModUtil.checkForTag(stack1);
 				ItemModUtil.addModifier(stack1, stack2.copy());

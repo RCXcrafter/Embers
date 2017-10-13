@@ -44,6 +44,8 @@ public class ItemClockworkPickaxe extends ItemTool implements IModeledItem, IEmb
 		setHarvestLevel("shovel",this.toolMaterial.getHarvestLevel());
 		this.damageVsEntity = 6.0f;
 		this.attackSpeed = -3.0f;
+		this.setNoRepair();
+		this.setMaxDamage(0);
 		GameRegistry.register(this);
 	}
 	
@@ -182,4 +184,8 @@ public class ItemClockworkPickaxe extends ItemTool implements IModeledItem, IEmb
 		}
 		return false;
 	}
+	
+	public boolean getIsRepairable(ItemStack toRepair, ItemStack repair)    {
+        return false;
+    }
 }

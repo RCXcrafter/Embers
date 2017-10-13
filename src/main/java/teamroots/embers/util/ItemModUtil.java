@@ -13,6 +13,7 @@ import net.minecraft.item.ItemTool;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.nbt.NBTTagList;
 import net.minecraftforge.common.util.Constants;
+import slimeknights.tconstruct.library.tools.ToolCore;
 import teamroots.embers.Embers;
 import teamroots.embers.RegistryManager;
 import teamroots.embers.itemmod.*;
@@ -56,7 +57,7 @@ public class ItemModUtil {
 			return stack.getItem() instanceof ItemArmor;
 		}
 		else if (b.type == EnumType.TOOL){
-			return stack.getItem() instanceof ItemSword || stack.getItem() instanceof ItemTool;
+			return stack.getItem() instanceof ItemSword || stack.getItem() instanceof ItemTool || stack.getItem() instanceof ToolCore;
 		}
 		return false;
 	}

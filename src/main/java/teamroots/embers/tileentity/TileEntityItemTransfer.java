@@ -41,9 +41,9 @@ public class TileEntityItemTransfer extends TileEntity implements ITileEntityBas
         
         @Override
         public ItemStack insertItem(int slot, ItemStack stack, boolean simulate){
-        	if (filterItem != null){
+        	if (filterItem.getStackInSlot(0) != null){
         		if (stack != null){
-        			if (filterItem.getItem() == stack.getItem() && filterItem.getItemDamage() == stack.getItemDamage()){
+        			if (filterItem.getStackInSlot(0).getItem() == stack.getItem() && filterItem.getStackInSlot(0).getItemDamage() == stack.getItemDamage()){
             			return super.insertItem(slot, stack, simulate);	
         			}
         		}
@@ -52,7 +52,8 @@ public class TileEntityItemTransfer extends TileEntity implements ITileEntityBas
         	return super.insertItem(slot, stack, simulate);
         }
 	};
-	public ItemStack filterItem = null;
+	//public ItemStack filterItem = null;
+	public ItemStackHandler filterItem = new ItemStackHandler(1);
 	public BlockPos lastReceived = new BlockPos(0,0,0);
 	public int pressure = 0;
 	Random random = new Random();
@@ -65,9 +66,10 @@ public class TileEntityItemTransfer extends TileEntity implements ITileEntityBas
 	public NBTTagCompound writeToNBT(NBTTagCompound tag){
 		super.writeToNBT(tag);
 		tag.setTag("inventory", inventory.serializeNBT());
-		if (filterItem != null){
-			tag.setTag("filter", filterItem.writeToNBT(new NBTTagCompound()));
-		}
+		tag.setTag("filter", filterItem.serializeNBT());
+		//if (filterItem != null){
+			//tag.setTag("filter", filterItem.writeToNBT(new NBTTagCompound()));
+		//}
 		tag.setInteger("lastX", this.lastReceived.getX());
 		tag.setInteger("lastY", this.lastReceived.getY());
 		tag.setInteger("lastZ", this.lastReceived.getZ());
@@ -78,12 +80,14 @@ public class TileEntityItemTransfer extends TileEntity implements ITileEntityBas
 	@Override
 	public void readFromNBT(NBTTagCompound tag){
 		super.readFromNBT(tag);
-		if (tag.hasKey("filter")){
-			filterItem = new ItemStack(null, 1, 0, tag.getCompoundTag("filter"));
-		}
+		//if (tag.hasKey("filter")){
+			//filterItem = new ItemStack(null, 1, 0, tag.getCompoundTag("filter"));
+            //filterItem.readFromNBT(tag.getCompoundTag("filter"));
+		//}
 		lastReceived = new BlockPos(tag.getInteger("lastX"),tag.getInteger("lastY"),tag.getInteger("lastZ"));
 		pressure = tag.getInteger("pressure");
 		inventory.deserializeNBT(tag.getCompoundTag("inventory"));
+		filterItem.deserializeNBT(tag.getCompoundTag("filter"));
 	}
 
 	@Override
@@ -131,14 +135,14 @@ public class TileEntityItemTransfer extends TileEntity implements ITileEntityBas
 			EnumFacing side, float hitX, float hitY, float hitZ) {
 		ItemStack heldItem = player.getHeldItem(hand);
 		if (heldItem != null){
-			this.filterItem = heldItem.copy();
+			filterItem.setStackInSlot(0, heldItem.copy());
 			markDirty();
 			world.setBlockState(pos, state.withProperty(BlockItemTransfer.filter, true), 8);
 			world.notifyBlockUpdate(pos, state, state.withProperty(BlockItemTransfer.filter, true), 8);
 			return true;
 		}
 		else {
-			this.filterItem = null;
+			filterItem.setStackInSlot(0, null);
 			markDirty();
 			world.setBlockState(pos, state.withProperty(BlockItemTransfer.filter, false), 8);
 			world.notifyBlockUpdate(pos, state, state.withProperty(BlockItemTransfer.filter, false), 8);

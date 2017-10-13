@@ -149,9 +149,9 @@ public class TileEntityItemVacuum extends TileEntity implements ITileEntityBase,
 			if (nearestItems.size() > 0){
 				for (EntityItem item : nearestItems){
 					ItemStack stack = inventory.insertItem(0, item.getEntityItem(), true);
-					if (stack.getItem() == item.getEntityItem().getItem() && stack.getItemDamage() == item.getEntityItem().getItemDamage() && stack.stackSize < item.getEntityItem().stackSize || stack == null){
+					if (stack == null || stack.getItem() == item.getEntityItem().getItem() && stack.getItemDamage() == item.getEntityItem().getItemDamage() && stack.stackSize < item.getEntityItem().stackSize){
 						item.setEntityItemStack(inventory.insertItem(0, item.getEntityItem(), false));
-						if (item.getEntityItem()==null){
+						if (stack == null){
 							worldObj.removeEntity(item);
 						}
 						if (!toUpdate.contains(getPos())){
@@ -177,7 +177,7 @@ public class TileEntityItemVacuum extends TileEntity implements ITileEntityBase,
 							}
 							int slot = -1;
 							for (int j = 0; j < handler.getSlots() && slot == -1; j ++){
-								if (handler.getStackInSlot(j)==null){
+								if (handler.getStackInSlot(j) == null){
 									slot = j;
 								}
 								else {
@@ -188,9 +188,9 @@ public class TileEntityItemVacuum extends TileEntity implements ITileEntityBase,
 							}
 							if (slot != -1){
 								ItemStack added = handler.insertItem(slot, passStack, false);
-								if (added==null){
+								if (added == null){
 									ItemStack extracted = this.inventory.extractItem(0, 1, false);
-									if (extracted!=null){
+									if (extracted != null){
 										if (tile instanceof TileEntityItemPipe){
 											((TileEntityItemPipe)tile).lastReceived = getPos();
 										}
